@@ -14,7 +14,7 @@
     "days": "1-5"
   },
   "version": 1,
-  "notes": "Тестовый адрес с NOINDEX=1 (переменная репозитория). После переезда на pro-nas.pro — заменить url здесь, в deploy.yml и в content.config.json. Конфиг завода переедет в content/factory/ через /content-factory:update. REG.RU: SSH из Actions закрыт, выкладка идёт по FTP.",
+  "notes": "После переезда на pro-nas.pro — заменить url здесь, в deploy.yml и в content.config.json. Конфиг завода переедет в content/factory/ через /content-factory:update. REG.RU: SSH из Actions закрыт, выкладка идёт по FTP.",
   "out_dir": "out",
   "app_path": "",
   "rsync_exclude": "api/config.php api/logs/",

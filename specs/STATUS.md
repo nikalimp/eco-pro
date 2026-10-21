@@ -4,7 +4,7 @@
 
 ## Где сейчас
 - **Этап:** сайт v0.10 живёт на тестовом адресе. Следующие шаги — выкладка через Actions, затем переезд на домен клиента и контент-завод.
-- **Тест:** https://eco-pro.nikalimp.ru — `NOINDEX=1`, закрыт от индексации.
+- **Тест:** https://eco-pro.nikalimp.ru
 - **Боевой домен:** pro-nas.pro — пока там старый сайт на Tilda. 301 со старых адресов лежат в `public/.htaccess`.
 - **Репозиторий:** nikalimp/eco-pro. Исходники по-прежнему лежат и в `~/Desktop/ECO-PRO`; источник правды теперь — `main`.
 
@@ -13,25 +13,24 @@
 - **HTTPS:** редирект включается галочкой в ISPmanager. В `.htaccess` только www → без www и слеш на конце.
 - **Выкладка:** `.github/workflows/deploy.yml` → `nikalimp/deploy-kit` (SSH → FTP). План 3 — `scripts/deploy-site.sh` с Mac.
 - **Паспорт:** `publish.json`, адаптер `ssh-ftp`, режим `auto`.
-- **Секреты Actions:** `FTP_HOST`, `FTP_USER`, `FTP_PASS`, `FTP_DIR=www/eco-pro.nikalimp.ru/`, переменная `NOINDEX=1`.
+- **Секреты Actions:** `FTP_HOST`, `FTP_USER`, `FTP_PASS`, `FTP_DIR=www/eco-pro.nikalimp.ru/`.
 - **Не в git:** `public/api/config.php` с токеном бота и почтой лежит только на хостинге. Выкладка его не трогает.
 - **Заявки:** `public/api/lead.php` → почта и Telegram (без персональных данных). Журнал — `api/logs/tg.log`.
 
 ## Открытые вопросы
 | Что | Кто | Статус |
 |---|---|---|
-| Секреты FTP в репозитории и `nikalimp/deploy-kit` | Ник | ждём |
+| Секреты FTP в репозитории | Ник | ждём |
 | Номер счётчика Метрики (`site.metrikaId`) | Ник | до переезда |
 | Видео `video/pro-test.mp4` | клиент | ждём |
 | 3 расхождения в цифрах кейсов | Сергей | ждём подтверждения |
 | Актуальные сертификаты Parsec, Smartec, ITK, TRASSIR (у текущих истёк срок) | клиент | ждём |
 | Проверить Telegram через `/api/tg-check.php`, затем удалить файл | Ник | после выкладки |
-| Хабы `/napravleniya/`, `/otrasli/`, `/blog/` короче 250 слов: дописать или оставить в исключениях | Ник | вопрос |
-| URL: транслит или английские слова (стандарт §2.2) | Ник | вопрос |
+| Хабы `/services/`, `/industries/`, `/blog/` короче 250 слов: дописать или оставить в исключениях | Ник | вопрос |
 | Перенос контент-завода в `content/factory/` | `/content-factory:update` | следующий шаг |
 | Бот-админ в @vynosim_za, секреты `TELEGRAM_*`, `TELEGRAPH_TOKEN` (T35) | Ник | ждём |
 
 ## Переезд на pro-nas.pro
 1. A-запись домена на REG.RU, сайт в ISPmanager, SSL, галочка HTTPS.
 2. `FTP_DIR` → `www/pro-nas.pro/`, `url` в `publish.json`, `deploy.yml` и `content/content.config.json`, `site.url`.
-3. Убрать переменную `NOINDEX`, подключить Метрику, Вебмастер и Search Console, проверить 301 со старых адресов.
+3. Подключить Метрику, Вебмастер и Search Console, проверить 301 со старых адресов.

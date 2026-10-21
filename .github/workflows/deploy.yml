@@ -3,7 +3,6 @@
 # Значения with: повторяют publish.json. Секреты (Settings → Secrets and variables → Actions):
 #   FTP_HOST, FTP_USER, FTP_PASS, FTP_DIR (REG.RU — www/eco-pro.nikalimp.ru/) — основной путь: SSH из Actions на REG.RU закрыт
 #   SSH_KEY, SSH_HOST, SSH_USER, SITE_DIR — необязательно
-# Переменная NOINDEX = 1 — пока сайт живёт на тестовом адресе.
 # api/config.php (токен бота, почта) в репозитории нет и выкладкой не трогается: rsync — исключение, FTP — заливает только своё.
 name: Deploy
 on:
@@ -23,5 +22,4 @@ jobs:
       rsync_exclude: "api/config.php api/logs/"
       url: https://eco-pro.nikalimp.ru
       media_brand: content/media/brand.json   # до переноса завода в content/factory/
-      noindex: ${{ vars.NOINDEX }}
     secrets: inherit
