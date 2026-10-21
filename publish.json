@@ -1,0 +1,22 @@
+{
+  "project": "ECO-PRO",
+  "repo": "nikalimp/eco-pro",
+  "site_dir": ".",
+  "url": "https://eco-pro.nikalimp.ru",
+  "adapter": "ssh-ftp",
+  "mode": "auto",
+  "content_dir": "content",
+  "factory": "content/content.config.json",
+  "schedule": {
+    "daily": "09:05",
+    "weekly": "mon 08:50",
+    "tz": "Europe/Moscow",
+    "days": "1-5"
+  },
+  "version": 1,
+  "notes": "Тестовый адрес с NOINDEX=1 (переменная репозитория). После переезда на pro-nas.pro — заменить url здесь, в deploy.yml и в content.config.json. Конфиг завода переедет в content/factory/ через /content-factory:update. REG.RU: SSH из Actions закрыт, выкладка идёт по FTP.",
+  "out_dir": "out",
+  "app_path": "",
+  "rsync_exclude": "api/config.php api/logs/",
+  "manual_script": "scripts/deploy-site.sh"
+}
