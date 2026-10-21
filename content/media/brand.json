@@ -1,0 +1,23 @@
+{
+  "name": "ECO-PRO",
+  "site": "https://pro-nas.pro",
+  "siteLabel": "pro-nas.pro",
+  "author": "",
+  "avatar": "",
+  "logo": "logo.png",
+  "logosDir": "../../public/images/logos",
+  "blogPath": "/blog/",
+  "font": { "family": "Geologica Variable", "source": "fontsource:geologica" },
+  "colors": {
+    "bg": "#FFFFFF", "fg": "#000000", "card": "#F5F5F5", "muted": "#F5F5F5", "mfg": "#6B6B6B",
+    "border": "#E0E0E0", "brand": "#D51317", "brandBg": "#FCECEC", "onBrand": "#FFFFFF", "shade": "rgb(0 0 0)"
+  },
+  "radius": 12,
+  "pattern": "dots",
+  "cta": {
+    "title": "Сколько ваша сеть теряет без контура реакции?",
+    "text": "На встрече покажем реальные кейсы и соберём чек-лист для пилота: 2 недели, удалённое подключение, на ваших камерах.",
+    "label": "Записаться на встречу →",
+    "url": "https://pro-nas.pro/#vstrecha"
+  }
+}

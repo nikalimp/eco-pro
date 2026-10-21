@@ -1,0 +1,42 @@
+# Apache (REG.RU, Beget, Timeweb shared): HTTPS, адреса со слешем, 301 со старого сайта на Tilda
+Options -Indexes
+RewriteEngine On
+
+# HTTP → HTTPS делает nginx хостинга (ispmanager: настройки сайта → «Перенаправлять HTTP-запросы в HTTPS»).
+# Здесь его нет: Apache за nginx всегда видит HTTP, правило по %{HTTPS} даёт бесконечный редирект.
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+# Старые адреса pro-nas.pro (Tilda)
+RewriteRule ^tpost/s9j3yz7m31-eco-pro-na-forume-novii-reteil-2026/?$ /blog/eco-pro-na-forume-novyy-reteyl-2026/ [L,R=301]
+RewriteRule ^tpost/tp0careij1-vremya-ustraneniya-vmesto-kolichestva-na/?$ /blog/vremya-ustraneniya-vmesto-kolichestva-narusheniy/ [L,R=301]
+RewriteRule ^tpost/rgiuuhcz31-situatsionnii-tsentr-pro-test-ot-nablyud/?$ /blog/situacionnyy-centr-pro-test/ [L,R=301]
+RewriteRule ^tpost/4ljdfc4g71-iskusstvennii-intellekt-i-mashinnoe-zren/?$ /blog/ii-i-mashinnoe-zrenie-v-predotvrashchenii-poter/ [L,R=301]
+RewriteRule ^members/login/?$ /lichnyy-kabinet/ [L,R=301]
+RewriteRule ^policy/?$ /politika-konfidencialnosti/ [L,R=301]
+RewriteRule ^agreement/?$ /soglasie/ [L,R=301]
+RewriteRule ^(template|romashki)/?$ / [L,R=301]
+
+# Адреса без слеша → со слешем (статический экспорт с trailingSlash)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !\.[a-z0-9]+$ [NC]
+RewriteRule ^(.*)$ /$1/ [L,R=301]
+
+ErrorDocument 404 /404.html
+
+# config.php с токенами — не отдавать наружу
+<Files "config.php">
+  Require all denied
+</Files>
+# Журналы обработчика заявок
+RedirectMatch 404 ^/api/logs/
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+</IfModule>

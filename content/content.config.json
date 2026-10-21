@@ -1,0 +1,118 @@
+{
+  "project": "ECO-PRO",
+  "site": "https://eco-pro.nikalimp.ru",
+  "site_note": "Тестовый адрес (noindex). После переноса домена заменить site, article.url, publish.verify на https://pro-nas.pro",
+  "root": "..",
+  "stack": "nextjs-github",
+  "language": "ru",
+  "timezone": "Europe/Moscow",
+  "cadence": "20",
+  "approval": false,
+  "author": "ECO-PRO",
+  "voice_mode": "we",
+  "paths": {
+    "plan": "content/plan.md",
+    "strategy": "content/strategy.md",
+    "voice": [
+      "content/voice.md"
+    ],
+    "facts": "content/facts.md",
+    "brand": "content/media/brand.json",
+    "reports": "content/reports/{date}-weekly.md",
+    "journal": "",
+    "article": "content/blog/{slug}.md",
+    "drafts": "content/drafts/{slug}.md",
+    "media_spec": "content/media/{slug}.json",
+    "media_out": "public/blog/{slug}",
+    "photos": "public/images",
+    "secrets": "content/secrets/.env",
+    "channels_registry": "content/channels.json"
+  },
+  "article": {
+    "url": "https://eco-pro.nikalimp.ru/blog/{slug}/",
+    "image_url": "/blog/{slug}/",
+    "cover_url": "/blog/{slug}/cover.jpg",
+    "frontmatter": [
+      "title",
+      "description",
+      "seoTitle",
+      "date",
+      "cover",
+      "coverAlt",
+      "rubric"
+    ]
+  },
+  "links": {
+    "blog_prefix": "/blog/",
+    "internal": [
+      "/blog/",
+      "/keisy/",
+      "/otrasli/riteyl/",
+      "/otrasli/horeca/",
+      "/otrasli/proizvodstvo-i-logistika/",
+      "/dokumenty/"
+    ],
+    "services": {
+      "list": [
+        "situacionnyy-centr",
+        "videoanalitika-i-ii",
+        "cifrovye-cheklisty",
+        "analitika-incidentov",
+        "sistemy-bezopasnosti"
+      ],
+      "prefix": "/napravleniya/"
+    },
+    "service_extra": [
+      "/#vstrecha"
+    ],
+    "catalogs": [
+      "/keisy/"
+    ]
+  },
+  "rules": {
+    "meta_asterisk": false,
+    "forbidden": [
+      "уникальный",
+      "революционный",
+      "тотальная слежка",
+      "AI-агент"
+    ],
+    "emoji": false,
+    "first_person": false,
+    "we_voice": true
+  },
+  "tilda": {
+    "projectid": "",
+    "feeduid": "",
+    "parts": {},
+    "fields": {}
+  },
+  "publish": {
+    "how": "push из облака: add_repo <owner>/<repo> (push) → clone → content/blog/<slug>.md + content/media/<slug>.json → commit «Статья: <title>» → push в main → GitHub Actions (media.mjs → check → rsync на REG.RU → channels.mjs → коммит картинок). Репозиторий ещё не создан — TODO(Ник): вписать owner/repo",
+    "repo": "",
+    "verify": "https://eco-pro.nikalimp.ru/blog/{slug}/",
+    "wait_minutes": 20
+  },
+  "channels": {
+    "runner": "ci",
+    "telegram": "@vynosim_za",
+    "telegram_public": "https://t.me/s/vynosim_za",
+    "max": null,
+    "enabled": false
+  },
+  "notify": "telegram_bot",
+  "analytics": {
+    "metrika": "",
+    "webmaster": "pro-nas.pro",
+    "gsc": "",
+    "geo_pool": "content/strategy.md"
+  },
+  "schedule": {
+    "daily": "09:47 Europe/Moscow, пн–пт",
+    "weekly": "Mon 08:52 Europe/Moscow"
+  },
+  "tasks": {
+    "daily": "ECO-PRO — статья дня",
+    "weekly": "ECO-PRO — отчёт недели"
+  }
+}
