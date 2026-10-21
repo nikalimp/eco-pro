@@ -6,7 +6,7 @@ import { Crumbs } from "@/components/crumbs";
 export const metadata: Metadata = {
   title: "Согласие на обработку персональных данных",
   description: `Текст согласия на обработку персональных данных, которое посетитель сайта даёт ${site.legalName} при отправке формы заявки или брифинга.`,
-  alternates: { canonical: "/soglasie/" },
+  alternates: { canonical: "/consent/" },
 };
 
 // Согласие по ст. 9 152-ФЗ. Реквизиты — из src/content/site.ts.
@@ -31,7 +31,7 @@ export default function Consent() {
           <h2>Срок и отзыв</h2>
           <p>Согласие действует до достижения цели обработки или до его отзыва. Отозвать согласие можно, написав на {email}.</p>
           <p>
-            Подробнее — в <a href="/politika-konfidencialnosti/">политике обработки персональных данных</a>.
+            Подробнее — в <a href="/privacy-policy/">политике обработки персональных данных</a>.
           </p>
         </div>
       </Container>

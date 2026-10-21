@@ -19,31 +19,31 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <p className="mb-3 font-medium text-white"><Link href="/napravleniya/" className="hover:text-brand">Направления</Link></p>
+          <p className="mb-3 font-medium text-white"><Link href="/services/" className="hover:text-brand">Направления</Link></p>
           <ul className="space-y-2">
             {directions.map((d) => (
-              <li key={d.slug}><Link href={`/napravleniya/${d.slug}/`} className="hover:text-white">{d.code} — {d.title}</Link></li>
+              <li key={d.slug}><Link href={`/services/${d.slug}/`} className="hover:text-white">{d.code} — {d.title}</Link></li>
             ))}
           </ul>
         </div>
         <div className="contents">
           <div>
-            <p className="mb-3 font-medium text-white"><Link href="/otrasli/" className="hover:text-brand">Отрасли</Link></p>
+            <p className="mb-3 font-medium text-white"><Link href="/industries/" className="hover:text-brand">Отрасли</Link></p>
             <ul className="space-y-2">
               {industries.map((i) => (
-                <li key={i.slug}><Link href={`/otrasli/${i.slug}/`} className="hover:text-white">{i.title}</Link></li>
+                <li key={i.slug}><Link href={`/industries/${i.slug}/`} className="hover:text-white">{i.title}</Link></li>
               ))}
             </ul>
           </div>
           <div>
             <p className="mb-3 font-medium text-white">Компания</p>
             <ul className="space-y-2">
-              {nav.filter((n) => !["/napravleniya/", "/otrasli/"].includes(n.href)).map((n) => (
+              {nav.filter((n) => !["/services/", "/industries/"].includes(n.href)).map((n) => (
                 <li key={n.href}><Link href={n.href} className="hover:text-white">{n.label}</Link></li>
               ))}
               <li><Link href="/#faq" className="hover:text-white">Вопросы и ответы</Link></li>
-              <li><Link href="/dokumenty/" className="hover:text-white">Лицензии и рекомендации</Link></li>
-              <li><Link href="/lichnyy-kabinet/" className="hover:text-white">Личный кабинет</Link></li>
+              <li><Link href="/documents/" className="hover:text-white">Лицензии и рекомендации</Link></li>
+              <li><Link href="/account/" className="hover:text-white">Личный кабинет</Link></li>
             </ul>
           </div>
         </div>
@@ -59,8 +59,8 @@ export function Footer() {
       <Container className="mt-12 flex flex-col gap-2 border-t border-white/15 pt-6 text-xs text-white/55 lg:flex-row lg:flex-wrap lg:items-center lg:justify-between">
         <span>©{new Date().getFullYear()} {site.legalName} · ИНН {site.legal.inn} · КПП {site.legal.kpp} · ОГРН {site.legal.ogrn}</span>
         <span className="flex flex-wrap gap-x-5 gap-y-2">
-          <Link href="/politika-konfidencialnosti/" className="hover:text-white">Политика конфиденциальности</Link>
-          <Link href="/soglasie/" className="hover:text-white">Согласие на обработку персональных данных</Link>
+          <Link href="/privacy-policy/" className="hover:text-white">Политика конфиденциальности</Link>
+          <Link href="/consent/" className="hover:text-white">Согласие на обработку персональных данных</Link>
           <a href="https://nikalimp.ru/" target="_blank" rel="noopener" className="hover:text-white">Разработка сайта</a>
         </span>
       </Container>

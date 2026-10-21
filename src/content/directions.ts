@@ -1,4 +1,4 @@
-// Направления экосистемы PRO: одна запись — одна страница /napravleniya/<slug>/.
+// Направления экосистемы PRO: одна запись — одна страница /services/<slug>/.
 // Тексты «Что делаем» — с pro-nas.pro (попапы направлений), без изменения смысла. specs/02-spec.md §4–5.
 
 export type Faq = { q: string; a: string };
@@ -28,7 +28,7 @@ export type Direction = {
 
 export const directions: Direction[] = [
   {
-    slug: "situacionnyy-centr",
+    slug: "situation-center",
     code: "PRO-TEST",
     contour: [1, 2, 3, 4, 5, 7],
     video: "/video/pro-test.mp4",
@@ -49,8 +49,8 @@ export const directions: Direction[] = [
     ],
     roleInContour:
       "Ситуационный центр — ядро экосистемы. Он связывает технические системы, искусственный интеллект, платформы сбора данных и аналитику в единое целое и переводит компанию из режима реакции на инциденты в режим их предупреждения.",
-    industries: ["riteyl", "horeca", "proizvodstvo-i-logistika"],
-    related: ["videoanalitika-i-ii", "cifrovye-cheklisty", "analitika-incidentov", "sistemy-bezopasnosti"],
+    industries: ["retail", "horeca", "manufacturing-logistics"],
+    related: ["video-analytics-ai", "digital-checklists", "incident-analytics", "security-systems"],
     faq: [
       {
         q: "Что такое ситуационный центр для бизнеса?",
@@ -67,7 +67,7 @@ export const directions: Direction[] = [
     ],
   },
   {
-    slug: "videoanalitika-i-ii",
+    slug: "video-analytics-ai",
     code: "PRO-AI",
     contour: [1, 4, 7],
     title: "Искусственный интеллект",
@@ -87,8 +87,8 @@ export const directions: Direction[] = [
     ],
     roleInContour:
       "ИИ находит отклонения круглосуточно, а операторы-аналитики ситуационного центра разбираются в причинах и следят, чтобы их устранили. Решения остаются за заказчиком.",
-    industries: ["riteyl", "proizvodstvo-i-logistika"],
-    related: ["situacionnyy-centr", "sistemy-bezopasnosti", "analitika-incidentov"],
+    industries: ["retail", "manufacturing-logistics"],
+    related: ["situation-center", "security-systems", "incident-analytics"],
     faq: [
       {
         q: "Можно ли подключить видеоаналитику к уже установленным камерам?",
@@ -105,7 +105,7 @@ export const directions: Direction[] = [
     ],
   },
   {
-    slug: "cifrovye-cheklisty",
+    slug: "digital-checklists",
     code: "PRO-INC",
     contour: [1, 2, 3, 7],
     title: "Платформенные решения",
@@ -125,8 +125,8 @@ export const directions: Direction[] = [
     ],
     roleInContour:
       "PRO-INC — это рабочий инструмент контура PRO-TEST: здесь нарушение превращается в задачу, а её устранение — в проверяемый факт для аналитики PRO-DATA.",
-    industries: ["riteyl", "horeca", "proizvodstvo-i-logistika"],
-    related: ["situacionnyy-centr", "analitika-incidentov"],
+    industries: ["retail", "horeca", "manufacturing-logistics"],
+    related: ["situation-center", "incident-analytics"],
     faq: [
       {
         q: "Чем цифровые чек-листы лучше бумаги и Excel?",
@@ -143,7 +143,7 @@ export const directions: Direction[] = [
     ],
   },
   {
-    slug: "analitika-incidentov",
+    slug: "incident-analytics",
     code: "PRO-DATA",
     contour: [4, 5],
     title: "Аналитика данных",
@@ -164,8 +164,8 @@ export const directions: Direction[] = [
     roleInContour:
       "Пока данные лежат в отчётах, это шум, который не работает на вас. PRO-DATA готовит основу для решения, которое принимает руководитель.",
     extraImage: { src: "/images/napravleniya/pro-data-dashboard.webp", alt: "Пример отчёта PRO-DATA: KPI по объектам и сменам", width: 1224, height: 1770 },
-    industries: ["riteyl", "horeca", "proizvodstvo-i-logistika"],
-    related: ["situacionnyy-centr", "cifrovye-cheklisty"],
+    industries: ["retail", "horeca", "manufacturing-logistics"],
+    related: ["situation-center", "digital-checklists"],
     faq: [
       {
         q: "Как оценить экономический эффект контроля?",
@@ -182,7 +182,7 @@ export const directions: Direction[] = [
     ],
   },
   {
-    slug: "sistemy-bezopasnosti",
+    slug: "security-systems",
     code: "PRO-TECHNO",
     contour: [1],
     title: "Система управления безопасностью",
@@ -203,8 +203,8 @@ export const directions: Direction[] = [
     roleInContour:
       "Без исправных систем нет достоверных данных. PRO-TECHNO даёт контуру PRO-TEST и детекторам PRO-AI надёжный источник событий.",
     note: "Юрлицо направления — «Император Техно»: бренд, из которого выросла экосистема PRO.",
-    industries: ["riteyl", "proizvodstvo-i-logistika"],
-    related: ["videoanalitika-i-ii", "situacionnyy-centr"],
+    industries: ["retail", "manufacturing-logistics"],
+    related: ["video-analytics-ai", "situation-center"],
     faq: [
       {
         q: "Работаете ли вы с уже установленными системами?",

@@ -60,8 +60,8 @@ export const site = {
 };
 
 export const nav = [
-  { href: "/napravleniya/", label: "Направления" },
-  { href: "/otrasli/", label: "Отрасли" },
-  { href: "/keisy/", label: "Кейсы" },
+  { href: "/services/", label: "Направления" },
+  { href: "/industries/", label: "Отрасли" },
+  { href: "/cases/", label: "Кейсы" },
   { href: "/blog/", label: "Блог" },
 ];

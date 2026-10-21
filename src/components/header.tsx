@@ -9,8 +9,8 @@ import { Button } from "./ui/button";
 import { ThemeToggle } from "./theme-toggle";
 
 const submenus: Record<string, { href: string; label: string; code?: string }[]> = {
-  "/napravleniya/": directions.map((d) => ({ href: `/napravleniya/${d.slug}/`, label: d.title, code: d.code })),
-  "/otrasli/": industries.map((i) => ({ href: `/otrasli/${i.slug}/`, label: i.title })),
+  "/services/": directions.map((d) => ({ href: `/services/${d.slug}/`, label: d.title, code: d.code })),
+  "/industries/": industries.map((i) => ({ href: `/industries/${i.slug}/`, label: i.title })),
 };
 
 // Выпадающее меню на CSS (:hover и :focus-within) — работает без JavaScript

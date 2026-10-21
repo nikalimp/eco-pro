@@ -31,17 +31,17 @@ export function llmsTxt() {
 Другие названия: ${site.alternateName.join(", ")}. Основана в ${site.foundingYear} году. 1000+ реализованных проектов, 25+ лет в отрасли. Работаем по всей России, удалённое подключение к объектам. Главное действие — встреча: ${site.url}/#vstrecha
 
 ## Направления
-${directions.map((d) => `- [${d.code} — ${d.title}](${site.url}/napravleniya/${d.slug}/): ${d.short}`).join("\n")}
+${directions.map((d) => `- [${d.code} — ${d.title}](${site.url}/services/${d.slug}/): ${d.short}`).join("\n")}
 
 ## Отрасли
-${industries.map((i) => `- [${i.title}](${site.url}/otrasli/${i.slug}/): ${i.short}`).join("\n")}
+${industries.map((i) => `- [${i.title}](${site.url}/industries/${i.slug}/): ${i.short}`).join("\n")}
 
 ## Кейсы
-- [Все кейсы внедрения](${site.url}/keisy/)
-${cases.map((k) => `- [${k.tag}: ${k.title}](${site.url}/keisy/${k.id}/): ${k.value} — ${k.valueLabel}`).join("\n")}
+- [Все кейсы внедрения](${site.url}/cases/)
+${cases.map((k) => `- [${k.tag}: ${k.title}](${site.url}/cases/${k.id}/): ${k.value} — ${k.valueLabel}`).join("\n")}
 ${posts.length ? `\n## Статьи\n${posts.map((p) => `- [${p.title}](${site.url}/blog/${p.slug}/): ${p.description}`).join("\n")}\n` : ""}
 ## Лицензии и рекомендации
-- [Лицензии, допуски СРО и рекомендательные письма](${site.url}/dokumenty/): ${docsCompany.name} (${docsCompany.role}) — ${licenses.map((d) => `${d.title}${d.meta ? ` ${d.meta}` : ""}`).join("; ")}. Рекомендации: ${letters.map((d) => d.issuer).join("; ")}.
+- [Лицензии, допуски СРО и рекомендательные письма](${site.url}/documents/): ${docsCompany.name} (${docsCompany.role}) — ${licenses.map((d) => `${d.title}${d.meta ? ` ${d.meta}` : ""}`).join("; ")}. Рекомендации: ${letters.map((d) => d.issuer).join("; ")}.
 
 ## О компании
 - [Главная: экосистема, география, команда, путь к результату, FAQ](${site.url}/)
@@ -55,12 +55,12 @@ ${contacts()}
 export function llmsFullTxt() {
   const dirBlocks = directions.map(
     (d) =>
-      `## ${d.h1}\nURL: ${site.url}/napravleniya/${d.slug}/\n\n${d.answer}\n\nЧто входит:\n${d.features.map((f) => `- ${f.title}: ${f.text}`).join("\n")}\n\nМесто в контуре PRO-TEST: ${d.roleInContour}\n${d.note ? `\n${d.note}\n` : ""}\nВопросы:\n${d.faq.map((f) => `- ${f.q} ${f.a}`).join("\n")}`,
+      `## ${d.h1}\nURL: ${site.url}/services/${d.slug}/\n\n${d.answer}\n\nЧто входит:\n${d.features.map((f) => `- ${f.title}: ${f.text}`).join("\n")}\n\nМесто в контуре PRO-TEST: ${d.roleInContour}\n${d.note ? `\n${d.note}\n` : ""}\nВопросы:\n${d.faq.map((f) => `- ${f.q} ${f.a}`).join("\n")}`,
   );
   const indBlocks = industries.map(
-    (i) => `## ${i.h1}\nURL: ${site.url}/otrasli/${i.slug}/\n\n${i.answer}\n\nЗадачи:\n${i.tasks.map((t) => `- ${t}`).join("\n")}\n\nВопросы:\n${i.faq.map((f) => `- ${f.q} ${f.a}`).join("\n")}`,
+    (i) => `## ${i.h1}\nURL: ${site.url}/industries/${i.slug}/\n\n${i.answer}\n\nЗадачи:\n${i.tasks.map((t) => `- ${t}`).join("\n")}\n\nВопросы:\n${i.faq.map((f) => `- ${f.q} ${f.a}`).join("\n")}`,
   );
-  const caseBlock = cases.map((k) => `## ${k.tag}: ${k.title}\nURL: ${site.url}/keisy/${k.id}/\nМасштаб: ${k.scale}\n\n${k.situation.join(" ")}\n\nРезультат: ${k.results.join("; ")}.${k.economics ? `\n\nЭкономика: ${k.economics}` : ""}`).join("\n\n");
+  const caseBlock = cases.map((k) => `## ${k.tag}: ${k.title}\nURL: ${site.url}/cases/${k.id}/\nМасштаб: ${k.scale}\n\n${k.situation.join(" ")}\n\nРезультат: ${k.results.join("; ")}.${k.economics ? `\n\nЭкономика: ${k.economics}` : ""}`).join("\n\n");
   const steps = home.path.steps.map((s, n) => `${n + 1}. ${s.title}: ${s.text}`).join("\n");
   const team = home.team.people.map((p) => `- ${p.name} — ${p.role}`).join("\n");
   const posts = getPosts().map((p) => `## ${p.title}\nURL: ${site.url}/blog/${p.slug}/\nДата: ${p.updated ?? p.date}\n\n${p.body}`);

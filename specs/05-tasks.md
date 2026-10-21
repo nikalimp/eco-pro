@@ -41,7 +41,7 @@
 - [ ] **T31** Блог: поля frontmatter `cover`, `coverAlt`, `rubric` в `src/lib/posts.ts` (`cover` → `image`), рубрика и миниатюра в `/blog/`, `coverAlt` как alt обложки — *проверка:* `npm run check` проходит, у статьи с cover есть og:image и image в BlogPosting
 - [ ] **T32** Медиа: `scripts/media.mjs` и `scripts/channels.mjs` (уже скопированы), `content/media/brand.json` + `logo.png` (готовы), devDependencies `playwright@1.56.1` — *проверка:* `node scripts/media.mjs --brand content/media/brand.json` рисует обложку тестовой спецификации
 - [ ] **T33** Workflow: шаги из `NikitOS/.claude/skills/content/tools/nextjs/deploy-steps.yml` в `.github/workflows/deploy.yml` («Медиа статей» после `npm ci`, «Telegram и Max» и «Сохранить сгенерированные файлы» после заливки, пути `public/blog content/media`), `permissions: contents: write`, `fetch-depth: 50`, env `MEDIA_BRAND=content/media/brand.json`, `paths-ignore` + `content/**` — *проверка:* пробная статья выходит на сайт, картинки коммитятся обратно
-- [ ] **T34** Пробная статья по первой теме плана (`situacionnyy-centr-dlya-biznesa`), `check_post.py` без ошибок — *проверка:* статья и `cover.jpg` отвечают на тестовом адресе
+- [ ] **T34** Пробная статья по первой теме плана (`situation-center-for-business`), `check_post.py` без ошибок — *проверка:* статья и `cover.jpg` отвечают на тестовом адресе
 - [ ] **T35** Telegram: бот-админ в @vynosim_za, секреты `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAPH_TOKEN`; `channels.enabled=true` — *проверка:* анонс пробной статьи в канале
 
 ## Вопросы
@@ -59,4 +59,4 @@
 | 2026-10-14 | Правки v0.6 (13 пунктов Ника) | См. spec §13 v0.6; check 9.8/10; проверено появление блоков при клиентских переходах | Видео PRO-TEST теперь только на странице направления |
 | 2026-10-14 | Правки v0.7: кейсы, тексты, разделение сущностей | 13 страниц кейсов, check 9.8/10 | Уточнить у Сергея 3 расхождения в цифрах кейсов |
 | 2026-10-15 | /content init | content/: strategy, voice, facts, plan (20 тем, 19.10–13.11), content.config.json; content/media/brand.json + logo.png; scripts/media.mjs, channels.mjs | Предложен этап 7 (T30–T35); в deploy/_stage и _to_delete — пустой мусор от установки, удалить вручную |
-| 2026-10-17 | Материалы клиента: документы и рекомендации | /dokumenty/, блоки на главной и PRO-TECHNO, контент-завод (+5 тем); check 9.8/10 | Запросить актуальные сертификаты Parsec, Smartec, ITK, TRASSIR — сроки истекли |
+| 2026-10-17 | Материалы клиента: документы и рекомендации | /documents/, блоки на главной и PRO-TECHNO, контент-завод (+5 тем); check 9.8/10 | Запросить актуальные сертификаты Parsec, Smartec, ITK, TRASSIR — сроки истекли |

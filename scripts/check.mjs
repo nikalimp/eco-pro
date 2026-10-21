@@ -70,7 +70,7 @@ if (md) {
 const MIN_WORDS = 250;
 // Исключения — с причиной. Хабы пока короче минимума: дописать вводные тексты отдельной задачей через spec
 // или оставить здесь — вопрос в specs/reports/update-2026-10-21.md.
-const THIN_OK = ["/napravleniya/", "/otrasli/", "/blog/"];
+const THIN_OK = ["/services/", "/industries/", "/blog/"];
 const sitemapXml = fs.readFileSync(path.join(OUT, "sitemap.xml"), "utf8");
 const thin = [];
 for (const [, loc] of sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)) {

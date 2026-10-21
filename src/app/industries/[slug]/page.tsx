@@ -23,16 +23,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: { absolute: i.metaTitle },
     description: i.metaDescription,
-    alternates: { canonical: `/otrasli/${i.slug}/` },
-    openGraph: { title: i.metaTitle, description: i.metaDescription, url: `${site.url}/otrasli/${i.slug}/`, images: ["/og.png"] },
+    alternates: { canonical: `/industries/${i.slug}/` },
+    openGraph: { title: i.metaTitle, description: i.metaDescription, url: `${site.url}/industries/${i.slug}/`, images: ["/og.png"] },
   };
 }
 
 export default async function IndustryPage({ params }: { params: Promise<{ slug: string }> }) {
   const i = industryBySlug((await params).slug);
   if (!i) notFound();
-  const path = `/otrasli/${i.slug}/`;
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Отрасли", path: "/otrasli/" }, { name: i.title, path }];
+  const path = `/industries/${i.slug}/`;
+  const crumbs = [{ name: "Главная", path: "/" }, { name: "Отрасли", path: "/industries/" }, { name: i.title, path }];
   const cs = casesByIndustry(i.slug);
   const ds = i.directions.map(directionBySlug).filter((x) => x !== undefined);
 

@@ -10,14 +10,14 @@ export const metadata: Metadata = {
   title: "Решения для ритейла, HoReCa, производства и логистики",
   description:
     "Экосистема ECO-PRO для отраслей: розница и e-commerce, гостиницы и рестораны, производство и логистика. Контроль потерь, дисциплины и регламентов.",
-  alternates: { canonical: "/otrasli/" },
+  alternates: { canonical: "/industries/" },
 };
 
 export default function Industries() {
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Отрасли", path: "/otrasli/" }];
+  const crumbs = [{ name: "Главная", path: "/" }, { name: "Отрасли", path: "/industries/" }];
   return (
     <>
-      <JsonLd data={graph(itemList("Отраслевые решения ECO-PRO", industries.map((i) => ({ name: i.title, path: `/otrasli/${i.slug}/` }))), breadcrumbs(crumbs))} />
+      <JsonLd data={graph(itemList("Отраслевые решения ECO-PRO", industries.map((i) => ({ name: i.title, path: `/industries/${i.slug}/` }))), breadcrumbs(crumbs))} />
       <Section className="pt-10">
         <Container>
           <Crumbs items={[crumbs[0], { name: "Отрасли" }]} />

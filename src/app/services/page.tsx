@@ -10,14 +10,14 @@ export const metadata: Metadata = {
   title: "Направления экосистемы PRO: СЦ, ИИ, аналитика",
   description:
     "Пять направлений экосистемы ECO-PRO: ситуационный центр PRO-TEST, ИИ PRO-AI, платформы PRO-INC, аналитика PRO-DATA и системы безопасности PRO-TECHNO.",
-  alternates: { canonical: "/napravleniya/" },
+  alternates: { canonical: "/services/" },
 };
 
 export default function Directions() {
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Направления", path: "/napravleniya/" }];
+  const crumbs = [{ name: "Главная", path: "/" }, { name: "Направления", path: "/services/" }];
   return (
     <>
-      <JsonLd data={graph(itemList("Направления экосистемы PRO", directions.map((d) => ({ name: `${d.code} — ${d.title}`, path: `/napravleniya/${d.slug}/` }))), breadcrumbs(crumbs))} />
+      <JsonLd data={graph(itemList("Направления экосистемы PRO", directions.map((d) => ({ name: `${d.code} — ${d.title}`, path: `/services/${d.slug}/` }))), breadcrumbs(crumbs))} />
       <Section className="pt-10">
         <Container>
           <Crumbs items={[crumbs[0], { name: "Направления" }]} />

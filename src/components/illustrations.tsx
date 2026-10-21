@@ -113,7 +113,7 @@ export function IllCabinet({ className }: P) {
 }
 
 export const industryIllustration: Record<string, (p: P) => React.ReactElement> = {
-  riteyl: IllRetail,
+  retail: IllRetail,
   horeca: IllHoreca,
-  "proizvodstvo-i-logistika": IllFactory,
+  "manufacturing-logistics": IllFactory,
 };

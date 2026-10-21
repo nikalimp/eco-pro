@@ -172,12 +172,12 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* 9. Кейсы — тизер, полный список на /keisy/ */}
+      {/* 9. Кейсы — тизер, полный список на /cases/ */}
       <Section id="keisy">
         <Container>
           <SectionHead eyebrow="реализованные проекты" title="Кейсы внедрения" />
           <CaseGrid items={featuredCases} />
-          <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/keisy/">Все кейсы</Link></Button></div>
+          <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/cases/">Все кейсы</Link></Button></div>
         </Container>
       </Section>
 
@@ -193,7 +193,7 @@ export default function Home() {
               <li key={d.id}><a href={`#doc-${d.id}`} className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-sm font-medium hover:border-foreground"><Check className="size-4 text-positive" aria-hidden="true" />{d.title}{d.meta ? <span className="text-muted-foreground">· {d.meta}</span> : null}</a></li>
             ))}
           </ul>
-          <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/dokumenty/">Все документы и сертификаты</Link></Button></div>
+          <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/documents/">Все документы и сертификаты</Link></Button></div>
         </Container>
         <DocLightboxes docs={[...letters, ...licenses.slice(0, 3)]} />
       </Section>

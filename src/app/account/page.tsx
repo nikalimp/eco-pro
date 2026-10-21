@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Личный кабинет клиента",
   description: "Личный кабинет ECO-PRO с онлайн-дашбордами по объектам клиента — в разработке. Данные по объектам действующим клиентам предоставляет менеджер.",
-  alternates: { canonical: "/lichnyy-kabinet/" },
+  alternates: { canonical: "/account/" },
   robots: { index: false, follow: true },
 };
 
