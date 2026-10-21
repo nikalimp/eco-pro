@@ -1,12 +1,12 @@
 # ECO-PRO — статус
 
-Обновлено: 21.10.2026 · `website:update`, отчёт — [reports/update-2026-10-21.md](reports/update-2026-10-21.md)
+Обновлено: 21.10.2026 · `website:update`, отчёты — [update-2026-10-21](reports/update-2026-10-21.md), [повторная сверка](reports/update-2026-10-21-recheck.md)
 
 ## Где сейчас
 - **Этап:** сайт v0.10 живёт на тестовом адресе. Следующие шаги — выкладка через Actions, затем переезд на домен клиента и контент-завод.
 - **Тест:** https://eco-pro.nikalimp.ru
 - **Боевой домен:** pro-nas.pro — пока там старый сайт на Tilda. 301 со старых адресов лежат в `public/.htaccess`.
-- **Репозиторий:** nikalimp/eco-pro. Исходники по-прежнему лежат и в `~/Desktop/ECO-PRO`; источник правды теперь — `main`.
+- **Репозиторий:** nikalimp/eco-pro — источник правды. Папка `~/Desktop/ECO-PRO` приводится к `main` (решение Ника 21.10); `materials/` и `deploy/` остаются только локально.
 
 ## Хостинг и выкладка
 - **Хостинг:** REG.RU (Apache за nginx, ISPmanager). SSH из GitHub Actions закрыт, поэтому выкладка идёт по FTP.

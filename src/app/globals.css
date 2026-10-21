@@ -23,6 +23,8 @@
   --ring: oklch(0.56 0.21 27);
   --brand: oklch(0.56 0.21 27);          /* #D51317 — фирменный красный */
   --brand-bg: oklch(0.56 0.21 27 / 8%);
+  --brand-solid: oklch(0.56 0.21 27);    /* фон кнопок в обеих темах: белый текст 5,2:1 (WCAG AA) */
+  --brand-on-ink: oklch(0.62 0.21 27);   /* красный текст на чёрных поверхностях (--ink) в обеих темах: ≈5:1 */
   --positive: oklch(0.58 0.16 150);      /* зелёный роста; темнее #00AD48 с сайта, чтобы крупные цифры проходили контраст 3:1 */
   --gray-brand: oklch(0.6 0 0);          /* #808080 — дополнительный цвет гайдлайна, только для крупного текста и графики */
   --ink: oklch(0 0 0);                   /* «чёрные» поверхности: подвал, CTA, карточки отраслей */
@@ -76,6 +78,8 @@
   --color-ring: var(--ring);
   --color-brand: var(--brand);
   --color-brand-bg: var(--brand-bg);
+  --color-brand-solid: var(--brand-solid);
+  --color-brand-on-ink: var(--brand-on-ink);
   --color-positive: var(--positive);
   --color-gray-brand: var(--gray-brand);
   --color-ink: var(--ink);

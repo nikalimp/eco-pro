@@ -75,9 +75,9 @@ export function EcosystemGraph() {
           return (
             <li key={m.slug}>
               <Link href={`/services/${m.slug}/`} className={cn("flex gap-4 border p-5", i === 0 && "border-0 bg-ink text-white")}>
-                <span className={cn("flex size-11 shrink-0 items-center justify-center", i === 0 ? "bg-white/10 text-brand" : "bg-brand-bg text-brand")}><Icon className="size-5" /></span>
+                <span className={cn("flex size-11 shrink-0 items-center justify-center", i === 0 ? "bg-white/10 text-brand-on-ink" : "bg-brand-bg text-brand")}><Icon className="size-5" /></span>
                 <span>
-                  <span className="block text-sm font-bold text-brand">{m.code}{i === 0 && " · центр экосистемы"}</span>
+                  <span className={cn("block text-sm font-bold", i === 0 ? "text-brand-on-ink" : "text-brand")}>{m.code}{i === 0 && " · центр экосистемы"}</span>
                   <span className="block font-medium">{m.title}</span>
                   <span className={cn("mt-1 block text-sm leading-relaxed", i === 0 ? "text-white/70" : "text-muted-foreground")}>{m.short}</span>
                 </span>
