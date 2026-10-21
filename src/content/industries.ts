@@ -1,4 +1,4 @@
-// Отрасли: одна запись — одна страница /otrasli/<slug>/. Тексты — с карточек отраслей pro-nas.pro и кейсов.
+// Отрасли: одна запись — одна страница /industries/<slug>/. Тексты — с карточек отраслей pro-nas.pro и кейсов.
 import type { Faq } from "./directions";
 
 export type Industry = {
@@ -17,7 +17,7 @@ export type Industry = {
 
 export const industries: Industry[] = [
   {
-    slug: "riteyl",
+    slug: "retail",
     label: "Ритейл",
     title: "Розница и e-commerce",
     h1: "Контроль потерь в рознице и e-commerce",
@@ -33,7 +33,7 @@ export const industries: Industry[] = [
       "Мониторинг продаж и поведения персонала в точках",
       "Исполнение регламентов на удалённых объектах в реальном времени",
     ],
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii", "cifrovye-cheklisty"],
+    directions: ["situation-center", "video-analytics-ai", "digital-checklists"],
     faq: [
       {
         q: "Можно ли работать с магазинами в разных регионах?",
@@ -66,7 +66,7 @@ export const industries: Industry[] = [
       "Оптимизация процессов на кухне и в залах",
       "Независимая картина качества по сменам и ролям",
     ],
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii", "analitika-incidentov"],
+    directions: ["situation-center", "video-analytics-ai", "incident-analytics"],
     faq: [
       {
         q: "Что контролирует ситуационный центр в ресторане?",
@@ -83,7 +83,7 @@ export const industries: Industry[] = [
     ],
   },
   {
-    slug: "proizvodstvo-i-logistika",
+    slug: "manufacturing-logistics",
     label: "Производство",
     title: "Производство и логистика",
     h1: "Контроль производства и логистики",
@@ -99,7 +99,7 @@ export const industries: Industry[] = [
       "Предотвращение потерь и хищений",
       "Охрана труда: СИЗ, опасные зоны, остановки линий",
     ],
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii", "cifrovye-cheklisty", "sistemy-bezopasnosti"],
+    directions: ["situation-center", "video-analytics-ai", "digital-checklists", "security-systems"],
     faq: [
       {
         q: "Как контролировать охрану труда с помощью видеоаналитики?",

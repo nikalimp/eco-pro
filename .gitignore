@@ -7,3 +7,4 @@ next-env.d.ts
 .DS_Store
 specs/reports/.*.json
 public/api/config.php
+.indexnow-changed.json

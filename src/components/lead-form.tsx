@@ -28,8 +28,8 @@ export function ContactFields({ dark = false }: { dark?: boolean }) {
       <label className={cn("flex items-start gap-3 text-sm", dark ? "text-white/70" : "text-muted-foreground")}>
         <input name="consent" type="checkbox" value="yes" required className="mt-0.5 size-5 shrink-0 accent-[var(--brand)]" />
         <span>
-          Даю <a href="/soglasie/" target="_blank" className="underline underline-offset-2">согласие на обработку персональных данных</a> в соответствии с{" "}
-          <a href="/politika-konfidencialnosti/" target="_blank" className="underline underline-offset-2">политикой конфиденциальности</a>
+          Даю <a href="/consent/" target="_blank" className="underline underline-offset-2">согласие на обработку персональных данных</a> в соответствии с{" "}
+          <a href="/privacy-policy/" target="_blank" className="underline underline-offset-2">политикой конфиденциальности</a>
         </span>
       </label>
       {/* Ловушка для ботов: поле скрыто от людей */}

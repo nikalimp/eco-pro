@@ -70,8 +70,8 @@ export function serviceSchema(x: { name: string; description: string; path: stri
   };
 }
 
-export const directionSchema = (d: Direction) => serviceSchema({ name: `${d.code} — ${d.title}`, serviceType: d.h1, description: d.answer, path: `/napravleniya/${d.slug}/` });
-export const industrySchema = (i: Industry) => serviceSchema({ name: `ECO-PRO для отрасли «${i.title}»`, serviceType: i.h1, description: i.answer, path: `/otrasli/${i.slug}/` });
+export const directionSchema = (d: Direction) => serviceSchema({ name: `${d.code} — ${d.title}`, serviceType: d.h1, description: d.answer, path: `/services/${d.slug}/` });
+export const industrySchema = (i: Industry) => serviceSchema({ name: `ECO-PRO для отрасли «${i.title}»`, serviceType: i.h1, description: i.answer, path: `/industries/${i.slug}/` });
 
 export function itemList(name: string, items: { name: string; path: string }[]) {
   return { "@type": "ItemList", name, itemListElement: items.map((it, n) => ({ "@type": "ListItem", position: n + 1, name: it.name, url: `${site.url}${it.path}` })) };
@@ -100,11 +100,11 @@ export function caseSchema(c: { id: string; title: string; text: string; tag: st
     headline: `${c.title} — кейс ECO-PRO`,
     description: c.text,
     about: c.tag,
-    url: `${site.url}/keisy/${c.id}/`,
+    url: `${site.url}/cases/${c.id}/`,
     inLanguage: "ru-RU",
     author: { "@id": orgId },
     publisher: { "@id": orgId },
-    mainEntityOfPage: `${site.url}/keisy/${c.id}/`,
+    mainEntityOfPage: `${site.url}/cases/${c.id}/`,
   };
 }
 

@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: { absolute: title.length > 65 ? `${c.title} — кейс` : title },
     description: c.text,
-    alternates: { canonical: `/keisy/${c.id}/` },
-    openGraph: { type: "article", title, description: c.text, url: `${site.url}/keisy/${c.id}/`, images: ["/og.png"] },
+    alternates: { canonical: `/cases/${c.id}/` },
+    openGraph: { type: "article", title, description: c.text, url: `${site.url}/cases/${c.id}/`, images: ["/og.png"] },
   };
 }
 
@@ -49,8 +49,8 @@ function Criteria({ title, items }: { title: string; items: { k: string; v: stri
 export default async function CasePage({ params }: { params: Promise<{ slug: string }> }) {
   const c = caseById((await params).slug);
   if (!c) notFound();
-  const path = `/keisy/${c.id}/`;
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Кейсы", path: "/keisy/" }, { name: c.title, path }];
+  const path = `/cases/${c.id}/`;
+  const crumbs = [{ name: "Главная", path: "/" }, { name: "Кейсы", path: "/cases/" }, { name: c.title, path }];
   const ind = c.industry ? industryBySlug(c.industry) : undefined;
   const dirs = c.directions.map(directionBySlug).filter((x) => x !== undefined);
   const more = cases.filter((x) => x.id !== c.id && (x.industry === c.industry || x.group === c.group)).slice(0, 3);
@@ -145,13 +145,13 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <SectionHead eyebrow="решение" title="Какие направления работали" />
           <div className="flex flex-wrap justify-center gap-2">
             {dirs.map((d) => (
-              <Link key={d.slug} href={`/napravleniya/${d.slug}/`} className="rounded-full border px-4 py-2 text-sm font-medium hover:border-foreground">
+              <Link key={d.slug} href={`/services/${d.slug}/`} className="rounded-full border px-4 py-2 text-sm font-medium hover:border-foreground">
                 <span className="text-brand">{d.code}</span> · {d.title}
               </Link>
             ))}
           </div>
           {ind && (
-            <p className="mt-6 text-muted-foreground">Отрасль: <Link href={`/otrasli/${ind.slug}/`} className="font-medium text-foreground underline underline-offset-4 hover:text-brand">{ind.title}</Link></p>
+            <p className="mt-6 text-muted-foreground">Отрасль: <Link href={`/industries/${ind.slug}/`} className="font-medium text-foreground underline underline-offset-4 hover:text-brand">{ind.title}</Link></p>
           )}
           <p className="mt-2 text-sm text-muted-foreground">Группа: {caseGroups[c.group].title}</p>
           <Button asChild size="lg" className="btn-shine mt-10"><a href="/#pilot">Запустить такой пилот за 2 недели</a></Button>
@@ -163,7 +163,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <Container>
             <SectionHead eyebrow="ещё кейсы" title="Похожие проекты" />
             <CaseGrid items={more} />
-            <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/keisy/">Все кейсы</Link></Button></div>
+            <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/cases/">Все кейсы</Link></Button></div>
           </Container>
         </Section>
       )}

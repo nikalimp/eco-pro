@@ -1,6 +1,6 @@
 // Кейсы внедрения. Источник — документы клиента от 14.10.2026:
 // «Кейсы – Решения на ИИ с дополнением СЦ…» и «Кейсы дополненные для СЕО и СБ» (specs/source/).
-// Одна запись — одна страница /keisy/<slug>/. Названия клиентов не раскрываются.
+// Одна запись — одна страница /cases/<slug>/. Названия клиентов не раскрываются.
 // Отрасль и направления у кейса — источник для страниц отраслей и направлений (там кейсы подбираются автоматически).
 
 export type CaseGroup = "ai" | "power" | "analysis" | "operator";
@@ -37,10 +37,10 @@ export const caseGroups: Record<CaseGroup, { title: string; text: string }> = {
 
 export const cases: Case[] = [
   {
-    id: "raspoznavanie-lic",
+    id: "face-recognition",
     group: "ai",
-    industry: "riteyl",
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii"],
+    industry: "retail",
+    directions: ["situation-center", "video-analytics-ai"],
     tag: "Ритейл · Распознавание лиц",
     title: "Сигнал есть, реакции нет",
     scale: "Сеть из 500 супермаркетов, пилот на 50 объектах",
@@ -88,10 +88,10 @@ export const cases: Case[] = [
     ],
   },
   {
-    id: "pustye-polki",
+    id: "empty-shelves",
     group: "ai",
-    industry: "riteyl",
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii"],
+    industry: "retail",
+    directions: ["situation-center", "video-analytics-ai"],
     tag: "Ритейл · Пустые полки",
     title: "Детекция есть, товар не появляется",
     scale: "Сеть из 1 000 магазинов у дома, пилот на 50 объектах",
@@ -135,10 +135,10 @@ export const cases: Case[] = [
     ],
   },
   {
-    id: "ocheredi-na-kassah",
+    id: "checkout-queues",
     group: "ai",
-    industry: "riteyl",
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii"],
+    industry: "retail",
+    directions: ["situation-center", "video-analytics-ai"],
     tag: "Ритейл · Очереди на кассах",
     title: "ИИ видит очередь, кассы не открываются",
     scale: "Сеть магазинов у дома до 1 000 объектов, пилот до 50 объектов",
@@ -183,10 +183,10 @@ export const cases: Case[] = [
     ],
   },
   {
-    id: "tehnika-bezopasnosti",
+    id: "safety-rules",
     group: "ai",
-    industry: "proizvodstvo-i-logistika",
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii", "analitika-incidentov"],
+    industry: "manufacturing-logistics",
+    directions: ["situation-center", "video-analytics-ai", "incident-analytics"],
     tag: "Производство · Техника безопасности",
     title: "Система видит, культура не меняется",
     scale: "Производство, пилот на 1 объекте",
@@ -237,10 +237,10 @@ export const cases: Case[] = [
     ],
   },
   {
-    id: "tihiy-sabotazh",
+    id: "quiet-sabotage",
     group: "power",
-    industry: "riteyl",
-    directions: ["situacionnyy-centr", "analitika-incidentov"],
+    industry: "retail",
+    directions: ["situation-center", "incident-analytics"],
     tag: "Ритейл · Запуск нового формата",
     title: "Провал промо из-за тихого саботажа",
     scale: "Сеть из 200 магазинов у дома, пилот на 10 объектах",
@@ -274,10 +274,10 @@ export const cases: Case[] = [
     comment: "Ситуационный центр не просто ловит нарушения, а возвращает CEO реальную власть над исполнением решений.",
   },
   {
-    id: "bunt-logistov",
+    id: "logistics-team-revolt",
     group: "power",
-    industry: "proizvodstvo-i-logistika",
-    directions: ["situacionnyy-centr", "cifrovye-cheklisty"],
+    industry: "manufacturing-logistics",
+    directions: ["situation-center", "digital-checklists"],
     tag: "Логистика · Распределительный центр",
     title: "Бунт логистов: скрытые задержки и сговор смен",
     scale: "Распределительный центр, пилот на 1 объекте",
@@ -310,10 +310,10 @@ export const cases: Case[] = [
     comment: "Кейс показывает не только потери, но и скрытый конфликт между формальным и реальным управлением.",
   },
   {
-    id: "horeca-servis",
+    id: "horeca-service",
     group: "power",
     industry: "horeca",
-    directions: ["situacionnyy-centr", "analitika-incidentov"],
+    directions: ["situation-center", "incident-analytics"],
     tag: "HoReCa · Сервис и лояльность",
     title: "Контроль вместо хаоса",
     scale: "Сеть из 20 ресторанов, пилот на 10 объектах",
@@ -346,10 +346,10 @@ export const cases: Case[] = [
     comment: "В ресторанном бизнесе между решением собственника и впечатлением гостя всего несколько минут. Ситуационный центр становится инструментом контроля качества исполнения, а не только нарушений.",
   },
   {
-    id: "utechka-plana-optimizacii",
+    id: "optimization-plan-leak",
     group: "power",
     industry: null,
-    directions: ["situacionnyy-centr", "analitika-incidentov"],
+    directions: ["situation-center", "incident-analytics"],
     tag: "Группа компаний · Трансформация",
     title: "Утечка плана оптимизации",
     scale: "Группа компаний, 1 объект управления",
@@ -381,10 +381,10 @@ export const cases: Case[] = [
     comment: "Ситуационный центр — инструмент удержания власти CEO во время изменений.",
   },
   {
-    id: "bunt-regionalnyh-direktorov",
+    id: "regional-directors-revolt",
     group: "analysis",
-    industry: "riteyl",
-    directions: ["situacionnyy-centr", "analitika-incidentov", "cifrovye-cheklisty"],
+    industry: "retail",
+    directions: ["situation-center", "incident-analytics", "digital-checklists"],
     tag: "Ритейл · Мерчендайзинг",
     title: "Бунт региональных директоров",
     scale: "Сеть из 420 магазинов у дома, пилот на 50 объектах",
@@ -425,10 +425,10 @@ export const cases: Case[] = [
     ],
   },
   {
-    id: "tenevaya-shema-v-logistike",
+    id: "shadow-logistics-scheme",
     group: "analysis",
-    industry: "proizvodstvo-i-logistika",
-    directions: ["situacionnyy-centr", "analitika-incidentov"],
+    industry: "manufacturing-logistics",
+    directions: ["situation-center", "incident-analytics"],
     tag: "Логистика · Теневая схема в РЦ",
     title: "Откаты, сговор, битый груз",
     scale: "Распределительный центр, обслуживает сеть из 300 магазинов",
@@ -457,10 +457,10 @@ export const cases: Case[] = [
     comment: "Ситуационный центр вскрыл организованную схему, недоступную традиционным методам контроля.",
   },
   {
-    id: "anomalnoe-skoplenie-tovara",
+    id: "abnormal-stock-buildup",
     group: "operator",
-    industry: "riteyl",
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii"],
+    industry: "retail",
+    directions: ["situation-center", "video-analytics-ai"],
     tag: "Ритейл · Работа оператора СЦ",
     title: "Аномальное скопление товара",
     scale: "Гипермаркет, пилот на 1 объекте",
@@ -494,10 +494,10 @@ export const cases: Case[] = [
     ],
   },
   {
-    id: "otkrytaya-dver-sklada",
+    id: "open-warehouse-door",
     group: "operator",
-    industry: "proizvodstvo-i-logistika",
-    directions: ["situacionnyy-centr", "sistemy-bezopasnosti"],
+    industry: "manufacturing-logistics",
+    directions: ["situation-center", "security-systems"],
     tag: "Склад · Приёмка товара",
     title: "Дверь открыта, товар уходит мимо контроля",
     scale: "Сеть из 10 распределительных центров, пилот на 1 объекте",
@@ -532,10 +532,10 @@ export const cases: Case[] = [
     ],
   },
   {
-    id: "fiktivnye-vozvraty",
+    id: "fake-returns",
     group: "operator",
-    industry: "riteyl",
-    directions: ["situacionnyy-centr", "videoanalitika-i-ii"],
+    industry: "retail",
+    directions: ["situation-center", "video-analytics-ai"],
     tag: "Ритейл · Кассовые операции",
     title: "Фиктивные возвраты",
     scale: "Супермаркет, пилот на 1 объекте",
@@ -561,4 +561,4 @@ export const cases: Case[] = [
 export const caseById = (id: string) => cases.find((c) => c.id === id);
 export const casesByIndustry = (slug: string) => cases.filter((c) => c.industry === slug);
 export const casesByDirection = (slug: string) => cases.filter((c) => c.directions.includes(slug));
-export const featuredCases = ["tenevaya-shema-v-logistike", "bunt-regionalnyh-direktorov", "raspoznavanie-lic"].map((id) => caseById(id)!);
+export const featuredCases = ["shadow-logistics-scheme", "regional-directors-revolt", "face-recognition"].map((id) => caseById(id)!);

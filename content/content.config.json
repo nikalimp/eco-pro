@@ -46,27 +46,27 @@
     "blog_prefix": "/blog/",
     "internal": [
       "/blog/",
-      "/keisy/",
-      "/otrasli/riteyl/",
-      "/otrasli/horeca/",
-      "/otrasli/proizvodstvo-i-logistika/",
-      "/dokumenty/"
+      "/cases/",
+      "/industries/retail/",
+      "/industries/horeca/",
+      "/industries/manufacturing-logistics/",
+      "/documents/"
     ],
     "services": {
       "list": [
-        "situacionnyy-centr",
-        "videoanalitika-i-ii",
-        "cifrovye-cheklisty",
-        "analitika-incidentov",
-        "sistemy-bezopasnosti"
+        "situation-center",
+        "video-analytics-ai",
+        "digital-checklists",
+        "incident-analytics",
+        "security-systems"
       ],
-      "prefix": "/napravleniya/"
+      "prefix": "/services/"
     },
     "service_extra": [
       "/#vstrecha"
     ],
     "catalogs": [
-      "/keisy/"
+      "/cases/"
     ]
   },
   "rules": {

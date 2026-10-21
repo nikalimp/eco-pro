@@ -10,16 +10,16 @@ export const metadata: Metadata = {
   title: "Кейсы внедрения ситуационного центра и ИИ",
   description:
     "13 кейсов ECO-PRO: 28 млн ₽ экономии в логистике, исполнение стандартов с 32% до 91% в сети из 420 магазинов, кражи −40%, ожидание на кассах −47%.",
-  alternates: { canonical: "/keisy/" },
+  alternates: { canonical: "/cases/" },
 };
 
 const order: CaseGroup[] = ["ai", "power", "analysis", "operator"];
 
 export default function Cases() {
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Кейсы", path: "/keisy/" }];
+  const crumbs = [{ name: "Главная", path: "/" }, { name: "Кейсы", path: "/cases/" }];
   return (
     <>
-      <JsonLd data={graph(itemList("Кейсы внедрения ECO-PRO", cases.map((c) => ({ name: `${c.title}: ${c.value} — ${c.valueLabel}`, path: `/keisy/${c.id}/` }))), breadcrumbs(crumbs))} />
+      <JsonLd data={graph(itemList("Кейсы внедрения ECO-PRO", cases.map((c) => ({ name: `${c.title}: ${c.value} — ${c.valueLabel}`, path: `/cases/${c.id}/` }))), breadcrumbs(crumbs))} />
       <Section className="pt-10 pb-8 sm:pb-10">
         <Container>
           <Crumbs items={[crumbs[0], { name: "Кейсы" }]} />

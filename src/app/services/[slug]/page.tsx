@@ -28,16 +28,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: { absolute: d.metaTitle },
     description: d.metaDescription,
-    alternates: { canonical: `/napravleniya/${d.slug}/` },
-    openGraph: { title: d.metaTitle, description: d.metaDescription, url: `${site.url}/napravleniya/${d.slug}/`, images: ["/og.png"] },
+    alternates: { canonical: `/services/${d.slug}/` },
+    openGraph: { title: d.metaTitle, description: d.metaDescription, url: `${site.url}/services/${d.slug}/`, images: ["/og.png"] },
   };
 }
 
 export default async function DirectionPage({ params }: { params: Promise<{ slug: string }> }) {
   const d = directionBySlug((await params).slug);
   if (!d) notFound();
-  const path = `/napravleniya/${d.slug}/`;
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Направления", path: "/napravleniya/" }, { name: d.code, path }];
+  const path = `/services/${d.slug}/`;
+  const crumbs = [{ name: "Главная", path: "/" }, { name: "Направления", path: "/services/" }, { name: d.code, path }];
   const cs = casesByDirection(d.slug).slice(0, 6);
   const inds = d.industries.map(industryBySlug).filter((x) => x !== undefined);
   const rel = d.related.map((s) => directions.find((x) => x.slug === s)).filter((x) => x !== undefined);
@@ -87,14 +87,14 @@ export default async function DirectionPage({ params }: { params: Promise<{ slug
         </Section>
       )}
 
-      {d.slug === "sistemy-bezopasnosti" && (
+      {d.slug === "security-systems" && (
         <Section id="dokumenty" className="border-t">
           <Container>
             <SectionHead eyebrow="лицензии и допуски" title="Работаем по лицензии МЧС и с допусками СРО" text="Проектирование, монтаж и обслуживание выполняет ООО «Император Техно» — компания экосистемы ECO-PRO." />
             <div data-reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{licenses.map((x) => <DocCard key={x.id} d={x} />)}</div>
             <p className="mt-10 text-center text-sm font-medium uppercase tracking-[0.12em] text-muted-foreground">Партнёр производителей</p>
             <p className="mx-auto mt-3 max-w-3xl text-center text-lg">{partners.map((x) => x.title.split(" — ")[0]).filter((v, i, a) => a.indexOf(v) === i).join(" · ")}</p>
-            <div className="mt-8 text-center"><Link href="/dokumenty/" className="font-medium underline underline-offset-4 hover:text-brand">Все сертификаты и рекомендательные письма</Link></div>
+            <div className="mt-8 text-center"><Link href="/documents/" className="font-medium underline underline-offset-4 hover:text-brand">Все сертификаты и рекомендательные письма</Link></div>
           </Container>
           <DocLightboxes docs={licenses} />
         </Section>

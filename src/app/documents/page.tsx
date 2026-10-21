@@ -11,14 +11,14 @@ import { breadcrumbs, graph, itemList } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Лицензии, СРО и рекомендации — ECO-PRO",
   description: "Лицензия МЧС, допуски СРО на строительство и проектирование, сертификаты DSSL, TRASSIR, Parsec и рекомендательные письма Магнита, Stockmann, «Домового» и Green.",
-  alternates: { canonical: "/dokumenty/" },
+  alternates: { canonical: "/documents/" },
 };
 
 export default function Documents() {
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Документы и рекомендации", path: "/dokumenty/" }];
+  const crumbs = [{ name: "Главная", path: "/" }, { name: "Документы и рекомендации", path: "/documents/" }];
   return (
     <>
-      <JsonLd data={graph(itemList("Лицензии, допуски и рекомендации ECO-PRO", allDocs.map((d) => ({ name: `${d.title}${d.meta ? ` (${d.meta})` : ""}`, path: `/dokumenty/#doc-${d.id}` }))), breadcrumbs(crumbs))} />
+      <JsonLd data={graph(itemList("Лицензии, допуски и рекомендации ECO-PRO", allDocs.map((d) => ({ name: `${d.title}${d.meta ? ` (${d.meta})` : ""}`, path: `/documents/#doc-${d.id}` }))), breadcrumbs(crumbs))} />
       <Section id="dokumenty" className="pt-10 pb-8 sm:pb-10">
         <Container>
           <Crumbs items={[crumbs[0], { name: "Документы и рекомендации" }]} />
@@ -52,7 +52,7 @@ export default function Documents() {
           <SectionHead eyebrow="производители" title="Сертифицированный партнёр производителей" text="Статусы партнёра и сертификаты установщика ведущих производителей видеонаблюдения, СКУД и оборудования." />
           <div data-reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{partners.map((d) => <DocCard key={d.id} d={d} compact />)}</div>
           <p className="mt-8 text-center text-muted-foreground">
-            Подробнее о проектировании, монтаже и обслуживании — на странице <Link href="/napravleniya/sistemy-bezopasnosti/" className="font-medium text-foreground underline underline-offset-4 hover:text-brand">PRO-TECHNO</Link>.
+            Подробнее о проектировании, монтаже и обслуживании — на странице <Link href="/services/security-systems/" className="font-medium text-foreground underline underline-offset-4 hover:text-brand">PRO-TECHNO</Link>.
           </p>
         </Container>
       </Section>

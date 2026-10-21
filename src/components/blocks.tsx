@@ -15,7 +15,7 @@ import { Button } from "./ui/button";
 
 export function CaseCard({ c }: { c: Case }) {
   return (
-    <Link href={`/keisy/${c.id}/`} className="spot group relative flex flex-col overflow-hidden border bg-background p-6 transition-colors hover:border-foreground sm:p-8">
+    <Link href={`/cases/${c.id}/`} className="spot group relative flex flex-col overflow-hidden border bg-background p-6 transition-colors hover:border-foreground sm:p-8">
       <span className="card-sweep" aria-hidden="true" />
       <p className="text-xs font-light uppercase tracking-[0.12em] text-muted-foreground">{c.tag}</p>
       <h3 className="mt-3 text-lg font-bold group-hover:text-brand">{c.title}</h3>
@@ -37,7 +37,7 @@ export function CaseGrid({ items }: { items: Case[] }) {
 
 export function DirectionCard({ d }: { d: Direction }) {
   return (
-    <Link href={`/napravleniya/${d.slug}/`} className="spot group relative flex flex-col overflow-hidden border bg-background p-6 transition-colors hover:border-foreground sm:p-8">
+    <Link href={`/services/${d.slug}/`} className="spot group relative flex flex-col overflow-hidden border bg-background p-6 transition-colors hover:border-foreground sm:p-8">
       <span className="card-sweep" aria-hidden="true" />
       <p className="text-sm font-medium text-brand">{d.code}</p>
       <h3 className="mt-2 text-xl font-bold">{d.title}</h3>
@@ -50,7 +50,7 @@ export function DirectionCard({ d }: { d: Direction }) {
 export function IndustryCard({ i }: { i: Industry }) {
   const Ill = industryIllustration[i.slug];
   return (
-    <Link href={`/otrasli/${i.slug}/`} className="spot spot-dark group relative flex flex-col overflow-hidden border border-transparent bg-ink text-white dark:border-border">
+    <Link href={`/industries/${i.slug}/`} className="spot spot-dark group relative flex flex-col overflow-hidden border border-transparent bg-ink text-white dark:border-border">
       {Ill && <Ill className="h-auto w-full border-b border-white/10 text-white/80 transition-transform duration-500 group-hover:scale-[1.03]" />}
       <span className="flex flex-1 flex-col p-6 sm:p-8">
         <span className="relative text-sm font-medium text-brand">{i.label}</span>
