@@ -23,12 +23,13 @@ function DesktopItem({ href, label }: { href: string; label: string }) {
         {label}
         <ChevronDown className="size-3.5 transition-transform group-hover:rotate-180" aria-hidden="true" />
       </Link>
-      <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-2 opacity-0 transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+      <div className="invisible absolute left-1/2 top-full z-50 w-max -translate-x-1/2 pt-2 opacity-0 transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+        {/* Код направления — отдельной колонкой, названия в одну строку и по одному краю (правки Сергея 22.10) */}
         <ul className="border bg-background p-2 shadow-lg">
           {sub.map((s) => (
             <li key={s.href}>
-              <Link href={s.href} className="block px-3 py-2 hover:bg-card">
-                {s.code && <span className="mr-1.5 text-xs text-brand">{s.code}</span>}
+              <Link href={s.href} className={s.code ? "grid grid-cols-[6.5rem_auto] items-baseline whitespace-nowrap px-4 py-2.5 hover:bg-card" : "block whitespace-nowrap px-4 py-2.5 hover:bg-card"}>
+                {s.code && <span className="text-xs font-medium text-brand">{s.code}</span>}
                 {s.label}
               </Link>
             </li>
@@ -72,7 +73,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
       {/* Три колонки: логотип слева, меню строго по центру, действия справа */}
       <Container className="grid h-16 grid-cols-[1fr_auto] items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
-        <Link href="/" className="justify-self-start"><Logo /></Link>
+        <Link href="/" className="shrink-0 justify-self-start"><Logo /></Link>
         <nav aria-label="Основное меню" className="hidden items-center gap-8 text-[15px] font-medium lg:flex">
           {nav.map((n) => <DesktopItem key={n.href} {...n} />)}
         </nav>
