@@ -342,3 +342,8 @@ main { counter-reset: sec; }
 .vf-on-red .rec::before { background: #fff; }
 .vf-on-red .chip-fill { background: #fff; color: var(--brand-solid); border-color: #fff; }
 }
+
+/* Карта по субъектам РФ (правки 22.10): регионы с проектами подсвечены целиком, по наведению загораются */
+.geo-reg { fill: var(--card); stroke: var(--border); stroke-width: .6; stroke-linejoin: round; }
+.geo-reg.is-on { fill: rgb(213 19 23 / 38%); stroke: var(--brand-solid); stroke-width: .8; cursor: pointer; outline: none; transition: fill .2s; }
+.geo-reg.is-on:hover, .geo-reg.is-on:focus-visible { fill: var(--brand-solid); stroke: #fff; stroke-width: 1.2; }
