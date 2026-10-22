@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils";
 // Карточки документов с превью. Клик открывает скан крупно — окно на CSS :target, работает без JavaScript.
 export function DocCard({ d, compact }: { d: Doc; compact?: boolean }) {
   return (
-    <a href={`#doc-${d.id}`} className="spot group flex flex-col border bg-background transition-colors hover:border-foreground">
+    <a href={`#doc-${d.id}`} className="spot group flex min-w-0 flex-col border bg-background transition-colors hover:border-foreground">
       <span className="relative block overflow-hidden border-b bg-card p-4">
         <Image src={d.image.replace(".webp", "-sm.webp")} alt={`${d.title} — скан документа`} width={480} height={480} className="mx-auto h-44 w-auto rounded-sm object-contain shadow-sm transition-transform duration-500 group-hover:scale-[1.03] sm:h-52" />
       </span>
       <span className={cn("flex flex-1 flex-col p-5", compact && "p-4")}>
-        <span className="font-bold">{d.title}</span>
-        <span className="mt-1 text-xs text-muted-foreground">{d.issuer}{d.meta ? ` · ${d.meta}` : ""}</span>
+        <span className="font-bold [overflow-wrap:anywhere] [hyphens:auto]" lang="ru">{d.title}</span>
+        <span className="mt-1 text-xs text-muted-foreground [overflow-wrap:anywhere]">{d.issuer}{d.meta ? ` · ${d.meta}` : ""}</span>
         {!compact && <span className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{d.text}</span>}
       </span>
     </a>

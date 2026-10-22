@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BrainCircuit, Check, Crown, Database, ShieldCheck, X as Cross } from "lucide-react";
+import { ArrowRight, BrainCircuit, Check, Crown, Database, ShieldCheck, Users, X as Cross } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { site } from "@/content/site";
 import { industries } from "@/content/industries";
@@ -24,7 +24,7 @@ import { faqSchema, graph } from "@/lib/schema";
 
 // Блоки главной — specs/02-spec.md §5 (v0.5, правки 14.10)
 export default function Home() {
-  const effectIcons = [Database, ShieldCheck, Crown, BrainCircuit];
+  const entryIcons = [Crown, ShieldCheck, Database];
   const posts = getPosts().slice(0, 4);
   const h = home.hero;
   return (
@@ -36,17 +36,18 @@ export default function Home() {
         <span className="hero-grid" aria-hidden="true" />
         <Container className="relative text-center">
           <p className="hero-in mb-6 text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">{h.eyebrow}</p>
-          <h1 className="hero-in text-[44px] font-black leading-[0.98] tracking-tight sm:text-7xl lg:text-8xl">
+          <h1 className="hero-in text-[40px] font-extrabold leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl">
             {h.h1Line1}
             <br />
             <span className="text-brand">[</span>{h.h1Bracket}<span className="text-brand">]</span>
           </h1>
-          <p className="hero-in mx-auto mt-8 max-w-2xl text-lg font-medium leading-snug text-balance sm:text-2xl">{h.subtitle}</p>
+          <p className="hero-in mx-auto mt-7 max-w-2xl text-lg font-medium leading-snug text-balance sm:text-[22px]">{h.subtitle}</p>
           <div className="hero-in mt-8 flex justify-center">
             <Button asChild size="lg" className="btn-shine"><a href={site.cta.href}>{site.cta.label}</a></Button>
           </div>
         </Container>
-        <Container className="relative mt-14">
+        {/* На телефоне дашборд скрыт: первый экран сразу ведёт к точкам входа, как на pro-nas.pro (ревью 22.10) */}
+        <Container className="relative mt-14 hidden sm:block">
           <HeroDashboard />
         </Container>
         <div aria-label={home.clientsTitle} role="region" className="marquee relative mt-14 overflow-hidden py-2">
@@ -59,18 +60,47 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 2. Тезис крупным текстом + эффект для руководителя (иконки вместо номеров) */}
-      <Section className="border-t">
+      {/* 2. Три точки входа для разных ЛПР — как на pro-nas.pro (правки Сергея 22.10) */}
+      <Section className="bg-card py-12 sm:py-16">
         <Container>
-          <h2 data-reveal className="mx-auto max-w-4xl text-center text-2xl font-bold leading-snug tracking-tight text-balance sm:text-4xl">{home.statement}</h2>
-          <div data-reveal className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {home.effects.map((e, n) => {
-              const Icon = effectIcons[n];
+          <h2 className="sr-only">{home.entryPoints.title}</h2>
+          <div data-reveal className="grid gap-4 md:grid-cols-3">
+            {home.entryPoints.items.map((e, n) => {
+              const Icon = entryIcons[n];
               return (
-                <div key={e.title} className="spot border bg-background p-6">
+                <Link key={e.title} href={e.href} className="spot group flex flex-col border bg-background p-6 transition-colors hover:border-foreground sm:p-8">
                   <span className="flex size-11 items-center justify-center bg-brand-bg text-brand"><Icon className="size-5" /></span>
-                  <h3 className="mt-5 text-lg font-bold">{e.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{e.text}</p>
+                  <h3 className="mt-5 text-xl font-bold">{e.title}</h3>
+                  <p className="mt-2 flex-1 leading-relaxed text-muted-foreground">{e.text}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium group-hover:text-brand">{e.cta}<ArrowRight className="size-4" aria-hidden="true" /></span>
+                </Link>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+
+      {/* 2б. Традиции и инновации: естественный интеллект + искусственный (правки Сергея 22.10) */}
+      <Section>
+        <Container>
+          <SectionHead eyebrow={home.traditions.eyebrow} title={home.traditions.title} text={home.traditions.text} />
+          <div data-reveal className="grid gap-4 lg:grid-cols-2">
+            {[home.traditions.human, home.traditions.ai].map((c, i) => {
+              const dark = i === 1;
+              const Icon = dark ? BrainCircuit : Users;
+              return (
+                <div key={c.label} className={dark ? "spot spot-dark border border-transparent bg-ink p-8 text-white dark:border-border sm:p-10" : "spot border bg-background p-8 sm:p-10"}>
+                  <p className={dark ? "flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-white/60" : "flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground"}>
+                    <Icon className={dark ? "size-4 text-brand-on-ink" : "size-4 text-brand"} aria-hidden="true" />{c.label}
+                  </p>
+                  <h3 className="mt-3 text-2xl font-bold sm:text-3xl">{c.title}</h3>
+                  <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {c.items.map((it) => (
+                      <li key={it} className={dark ? "flex gap-2 text-white/85" : "flex gap-2 text-foreground/80"}>
+                        <Check className={dark ? "mt-1 size-4 shrink-0 text-brand-on-ink" : "mt-1 size-4 shrink-0 text-brand"} aria-hidden="true" />{it}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               );
             })}
@@ -87,15 +117,15 @@ export default function Home() {
             <input type="radio" name="ba" id="ba-after" className="sr-only" />
             <div className="ba-tabs relative mx-auto mb-8 grid w-fit grid-cols-2 rounded-full border p-1 text-sm font-medium">
               <span className="ba-pill" aria-hidden="true" />
-              <label htmlFor="ba-before" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">До</label>
-              <label htmlFor="ba-after" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">После</label>
+              <label htmlFor="ba-before" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">{home.about.problemsTitle}</label>
+              <label htmlFor="ba-after" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">{home.about.principlesTitle}</label>
             </div>
             <div className="ba-before">
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {home.about.problems.map((p) => (
                   <div key={p.title} className="border border-brand/25 bg-bad p-6">
                     <p className="flex items-center gap-2 font-bold"><Cross className="size-4 text-brand" aria-hidden="true" />{p.title}</p>
-                    <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{p.text}</p>
+                    <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.text}</p>
                   </div>
                 ))}
               </div>
@@ -105,7 +135,7 @@ export default function Home() {
                 {home.about.principles.map((p) => (
                   <div key={p.title} className="border border-positive/30 bg-good p-6">
                     <p className="flex items-center gap-2 font-bold"><Check className="size-4 text-positive" aria-hidden="true" />{p.title}</p>
-                    <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{p.text}</p>
+                    <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.text}</p>
                   </div>
                 ))}
               </div>
@@ -157,15 +187,16 @@ export default function Home() {
       </Section>
 
       {/* 8. Слово основателя */}
-      <Section className="bg-card">
+      {/* Слово основателя — крупно на чёрном: главная идея «власть CEO» (ревью 22.10) */}
+      <Section className="bg-ink text-white">
         <Container>
-          <figure data-reveal className="mx-auto flex max-w-4xl flex-col items-center gap-8 text-center sm:flex-row sm:text-left">
-            <Image src="/images/team/sergey-malyutenkov-studio.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={200} height={200} className="size-40 shrink-0 rounded-md object-cover" />
+          <figure data-reveal className="mx-auto flex max-w-5xl flex-col items-center gap-10 text-center sm:flex-row sm:text-left">
+            <Image src="/images/team/sergey-malyutenkov-studio.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={200} height={200} className="size-44 shrink-0 rounded-md object-cover" />
             <div>
-              <blockquote className="text-lg leading-relaxed">«{home.ceo.quote}»</blockquote>
+              <blockquote className="text-xl font-medium leading-relaxed sm:text-2xl">«{home.ceo.quote}»</blockquote>
               <figcaption className="mt-4">
                 <p className="font-bold">{home.ceo.name} — {home.ceo.role}</p>
-                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="mt-1 inline-block text-sm text-brand underline underline-offset-4">{home.ceo.channelLabel} ›</a>
+                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="mt-1 inline-block text-sm text-brand-on-ink underline underline-offset-4">{home.ceo.channelLabel} ›</a>
               </figcaption>
             </div>
           </figure>
@@ -185,17 +216,18 @@ export default function Home() {
       <Section id="dokumenty" className="bg-card">
         <Container>
           <SectionHead eyebrow="доверие" title="Рекомендации и допуски" text="Крупные сети рекомендуют нас как надёжного партнёра по системам безопасности. Работы выполняем по лицензии МЧС и с допусками СРО." />
+          {/* Письма клиентов и лицензии — разные истории, поэтому два отдельных ряда (правки Сергея 22.10) */}
+          <h3 className="mb-5 text-lg font-bold">Рекомендательные письма клиентов</h3>
           <div data-reveal className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {letters.map((d) => <DocCard key={d.id} d={d} compact />)}
           </div>
-          <ul data-reveal className="mt-8 flex flex-wrap justify-center gap-2">
-            {licenses.slice(0, 3).map((d) => (
-              <li key={d.id}><a href={`#doc-${d.id}`} className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-sm font-medium hover:border-foreground"><Check className="size-4 text-positive" aria-hidden="true" />{d.title}{d.meta ? <span className="text-muted-foreground">· {d.meta}</span> : null}</a></li>
-            ))}
-          </ul>
-          <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/documents/">Все документы и сертификаты</Link></Button></div>
+          <h3 className="mb-5 mt-14 border-t pt-10 text-lg font-bold">Лицензии и допуски</h3>
+          <div data-reveal className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {licenses.map((d) => <DocCard key={d.id} d={d} compact />)}
+          </div>
+          <div className="mt-10 text-center"><Button asChild variant="outline"><Link href="/documents/">Все документы и сертификаты</Link></Button></div>
         </Container>
-        <DocLightboxes docs={[...letters, ...licenses.slice(0, 3)]} />
+        <DocLightboxes docs={[...letters, ...licenses]} />
       </Section>
 
       {/* 9а. Лид-магнит: пилот за 2 недели */}
@@ -229,9 +261,17 @@ export default function Home() {
             {home.audience.roles.map((r) => (
               <div key={r.title} className="spot border bg-background p-6">
                 <h3 className="font-bold">{r.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{r.text}</p>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">{r.text}</p>
               </div>
             ))}
+          </div>
+          {/* Вход для действующих клиентов — как на pro-nas.pro */}
+          <div data-reveal className="mt-4 flex flex-col items-start justify-between gap-4 border border-transparent bg-ink p-6 text-white dark:border-border sm:flex-row sm:items-center sm:p-8">
+            <div>
+              <h3 className="font-bold">{home.audience.client.title}</h3>
+              <p className="mt-1 text-white/75">{home.audience.client.text}</p>
+            </div>
+            <Button asChild variant="outline" className="shrink-0 border-white/30 bg-transparent text-white hover:bg-white hover:text-black"><Link href={home.audience.client.href}>{home.audience.client.cta}</Link></Button>
           </div>
         </Container>
       </Section>
@@ -246,7 +286,7 @@ export default function Home() {
               <li key={s.title} className="relative">
                 <span className="pipeline-dot" aria-hidden="true">{i + 1}</span>
                 <h3 className="text-xl font-bold">{s.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{s.text}</p>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">{s.text}</p>
               </li>
             ))}
           </ol>
@@ -304,7 +344,7 @@ export default function Home() {
                 <Link key={p.slug} href={`/blog/${p.slug}/`} className="spot group border bg-background p-6 transition-colors hover:border-black sm:p-8">
                   <p className="text-sm text-muted-foreground"><time dateTime={p.date}>{formatDate(p.date)}</time></p>
                   <h3 className="mt-2 text-lg font-bold group-hover:text-brand">{p.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{p.description}</p>
+                  <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.description}</p>
                 </Link>
               ))}
             </div>

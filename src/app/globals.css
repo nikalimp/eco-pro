@@ -272,3 +272,7 @@
   .pipeline-line { left: 16px; right: 16px; top: 15px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, var(--brand), var(--brand) 25%, var(--border) 25%); }
   .pipeline-dot { left: 0; top: -56px; }
 }
+
+/* Подписи опорных городов на карте России: видны с планшета, на телефоне карта слишком мелкая */
+.geo-label { font-size: 15px; font-weight: 600; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+@media (max-width: 639px) { .geo-label { display: none; } }

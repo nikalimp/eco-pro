@@ -12,6 +12,7 @@
 - **Хостинг:** REG.RU (Apache за nginx, ISPmanager). SSH из GitHub Actions закрыт, поэтому выкладка идёт по FTP.
 - **HTTPS:** редирект включается галочкой в ISPmanager. В `.htaccess` только www → без www и слеш на конце.
 - **Выкладка:** `.github/workflows/deploy.yml` → `nikalimp/deploy-kit` (SSH → FTP). План 3 — `scripts/deploy-site.sh` с Mac.
+- **Автовыкладка кода (с 22.10):** PR из веток `claude/*` проверяет `.github/workflows/pr.yml` (deploy-kit): зелёный `npm run check` — PR сливается сам и выкладывается тем же запуском. Ника ждут только PR с меткой `needs-nik`: `.github/`, `publish.json`, секреты, удаление страниц без 301, юридические тексты. Статьи контент-завода — сразу в `main`.
 - **Паспорт:** `publish.json`, адаптер `ssh-ftp`, режим `auto`.
 - **Секреты Actions:** `FTP_HOST`, `FTP_USER`, `FTP_PASS`, `FTP_DIR=www/eco-pro.nikalimp.ru/`.
 - **Не в git:** `public/api/config.php` с токеном бота и почтой лежит только на хостинге. Выкладка его не трогает.
