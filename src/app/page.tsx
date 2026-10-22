@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BrainCircuit, Check, Crown, Database, ShieldCheck, Users, X as Cross } from "lucide-react";
+import { ArrowRight, BrainCircuit, Check, Crown, Database, ShieldCheck, Users, X as Cross } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { site } from "@/content/site";
 import { industries } from "@/content/industries";
@@ -36,17 +36,18 @@ export default function Home() {
         <span className="hero-grid" aria-hidden="true" />
         <Container className="relative text-center">
           <p className="hero-in mb-6 text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">{h.eyebrow}</p>
-          <h1 className="hero-in text-[44px] font-black leading-[0.98] tracking-tight sm:text-7xl lg:text-8xl">
+          <h1 className="hero-in text-[40px] font-extrabold leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl">
             {h.h1Line1}
             <br />
             <span className="text-brand">[</span>{h.h1Bracket}<span className="text-brand">]</span>
           </h1>
-          <p className="hero-in mx-auto mt-8 max-w-2xl text-lg font-medium leading-snug text-balance sm:text-2xl">{h.subtitle}</p>
+          <p className="hero-in mx-auto mt-7 max-w-2xl text-lg font-medium leading-snug text-balance sm:text-[22px]">{h.subtitle}</p>
           <div className="hero-in mt-8 flex justify-center">
             <Button asChild size="lg" className="btn-shine"><a href={site.cta.href}>{site.cta.label}</a></Button>
           </div>
         </Container>
-        <Container className="relative mt-14">
+        {/* На телефоне дашборд скрыт: первый экран сразу ведёт к точкам входа, как на pro-nas.pro (ревью 22.10) */}
+        <Container className="relative mt-14 hidden sm:block">
           <HeroDashboard />
         </Container>
         <div aria-label={home.clientsTitle} role="region" className="marquee relative mt-14 overflow-hidden py-2">
@@ -67,11 +68,12 @@ export default function Home() {
             {home.entryPoints.items.map((e, n) => {
               const Icon = entryIcons[n];
               return (
-                <div key={e.title} className="spot border bg-background p-6 sm:p-8">
+                <Link key={e.title} href={e.href} className="spot group flex flex-col border bg-background p-6 transition-colors hover:border-foreground sm:p-8">
                   <span className="flex size-11 items-center justify-center bg-brand-bg text-brand"><Icon className="size-5" /></span>
                   <h3 className="mt-5 text-xl font-bold">{e.title}</h3>
-                  <p className="mt-2 leading-relaxed text-muted-foreground">{e.text}</p>
-                </div>
+                  <p className="mt-2 flex-1 leading-relaxed text-muted-foreground">{e.text}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium group-hover:text-brand">{e.cta}<ArrowRight className="size-4" aria-hidden="true" /></span>
+                </Link>
               );
             })}
           </div>
@@ -115,15 +117,15 @@ export default function Home() {
             <input type="radio" name="ba" id="ba-after" className="sr-only" />
             <div className="ba-tabs relative mx-auto mb-8 grid w-fit grid-cols-2 rounded-full border p-1 text-sm font-medium">
               <span className="ba-pill" aria-hidden="true" />
-              <label htmlFor="ba-before" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">До</label>
-              <label htmlFor="ba-after" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">После</label>
+              <label htmlFor="ba-before" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">{home.about.problemsTitle}</label>
+              <label htmlFor="ba-after" className="relative z-10 cursor-pointer rounded-full px-6 py-2.5 text-center sm:px-10">{home.about.principlesTitle}</label>
             </div>
             <div className="ba-before">
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {home.about.problems.map((p) => (
                   <div key={p.title} className="border border-brand/25 bg-bad p-6">
                     <p className="flex items-center gap-2 font-bold"><Cross className="size-4 text-brand" aria-hidden="true" />{p.title}</p>
-                    <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{p.text}</p>
+                    <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.text}</p>
                   </div>
                 ))}
               </div>
@@ -133,7 +135,7 @@ export default function Home() {
                 {home.about.principles.map((p) => (
                   <div key={p.title} className="border border-positive/30 bg-good p-6">
                     <p className="flex items-center gap-2 font-bold"><Check className="size-4 text-positive" aria-hidden="true" />{p.title}</p>
-                    <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{p.text}</p>
+                    <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.text}</p>
                   </div>
                 ))}
               </div>
@@ -185,15 +187,16 @@ export default function Home() {
       </Section>
 
       {/* 8. Слово основателя */}
-      <Section className="bg-card">
+      {/* Слово основателя — крупно на чёрном: главная идея «власть CEO» (ревью 22.10) */}
+      <Section className="bg-ink text-white">
         <Container>
-          <figure data-reveal className="mx-auto flex max-w-4xl flex-col items-center gap-8 text-center sm:flex-row sm:text-left">
-            <Image src="/images/team/sergey-malyutenkov-studio.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={200} height={200} className="size-40 shrink-0 rounded-md object-cover" />
+          <figure data-reveal className="mx-auto flex max-w-5xl flex-col items-center gap-10 text-center sm:flex-row sm:text-left">
+            <Image src="/images/team/sergey-malyutenkov-studio.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={200} height={200} className="size-44 shrink-0 rounded-md object-cover" />
             <div>
-              <blockquote className="text-lg leading-relaxed">«{home.ceo.quote}»</blockquote>
+              <blockquote className="text-xl font-medium leading-relaxed sm:text-2xl">«{home.ceo.quote}»</blockquote>
               <figcaption className="mt-4">
                 <p className="font-bold">{home.ceo.name} — {home.ceo.role}</p>
-                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="mt-1 inline-block text-sm text-brand underline underline-offset-4">{home.ceo.channelLabel} ›</a>
+                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="mt-1 inline-block text-sm text-brand-on-ink underline underline-offset-4">{home.ceo.channelLabel} ›</a>
               </figcaption>
             </div>
           </figure>
@@ -258,9 +261,17 @@ export default function Home() {
             {home.audience.roles.map((r) => (
               <div key={r.title} className="spot border bg-background p-6">
                 <h3 className="font-bold">{r.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{r.text}</p>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">{r.text}</p>
               </div>
             ))}
+          </div>
+          {/* Вход для действующих клиентов — как на pro-nas.pro */}
+          <div data-reveal className="mt-4 flex flex-col items-start justify-between gap-4 border border-transparent bg-ink p-6 text-white dark:border-border sm:flex-row sm:items-center sm:p-8">
+            <div>
+              <h3 className="font-bold">{home.audience.client.title}</h3>
+              <p className="mt-1 text-white/75">{home.audience.client.text}</p>
+            </div>
+            <Button asChild variant="outline" className="shrink-0 border-white/30 bg-transparent text-white hover:bg-white hover:text-black"><Link href={home.audience.client.href}>{home.audience.client.cta}</Link></Button>
           </div>
         </Container>
       </Section>
@@ -275,7 +286,7 @@ export default function Home() {
               <li key={s.title} className="relative">
                 <span className="pipeline-dot" aria-hidden="true">{i + 1}</span>
                 <h3 className="text-xl font-bold">{s.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{s.text}</p>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">{s.text}</p>
               </li>
             ))}
           </ol>
@@ -333,7 +344,7 @@ export default function Home() {
                 <Link key={p.slug} href={`/blog/${p.slug}/`} className="spot group border bg-background p-6 transition-colors hover:border-black sm:p-8">
                   <p className="text-sm text-muted-foreground"><time dateTime={p.date}>{formatDate(p.date)}</time></p>
                   <h3 className="mt-2 text-lg font-bold group-hover:text-brand">{p.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{p.description}</p>
+                  <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.description}</p>
                 </Link>
               ))}
             </div>
