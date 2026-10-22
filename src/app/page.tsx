@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BrainCircuit, Check, Crown, Database, ShieldCheck, X as Cross } from "lucide-react";
+import { BrainCircuit, Check, Crown, Database, ShieldCheck, Users, X as Cross } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { site } from "@/content/site";
 import { industries } from "@/content/industries";
@@ -24,7 +24,7 @@ import { faqSchema, graph } from "@/lib/schema";
 
 // Блоки главной — specs/02-spec.md §5 (v0.5, правки 14.10)
 export default function Home() {
-  const effectIcons = [Database, ShieldCheck, Crown, BrainCircuit];
+  const entryIcons = [Crown, ShieldCheck, Database];
   const posts = getPosts().slice(0, 4);
   const h = home.hero;
   return (
@@ -59,18 +59,46 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 2. Тезис крупным текстом + эффект для руководителя (иконки вместо номеров) */}
-      <Section className="border-t">
+      {/* 2. Три точки входа для разных ЛПР — как на pro-nas.pro (правки Сергея 22.10) */}
+      <Section className="bg-card py-12 sm:py-16">
         <Container>
-          <h2 data-reveal className="mx-auto max-w-4xl text-center text-2xl font-bold leading-snug tracking-tight text-balance sm:text-4xl">{home.statement}</h2>
-          <div data-reveal className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {home.effects.map((e, n) => {
-              const Icon = effectIcons[n];
+          <h2 className="sr-only">{home.entryPoints.title}</h2>
+          <div data-reveal className="grid gap-4 md:grid-cols-3">
+            {home.entryPoints.items.map((e, n) => {
+              const Icon = entryIcons[n];
               return (
-                <div key={e.title} className="spot border bg-background p-6">
+                <div key={e.title} className="spot border bg-background p-6 sm:p-8">
                   <span className="flex size-11 items-center justify-center bg-brand-bg text-brand"><Icon className="size-5" /></span>
-                  <h3 className="mt-5 text-lg font-bold">{e.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{e.text}</p>
+                  <h3 className="mt-5 text-xl font-bold">{e.title}</h3>
+                  <p className="mt-2 leading-relaxed text-muted-foreground">{e.text}</p>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+
+      {/* 2б. Традиции и инновации: естественный интеллект + искусственный (правки Сергея 22.10) */}
+      <Section>
+        <Container>
+          <SectionHead eyebrow={home.traditions.eyebrow} title={home.traditions.title} text={home.traditions.text} />
+          <div data-reveal className="grid gap-4 lg:grid-cols-2">
+            {[home.traditions.human, home.traditions.ai].map((c, i) => {
+              const dark = i === 1;
+              const Icon = dark ? BrainCircuit : Users;
+              return (
+                <div key={c.label} className={dark ? "spot spot-dark border border-transparent bg-ink p-8 text-white dark:border-border sm:p-10" : "spot border bg-background p-8 sm:p-10"}>
+                  <p className={dark ? "flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-white/60" : "flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground"}>
+                    <Icon className={dark ? "size-4 text-brand-on-ink" : "size-4 text-brand"} aria-hidden="true" />{c.label}
+                  </p>
+                  <h3 className="mt-3 text-2xl font-bold sm:text-3xl">{c.title}</h3>
+                  <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {c.items.map((it) => (
+                      <li key={it} className={dark ? "flex gap-2 text-white/85" : "flex gap-2 text-foreground/80"}>
+                        <Check className={dark ? "mt-1 size-4 shrink-0 text-brand-on-ink" : "mt-1 size-4 shrink-0 text-brand"} aria-hidden="true" />{it}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               );
             })}
@@ -185,17 +213,18 @@ export default function Home() {
       <Section id="dokumenty" className="bg-card">
         <Container>
           <SectionHead eyebrow="доверие" title="Рекомендации и допуски" text="Крупные сети рекомендуют нас как надёжного партнёра по системам безопасности. Работы выполняем по лицензии МЧС и с допусками СРО." />
+          {/* Письма клиентов и лицензии — разные истории, поэтому два отдельных ряда (правки Сергея 22.10) */}
+          <h3 className="mb-5 text-lg font-bold">Рекомендательные письма клиентов</h3>
           <div data-reveal className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {letters.map((d) => <DocCard key={d.id} d={d} compact />)}
           </div>
-          <ul data-reveal className="mt-8 flex flex-wrap justify-center gap-2">
-            {licenses.slice(0, 3).map((d) => (
-              <li key={d.id}><a href={`#doc-${d.id}`} className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-sm font-medium hover:border-foreground"><Check className="size-4 text-positive" aria-hidden="true" />{d.title}{d.meta ? <span className="text-muted-foreground">· {d.meta}</span> : null}</a></li>
-            ))}
-          </ul>
-          <div className="mt-8 text-center"><Button asChild variant="outline"><Link href="/documents/">Все документы и сертификаты</Link></Button></div>
+          <h3 className="mb-5 mt-14 border-t pt-10 text-lg font-bold">Лицензии и допуски</h3>
+          <div data-reveal className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {licenses.map((d) => <DocCard key={d.id} d={d} compact />)}
+          </div>
+          <div className="mt-10 text-center"><Button asChild variant="outline"><Link href="/documents/">Все документы и сертификаты</Link></Button></div>
         </Container>
-        <DocLightboxes docs={[...letters, ...licenses.slice(0, 3)]} />
+        <DocLightboxes docs={[...letters, ...licenses]} />
       </Section>
 
       {/* 9а. Лид-магнит: пилот за 2 недели */}
