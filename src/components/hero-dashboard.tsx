@@ -54,16 +54,16 @@ export function HeroDashboard() {
   return (
     <div className="hero-dash-stage">
       <div className="hero-dash dash-beam">
-        <figure className="relative overflow-hidden border border-foreground bg-card text-left shadow-[0_40px_80px_-30px_rgb(0_0_0/0.35)]" aria-label="Пример экрана ситуационного центра PRO-TEST">
-          <div className="flex h-10 items-center justify-between bg-ink px-4 text-[11px] text-white">
-            <span className="flex gap-1.5" aria-hidden="true"><i className="size-2 rounded-full bg-white/30" /><i className="size-2 rounded-full bg-white/30" /><i className="size-2 rounded-full bg-white/30" /></span>
+        <figure className="relative overflow-hidden border border-input bg-card text-left" aria-label="Пример экрана ситуационного центра PRO-TEST">
+          <div className="tech flex h-10 items-center justify-between border-b bg-secondary px-4 text-[10px] text-white">
+            <span className="flex gap-1.5" aria-hidden="true"><i className="size-2 bg-white/30" /><i className="size-2 bg-white/30" /><i className="size-2 bg-white/30" /></span>
             <span>{d.title}</span>
             <span className="flex items-center gap-1.5"><i className="live-dot size-1.5 rounded-full bg-positive" aria-hidden="true" />{d.status}</span>
           </div>
           <div className="space-y-3 p-3 sm:p-5">
             <dl className="grid grid-cols-2 gap-px overflow-hidden bg-border sm:grid-cols-5">
               {d.metrics.map((m, i) => (
-                <div key={m.label} className="dash-cell bg-background p-3 last:col-span-2 sm:p-4 sm:last:col-span-1" style={{ "--i": i } as React.CSSProperties}>
+                <div key={m.label} data-focus={m.label} className="dash-cell bg-background p-3 last:col-span-2 sm:p-4 sm:last:col-span-1" style={{ "--i": i } as React.CSSProperties}>
                   <dd className="flex flex-wrap items-baseline gap-x-1.5 text-xl font-bold tracking-tight tabular-nums sm:text-2xl">
                     <Counter value={m.value} run={live} />
                     <span className={cn("text-base sm:text-lg", m.good ? "text-positive" : "text-brand")}>{m.delta}</span>
@@ -81,7 +81,7 @@ export function HeroDashboard() {
               </div>
               <span className="dash-scan" aria-hidden="true" />
             </div>
-            <div className="relative h-11 overflow-hidden border border-foreground bg-background" aria-live="off">
+            <div data-focus="Событие · реакция" className="relative h-11 overflow-hidden border border-foreground bg-background" aria-live="off">
               {d.alerts.map((a, i) => (
                 <p key={a} className={cn("dash-alert absolute inset-0 flex items-center gap-2.5 px-3 text-xs font-medium", i === alert ? "is-on" : i === (alert + d.alerts.length - 1) % d.alerts.length ? "is-out" : "")} aria-hidden={i !== alert}>
                   <i className="live-dot size-1.5 shrink-0 rounded-full bg-brand" aria-hidden="true" />{a}

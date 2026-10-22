@@ -63,14 +63,14 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       <Section className="pt-10">
         <Container className="page-intro text-center">
           <Crumbs items={[crumbs[0], crumbs[1], { name: c.title }]} />
-          <p className="mt-8 text-xs font-light uppercase tracking-[0.16em] text-muted-foreground">{c.tag}</p>
-          <h1 className="mx-auto mt-3 max-w-4xl text-4xl font-black leading-tight tracking-tight text-balance sm:text-5xl">{c.title}</h1>
+          <p className="mt-8 label text-muted-foreground">{c.tag}</p>
+          <h1 className="mx-auto mt-3 max-w-4xl text-5xl leading-[0.92] text-balance sm:text-7xl">{c.title}</h1>
           <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">{c.scale}</p>
           <dl className={`mx-auto mt-10 grid max-w-5xl gap-4 ${c.metrics.length > 3 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3"}`}>
             {c.metrics.map((m) => (
-              <div key={m.label} className="border bg-background p-5">
-                <dd className="text-2xl font-black tracking-tight sm:text-3xl">{m.value}</dd>
-                <dt className="mt-1 text-sm text-muted-foreground">{m.label}</dt>
+              <div key={m.label} className="border bg-card p-5 text-left">
+                <dd className="display text-3xl leading-[0.95] sm:text-4xl"><span className="font-normal text-brand">[</span>{m.value}<span className="font-normal text-brand">]</span></dd>
+                <dt className="label mt-3 text-muted-foreground">{m.label}</dt>
               </div>
             ))}
           </dl>
@@ -109,20 +109,20 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       </Section>
 
       {/* Результат и экономика */}
-      <Section className="bg-ink text-white">
+      <Section className="red">
         <Container className="max-w-4xl">
-          <p className="mb-4 text-center text-xs font-light uppercase tracking-[0.18em] text-white/60">результат</p>
-          <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">Что получил бизнес</h2>
+          <p className="label mb-4 text-center text-white">результат</p>
+          <h2 className="display text-center text-5xl leading-[0.92] sm:text-7xl">Что получил бизнес</h2>
           <ul data-reveal className="mx-auto mt-10 max-w-3xl space-y-4">
-            {c.results.map((t) => <li key={t} className="flex gap-3 text-lg"><Check className="mt-1.5 size-5 shrink-0 text-brand" aria-hidden="true" />{t}</li>)}
+            {c.results.map((t) => <li key={t} className="flex gap-3 text-lg"><Check className="mt-1.5 size-5 shrink-0 text-white" aria-hidden="true" />{t}</li>)}
           </ul>
           {c.economics && (
-            <div data-reveal className="mx-auto mt-10 max-w-3xl border border-white/15 p-6 sm:p-8">
-              <h3 className="text-sm font-medium uppercase tracking-[0.12em] text-white/60">Экономика</h3>
-              <p className="mt-3 text-lg leading-relaxed text-white/85">{c.economics}</p>
+            <div data-reveal className="mx-auto mt-10 max-w-3xl bg-brand-hover p-6 sm:p-8">
+              <h3 className="label text-white">Экономика</h3>
+              <p className="mt-3 text-lg leading-relaxed text-white">{c.economics}</p>
             </div>
           )}
-          {c.comment && <blockquote data-reveal className="mx-auto mt-10 max-w-3xl border-l-2 border-brand pl-5 text-xl font-medium leading-relaxed">{c.comment}</blockquote>}
+          {c.comment && <blockquote data-reveal className="mx-auto mt-10 max-w-3xl border-l-2 border-white pl-5 text-xl font-medium leading-relaxed">{c.comment}</blockquote>}
         </Container>
       </Section>
 
@@ -145,7 +145,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <SectionHead eyebrow="решение" title="Какие направления работали" />
           <div className="flex flex-wrap justify-center gap-2">
             {dirs.map((d) => (
-              <Link key={d.slug} href={`/services/${d.slug}/`} className="rounded-full border px-4 py-2 text-sm font-medium hover:border-foreground">
+              <Link key={d.slug} href={`/services/${d.slug}/`} className="tech border border-input px-4 py-3 text-[11px] hover:border-foreground">
                 <span className="text-brand">{d.code}</span> · {d.title}
               </Link>
             ))}

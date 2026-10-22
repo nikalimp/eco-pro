@@ -1,68 +1,48 @@
 @import "tailwindcss";
 
-/* Тёмная тема: data-theme="dark" на <html> (ставит скрипт в layout: выбор пользователя или системная тема) */
+/* Одна тёмная тема (решение Ника 22.10): чёрный — основа, белый — текст, красный — акцент и иногда фон секции.
+   Вариант dark: оставлен для совместимости классов, data-theme="dark" стоит на <html> всегда. */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-
-/* Токены бренда — из specs/03-design.md §3. Дефолт: нейтральная тема shadcn + синий акцент.
-   Серая тема без настройки под бренд = недоделка (стандарт §6). */
+/* Токены — дизайн-система ECO-PRO (артефакт «ECO-PRO», tokens.json v2) */
 :root {
-  --radius: 0.5rem;
-  --background: oklch(1 0 0);            /* #FFFFFF */
-  --foreground: oklch(0 0 0);            /* #000000 — гайдлайн: основной чёрный */
-  --card: oklch(0.97 0 0);               /* #F5F5F5 — фон секций, как на pro-nas.pro */
-  --primary: oklch(0 0 0);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.52 0 0);   /* #6B6B6B — темнее фирменного #808080, чтобы мелкий текст проходил AA */
-  --accent: oklch(0.94 0 0);
-  --accent-foreground: oklch(0 0 0);
-  --border: oklch(0.905 0 0);            /* #E0E0E0 */
-  --ring: oklch(0.56 0.21 27);
-  --brand: oklch(0.56 0.21 27);          /* #D51317 — фирменный красный */
-  --brand-bg: oklch(0.56 0.21 27 / 8%);
-  --brand-solid: oklch(0.56 0.21 27);    /* фон кнопок в обеих темах: белый текст 5,2:1 (WCAG AA) */
-  --brand-on-ink: oklch(0.62 0.21 27);   /* красный текст на чёрных поверхностях (--ink) в обеих темах: ≈5:1 */
-  --positive: oklch(0.58 0.16 150);      /* зелёный роста; темнее #00AD48 с сайта, чтобы крупные цифры проходили контраст 3:1 */
-  --gray-brand: oklch(0.6 0 0);          /* #808080 — дополнительный цвет гайдлайна, только для крупного текста и графики */
-  --ink: oklch(0 0 0);                   /* «чёрные» поверхности: подвал, CTA, карточки отраслей */
-  --line: oklch(0 0 0 / 5.5%);           /* сетка фона */
-  --bad-bg: oklch(0.56 0.21 27 / 7%);
-  --good-bg: oklch(0.58 0.16 150 / 9%);
-  color-scheme: light;
-}
-[data-theme="dark"] {
-  --background: oklch(0.155 0 0);        /* #0f0f0f */
-  --foreground: oklch(0.96 0 0);
-  --card: oklch(0.2 0 0);                /* #1a1a1a */
-  --primary: oklch(0.96 0 0);
-  --primary-foreground: oklch(0.155 0 0);
-  --secondary: oklch(0.2 0 0);
-  --secondary-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.72 0 0);
-  --accent: oklch(0.25 0 0);
-  --accent-foreground: oklch(0.96 0 0);
-  --border: oklch(0.3 0 0);
-  --brand: oklch(0.62 0.21 27);          /* чуть светлее, чтобы держать контраст на тёмном */
-  --brand-bg: oklch(0.62 0.21 27 / 14%);
-  --positive: oklch(0.72 0.17 150);
-  --ink: oklch(0.11 0 0);
-  --line: oklch(1 0 0 / 6%);
-  --bad-bg: oklch(0.62 0.21 27 / 13%);
-  --good-bg: oklch(0.72 0.17 150 / 12%);
   color-scheme: dark;
+  --radius: 0px;
+  --background: #0b0b0c;          /* paper */
+  --foreground: #f4f4f5;          /* ink: 17.9:1 */
+  --card: #141416;                /* surface */
+  --primary: #d51317;
+  --primary-foreground: #ffffff;
+  --secondary: #1c1d20;           /* surface-raised */
+  --secondary-foreground: #f4f4f5;
+  --muted: #1c1d20;
+  --muted-foreground: #a1a4ab;    /* ink-muted: 7.9:1 на фоне, 6.7:1 на surface-raised */
+  --accent: #1c1d20;
+  --accent-foreground: #f4f4f5;
+  --border: #2a2b2f;              /* line — декор */
+  --input: #5c5f66;               /* line-control — рамки полей, 3:1 */
+  --ring: #f4f4f5;
+  --brand: #ff4d47;               /* brand-text: красный текст на чёрном ≥5:1 */
+  --brand-bg: rgb(213 19 23 / 12%);
+  --brand-solid: #d51317;         /* фирменный красный: кнопки, фон красных секций, графика */
+  --brand-hover: #b00f13;
+  --brand-on-ink: #ff4d47;
+  --positive: #4cc38a;
+  --gray-brand: #5c5f66;
+  --ink: #141416;                 /* бывшие «чёрные» блоки — теперь surface */
+  --line: rgb(255 255 255 / 4.5%);
+  --bad-bg: rgb(213 19 23 / 10%);
+  --good-bg: rgb(76 195 138 / 8%);
 }
 
 @theme inline {
   --font-sans: "Geologica Variable", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --font-display: "Science Gothic Variable", "Geologica Variable", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -75,10 +55,12 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
+  --color-input: var(--input);
   --color-ring: var(--ring);
   --color-brand: var(--brand);
   --color-brand-bg: var(--brand-bg);
   --color-brand-solid: var(--brand-solid);
+  --color-brand-hover: var(--brand-hover);
   --color-brand-on-ink: var(--brand-on-ink);
   --color-positive: var(--positive);
   --color-gray-brand: var(--gray-brand);
@@ -91,8 +73,25 @@
   * { @apply border-border outline-ring/50; }
   html { scroll-behavior: smooth; }
   body { @apply bg-background text-foreground; font-size: 16px; -webkit-font-smoothing: antialiased; }
-  ::selection { background: oklch(0.56 0.21 27 / 18%); }
+  ::selection { background: rgb(213 19 23 / 45%); color: #fff; }
+  /* Капс-гротеск Science Gothic: все h1 и заголовки секций */
+  h1, .display { font-family: var(--font-display); font-stretch: 50%; text-transform: uppercase; font-weight: 800; letter-spacing: 0; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+@layer components {
+/* Моно-подпись и технический стиль (HUD видоискателя, меню, коды) */
+.label { font-family: var(--font-mono); font-size: 12px; line-height: 1.35; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.tech { font-family: var(--font-display); font-stretch: 125%; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.idx { color: var(--brand); }
+.red { background: var(--brand-solid); color: #fff; }
+.red .idx, .red .text-brand, .red .text-muted-foreground { color: #fff; }
+
+/* Номер секции [01], [02]… — счётчик по странице, без ручной нумерации */
+main { counter-reset: sec; }
+.sec-head { counter-increment: sec; }
+.sec-idx::before { content: "[" counter(sec, decimal-leading-zero) "]"; color: var(--brand); margin-right: .6em; }
+.red .sec-idx::before { color: #0b0b0c; }
 }
 
 /* Типографика статей */
@@ -105,7 +104,7 @@
 .prose-site ol { list-style: decimal; padding-left: 1.3em; }
 .prose-site li + li { margin-top: 0.3em; }
 .prose-site strong { font-weight: 600; }
-.prose-site code { font-family: var(--font-mono); font-size: 0.88em; background: var(--muted); padding: 0.1em 0.35em; border-radius: 4px; }
+.prose-site code { font-family: var(--font-mono); font-size: 0.88em; background: var(--muted); padding: 0.1em 0.35em; }
 .prose-site pre { background: var(--muted); padding: 1em; border-radius: var(--radius); overflow-x: auto; font-size: 0.85em; line-height: 1.55; }
 .prose-site pre code { background: none; padding: 0; }
 .prose-site table { width: 100%; border-collapse: collapse; font-size: 0.92em; display: block; overflow-x: auto; }
@@ -177,16 +176,14 @@
   mask-image: radial-gradient(ellipse 75% 60% at 50% 32%, #000 25%, transparent 78%);
 }
 .hero-dash-stage { position: relative; isolation: isolate; perspective: 1600px; }
-.hero-dash-stage::before {
-  content: ""; position: absolute; z-index: -1; left: 50%; top: 10%; width: 85%; height: 95%; translate: -50% 0;
-  background: radial-gradient(closest-side, oklch(0.56 0.21 27 / .18), transparent);
-}
+
 .dash-scan { position: absolute; top: 0; bottom: 0; left: 0; width: 90px; pointer-events: none; background: linear-gradient(90deg, transparent, oklch(0.56 0.21 27 / .14), transparent); will-change: transform; }
 .dash-alert { opacity: 0; transform: translateY(100%); transition: opacity .5s, transform .6s cubic-bezier(.2, .7, .2, 1); }
 .dash-alert.is-on { opacity: 1; transform: none; }
 .dash-alert.is-out { opacity: 0; transform: translateY(-100%); }
 /* Border beam: красный блик бежит по рамке дашборда (приём 21st.dev / Magic UI) */
 .dash-beam { position: relative; }
+.dash-beam::before { display: none; }
 .dash-beam::before {
   content: ""; position: absolute; inset: -1px; z-index: 2; pointer-events: none; padding: 1.5px;
   background: conic-gradient(from var(--beam), transparent 0 80%, oklch(0.56 0.21 27) 88%, transparent 96%);
@@ -197,31 +194,38 @@
 .btn-shine { position: relative; overflow: hidden; }
 .btn-shine::after { content: ""; position: absolute; inset: 0; width: 40%; background: linear-gradient(90deg, transparent, rgb(255 255 255 / .35), transparent); transform: translateX(-120%) skewX(-20deg); pointer-events: none; }
 
-/* Spotlight: мягкое пятно света за курсором на карточках (приём 21st.dev). Координаты ставит скрипт в layout. */
+/* Рамка фокуса видоискателя на карточках: при наведении в углах появляются красные уголки и сходятся внутрь.
+   Заменяет световое пятно (дизайн-система: без свечений). */
 .spot { position: relative; isolation: isolate; transition: border-color .2s; }
 .spot::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .3s;
-  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), oklch(0.56 0.21 27 / .07), transparent 65%);
+  --c: var(--brand-solid); --a: 18px; --w: 2px;
+  content: ""; position: absolute; inset: -1px; z-index: 2; pointer-events: none; opacity: 0;
+  transition: opacity .2s, inset .32s cubic-bezier(.2, .7, .2, 1);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) top left / var(--w) var(--a) no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) top right / var(--w) var(--a) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) bottom left / var(--w) var(--a) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--a) no-repeat;
 }
-.spot-dark::before { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), oklch(0.56 0.21 27 / .35), transparent 65%); }
-.spot:hover::before { opacity: 1; }
-.spot:hover { border-color: var(--foreground); }
+.spot-dark::before { --c: #fff; }
+.spot:hover::before, .spot:focus-visible::before { opacity: 1; inset: 8px; }
+.spot:hover { border-color: var(--input); }
 
 .card-sweep { position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: var(--brand); transform: scaleX(0); transform-origin: left; transition: transform .45s cubic-bezier(.2, .7, .2, 1); }
 .group:hover .card-sweep, .group:focus-visible .card-sweep { transform: scaleX(1); }
-.cta-glow { position: absolute; left: 50%; top: -60%; width: 70%; aspect-ratio: 1; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, oklch(0.56 0.21 27 / .3), transparent); pointer-events: none; }
+.cta-glow { display: none; }
 
 /* Бегущая строка логотипов: края растворяются */
 .marquee { mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
 
 /* До / после: переключатель на радиокнопках, без JS */
 .ba-tabs { position: relative; }
-.ba-pill { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 9999px; background: var(--foreground); transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+.ba-pill { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); background: var(--foreground); transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
 .ba label { transition: color .3s; }
 .ba:has(#ba-before:checked) label[for="ba-before"], .ba:has(#ba-after:checked) label[for="ba-after"] { color: var(--background); }
 .ba:has(#ba-after:checked) label[for="ba-after"] { color: #fff; }
 .ba:has(#ba-after:checked) .ba-pill { transform: translateX(100%); }
-.ba:has(#ba-after:checked) .ba-pill { background: var(--brand); }
+.ba:has(#ba-after:checked) .ba-pill { background: var(--brand-solid); }
 .ba:has(#ba-before:checked) .ba-after, .ba:has(#ba-after:checked) .ba-before { display: none; }
 .ba:has(input:focus-visible) .ba-tabs { outline: 2px solid var(--ring); outline-offset: 3px; }
 
@@ -243,7 +247,7 @@
 .eco:has(.eco-node[data-k="d"]:is(:hover, :focus-visible)) .eco-line[data-k="d"] { stroke: var(--brand); }
 .eco-ring { position: absolute; left: 50%; top: 50%; width: 300px; aspect-ratio: 1; translate: -50% -50%; border: 1px dashed var(--border); border-radius: 50%; pointer-events: none; }
 .eco-ring-2 { width: 400px; opacity: .6; }
-.eco-core { box-shadow: 0 0 0 10px color-mix(in oklch, var(--brand) 12%, transparent), 0 30px 60px -20px rgb(0 0 0 / .45); }
+.eco-core { box-shadow: none; }
 .eco-pop {
   position: absolute; left: 50%; z-index: 20; translate: -50% 0; padding: 14px 16px; border: 1px solid var(--foreground);
   background: var(--background); color: var(--foreground); font-size: 14px; font-weight: 400; line-height: 1.5; text-align: left;
@@ -262,17 +266,79 @@
 @keyframes eco-flow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 
 /* Путь к результату: общий пайплайн */
-.pipeline-line { position: absolute; left: 15px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--brand), var(--brand) 25%, var(--border) 25%); }
+.pipeline-line { position: absolute; left: 15px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--brand-solid), var(--brand-solid) 25%, var(--border) 25%); }
 .pipeline-dot {
   position: absolute; left: -40px; top: -2px; display: flex; width: 32px; height: 32px; align-items: center; justify-content: center;
-  border-radius: 9999px; border: 2px solid var(--brand); background: var(--background); color: var(--brand); font-size: 14px; font-weight: 700;
+  border: 2px solid var(--brand-solid); background: var(--background); color: var(--brand); font-family: var(--font-mono); font-size: 13px; font-weight: 500;
 }
-.pipeline li:first-of-type .pipeline-dot { background: var(--brand); color: #fff; }
+.pipeline li:first-of-type .pipeline-dot { background: var(--brand-solid); color: #fff; }
 @media (min-width: 768px) {
-  .pipeline-line { left: 16px; right: 16px; top: 15px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, var(--brand), var(--brand) 25%, var(--border) 25%); }
+  .pipeline-line { left: 16px; right: 16px; top: 15px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, var(--brand-solid), var(--brand-solid) 25%, var(--border) 25%); }
   .pipeline-dot { left: 0; top: -56px; }
 }
 
 /* Подписи опорных городов на карте России: видны с планшета, на телефоне карта слишком мелкая */
 .geo-label { font-size: 15px; font-weight: 600; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
 @media (max-width: 639px) { .geo-label { display: none; } }
+
+@layer components {
+/* ───────── Видоискатель камеры (дизайн-система: Viewfinder) ───────── */
+.vf { position: relative; }
+.vf-corner { position: absolute; width: 28px; height: 28px; border: 0 solid var(--foreground); pointer-events: none; transition: inset .32s cubic-bezier(.2, .7, .2, 1); }
+.vf-tl { top: var(--vf-in, 0px); left: var(--vf-in, 0px); border-top-width: 2px; border-left-width: 2px; }
+.vf-tr { top: var(--vf-in, 0px); right: var(--vf-in, 0px); border-top-width: 2px; border-right-width: 2px; }
+.vf-bl { bottom: var(--vf-in, 0px); left: var(--vf-in, 0px); border-bottom-width: 2px; border-left-width: 2px; }
+.vf-br { bottom: var(--vf-in, 0px); right: var(--vf-in, 0px); border-bottom-width: 2px; border-right-width: 2px; }
+.vf:hover { --vf-in: 8px; }
+.vf-hud { position: absolute; z-index: 3; display: flex; align-items: center; gap: 12px; font-size: 12px; line-height: 1; pointer-events: none; }
+.rec { display: inline-flex; align-items: center; gap: 8px; }
+.rec::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--brand-solid); }
+.chip { display: inline-grid; place-items: center; height: 20px; padding: 0 6px; border: 1px solid currentColor; font-size: 11px; }
+.chip-fill { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
+.vf-cross { position: absolute; width: 20px; height: 20px; translate: -50% -50%; pointer-events: none;
+  background: linear-gradient(var(--foreground), var(--foreground)) center / 2px 100% no-repeat, linear-gradient(var(--foreground), var(--foreground)) center / 100% 2px no-repeat; }
+/* Рамка фокуса: красные уголки; координаты (--fx, --fy, --fw, --fh) ставит скрипт видоискателя */
+.vf-focus {
+  --c: var(--brand-solid); --a: 22px; --w: 2px;
+  position: absolute; z-index: 3; left: var(--fx, 60%); top: var(--fy, 40%); width: var(--fw, 160px); height: var(--fh, 110px); translate: -50% -50%; pointer-events: none;
+  transition: left .45s cubic-bezier(.2, .7, .2, 1), top .45s cubic-bezier(.2, .7, .2, 1), width .45s, height .45s;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) top left / var(--w) var(--a) no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) top right / var(--w) var(--a) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) bottom left / var(--w) var(--a) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--a) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--a) no-repeat;
+}
+.vf-focus-tag { position: absolute; left: 0; top: calc(100% + 6px); white-space: nowrap; padding: 4px 8px; background: var(--brand-solid); color: #fff; font-size: 11px; }
+@media (prefers-reduced-motion: no-preference) {
+  .rec::before { animation: rec-blink 1.2s steps(1) infinite; }
+}
+@keyframes rec-blink { 50% { opacity: 0; } }
+@media (max-width: 767px) { .vf-focus, .vf-cross, .vf-hide-sm { display: none; } }
+
+/* Квадратная кнопка с модулем-стрелкой */
+.btn-mod { display: inline-flex; align-items: stretch; height: 64px; font-size: 15px; font-weight: 500; white-space: nowrap; transition: background-color .16s, color .16s, border-color .16s; }
+.btn-mod > span:first-child { display: inline-flex; align-items: center; padding: 0 24px; }
+.btn-mod .mod { display: inline-grid; place-items: center; width: 64px; flex: none; }
+.btn-mod .mod svg { width: 20px; height: 20px; transition: transform .32s cubic-bezier(.2, .7, .2, 1); }
+.btn-mod:hover .mod svg { transform: translateX(4px); }
+.btn-mod-primary { background: var(--brand-solid); color: #fff; }
+.btn-mod-primary .mod { background: var(--brand-hover); }
+.btn-mod-primary:hover { background: var(--brand-hover); }
+.btn-mod-outline { border: 1px solid var(--input); color: var(--foreground); }
+.btn-mod-outline .mod { border-left: 1px solid var(--input); }
+.btn-mod-outline:hover { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
+.btn-mod-invert { background: var(--foreground); color: var(--background); }
+.btn-mod-invert .mod { background: var(--background); color: var(--foreground); }
+.btn-mod-sm { height: 48px; font-size: 14px; }
+.btn-mod-sm .mod { width: 48px; }
+.btn-mod-sm > span:first-child { padding: 0 18px; }
+.red .btn-mod-primary { background: var(--background); color: var(--foreground); }
+.red .btn-mod-primary .mod { background: var(--secondary); }
+.red .btn-mod-outline { border-color: #fff; color: #fff; }
+.red .btn-mod-outline .mod { border-left-color: #fff; }
+.red .btn-mod-outline:hover { background: #fff; color: var(--brand-solid); }
+.vf-on-red .vf-corner { border-color: #fff; }
+.vf-on-red .vf-hud, .vf-on-red .text-muted-foreground { color: #fff; }
+.vf-on-red .rec::before { background: #fff; }
+.vf-on-red .chip-fill { background: #fff; color: var(--brand-solid); border-color: #fff; }
+}

@@ -32,7 +32,7 @@ export default function Cases() {
           />
           <nav aria-label="Группы кейсов" className="mt-8 flex flex-wrap justify-center gap-2">
             {order.map((g) => (
-              <a key={g} href={`#${g}`} className="rounded-full border px-4 py-2 text-sm font-medium hover:border-foreground">{caseGroups[g].title}</a>
+              <a key={g} href={`#${g}`} className="tech border border-input px-4 py-3 text-[11px] hover:border-foreground">{caseGroups[g].title}</a>
             ))}
           </nav>
         </Container>

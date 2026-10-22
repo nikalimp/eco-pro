@@ -39,10 +39,10 @@ export function EcosystemGraph() {
         <span className="eco-ring" aria-hidden="true" />
         <span className="eco-ring eco-ring-2" aria-hidden="true" />
 
-        <Link href={`/services/${core.slug}/`} className="eco-core group absolute left-1/2 top-1/2 z-10 flex size-52 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink p-6 text-center text-white">
-          <CoreIcon className="size-8 text-brand" />
-          <span className="mt-3 text-xl font-black">{core.code}</span>
-          <span className="mt-1 text-sm text-white/70">{core.title}</span>
+        <Link href={`/services/${core.slug}/`} className="eco-core group absolute left-1/2 top-1/2 z-10 flex size-52 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center bg-brand-solid p-6 text-center text-white">
+          <CoreIcon className="size-8 text-white" />
+          <span className="display mt-3 text-3xl">{core.code}</span>
+          <span className="mt-1 text-sm text-white">{core.title}</span>
           <span className="eco-pop eco-pop-below w-72 text-left">{core.short}</span>
         </Link>
 
@@ -57,7 +57,7 @@ export function EcosystemGraph() {
               className="eco-node group absolute z-10 flex w-56 -translate-x-1/2 -translate-y-1/2 items-center gap-3 border bg-background p-4 text-left transition-colors hover:border-foreground focus-visible:border-foreground"
               style={{ left: `${s.x}%`, top: `${s.y}%` }}
             >
-              <span className="flex size-11 shrink-0 items-center justify-center bg-brand-bg text-brand"><Icon className="size-5" /></span>
+              <span className="flex size-11 shrink-0 items-center justify-center border border-brand-solid text-brand"><Icon className="size-5" /></span>
               <span>
                 <span className="block text-sm font-bold text-brand">{m.code}</span>
                 <span className="block text-[15px] font-medium leading-tight">{m.title}</span>
@@ -74,12 +74,12 @@ export function EcosystemGraph() {
           const Icon = icons[m.code];
           return (
             <li key={m.slug}>
-              <Link href={`/services/${m.slug}/`} className={cn("flex gap-4 border p-5", i === 0 && "border-0 bg-ink text-white")}>
+              <Link href={`/services/${m.slug}/`} className={cn("flex gap-4 border p-5", i === 0 && "border-0 bg-brand-solid text-white")}>
                 <span className={cn("flex size-11 shrink-0 items-center justify-center", i === 0 ? "bg-white/10 text-brand-on-ink" : "bg-brand-bg text-brand")}><Icon className="size-5" /></span>
                 <span>
                   <span className={cn("block text-sm font-bold", i === 0 ? "text-brand-on-ink" : "text-brand")}>{m.code}{i === 0 && " · центр экосистемы"}</span>
                   <span className="block font-medium">{m.title}</span>
-                  <span className={cn("mt-1 block text-sm leading-relaxed", i === 0 ? "text-white/70" : "text-muted-foreground")}>{m.short}</span>
+                  <span className={cn("mt-1 block text-sm leading-relaxed", i === 0 ? "text-white" : "text-muted-foreground")}>{m.short}</span>
                 </span>
               </Link>
             </li>

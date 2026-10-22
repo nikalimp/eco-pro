@@ -10,7 +10,7 @@ export function CookieBanner() {
         <p className="flex-1 text-muted-foreground">
           Сайт использует cookies и Яндекс Метрику. Оставаясь на сайте, вы соглашаетесь с <a href="/privacy-policy/" className="underline underline-offset-4 hover:text-foreground">политикой обработки данных</a>.
         </p>
-        <button type="button" data-accept className="h-9 shrink-0 rounded-md bg-primary px-4 font-medium text-primary-foreground">Понятно</button>
+        <button type="button" data-accept className="h-10 shrink-0 bg-primary px-4 font-medium text-primary-foreground">Понятно</button>
       </div>
       <script dangerouslySetInnerHTML={{ __html: `${script};document.querySelector('#cookie-banner [data-accept]').addEventListener('click',function(){${accept}})` }} />
     </>
