@@ -10,7 +10,6 @@ import { getPosts, formatDate } from "@/lib/posts";
 import { Container, Section, SectionHead } from "@/components/container";
 import { CaseGrid, CtaBlock, IndustryCard } from "@/components/blocks";
 import { EcosystemGraph } from "@/components/ecosystem-graph";
-import { IllPilot } from "@/components/illustrations";
 import { LeadForm } from "@/components/lead-form";
 import { HeroDashboard } from "@/components/hero-dashboard";
 import { Viewfinder } from "@/components/viewfinder";
@@ -26,7 +25,7 @@ import { faqSchema, graph } from "@/lib/schema";
 // Блоки главной — specs/02-spec.md §5 (v0.5, правки 14.10)
 export default function Home() {
   const entryIcons = [Crown, ShieldCheck, Database];
-  const posts = getPosts().slice(0, 4);
+  const posts = getPosts().slice(0, 3);
   const h = home.hero;
   return (
     <>
@@ -35,7 +34,7 @@ export default function Home() {
       {/* 1. Первый экран — кадр видоискателя камеры (редизайн 22.10): REC, таймкод, рамка фокуса обходит показатели дашборда.
              H1 капсом со скобками, подзаголовок, кнопка; на телефоне дашборд скрыт (ревью 22.10) */}
       <section className="hero relative overflow-hidden px-2 pb-10 pt-2 sm:px-4 sm:pt-4">
-        <Viewfinder cam="CAM 01" place="ECO-PRO" className="relative">
+        <Viewfinder cam="CAM 01" place="ECO-PRO" follow={false} className="relative">
           <span className="hero-grid" aria-hidden="true" />
           <Container className="relative flex min-h-[78svh] flex-col justify-end pb-16 pt-20 sm:min-h-[calc(100svh-7rem)] sm:pb-20 sm:pt-24">
             <p className="hero-in label mb-6 flex items-center gap-2 text-muted-foreground"><span className="size-2 bg-brand-solid" aria-hidden="true" />{h.eyebrow}</p>
@@ -57,26 +56,18 @@ export default function Home() {
             </div>
           </Container>
         </Viewfinder>
-        <div aria-label={home.clientsTitle} role="region" className="marquee relative mt-10 overflow-hidden py-2">
-          <h2 className="sr-only">{home.clientsTitle}</h2>
-          <div className="marquee-track flex w-max items-center gap-14">
-            {[...clientLogos, ...clientLogos].map((l, i) => (
-              <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="h-10 w-auto max-w-[150px] object-contain opacity-55 grayscale transition hover:opacity-100 hover:grayscale-0 dark:invert" />
-            ))}
-          </div>
-        </div>
       </section>
 
-      {/* 2. Три точки входа для разных ЛПР — как на pro-nas.pro (правки Сергея 22.10) */}
-      <Section className="py-12 sm:py-16">
+      {/* 2. Три точки входа для разных ЛПР — как на pro-nas.pro (правки Сергея 22.10); под ними — логотипы клиентов (правки Ника 22.10) */}
+      <Section>
         <Container>
-          <h2 className="sr-only">{home.entryPoints.title}</h2>
+          <SectionHead eyebrow={home.entryPoints.title} title={home.entryPoints.heading} text={home.entryPoints.text} />
           <div data-reveal className="grid gap-4 md:grid-cols-3">
             {home.entryPoints.items.map((e, n) => {
               const Icon = entryIcons[n];
               return (
                 <Link key={e.title} href={e.href} className="spot group flex flex-col border bg-background p-6 transition-colors sm:p-8">
-                  <span className="flex items-center justify-between"><span className="label idx">[{String(n + 1).padStart(2, "0")}]</span><span className="flex size-12 items-center justify-center bg-brand-solid text-white"><Icon className="size-5" /></span></span>
+                  <span className="flex size-12 items-center justify-center bg-brand-solid text-white"><Icon className="size-5" /></span>
                   <h3 className="mt-5 text-xl font-bold">{e.title}</h3>
                   <p className="mt-2 flex-1 leading-relaxed text-muted-foreground">{e.text}</p>
                   <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium group-hover:text-brand">{e.cta}<ArrowRight className="size-4" aria-hidden="true" /></span>
@@ -85,6 +76,14 @@ export default function Home() {
             })}
           </div>
         </Container>
+        <div aria-label={home.clientsTitle} role="region" className="marquee relative mt-12 overflow-hidden py-2">
+          <h2 className="sr-only">{home.clientsTitle}</h2>
+          <div className="marquee-track flex w-max items-center gap-14">
+            {[...clientLogos, ...clientLogos].map((l, i) => (
+              <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="h-10 w-auto max-w-[150px] object-contain" />
+            ))}
+          </div>
+        </div>
       </Section>
 
       {/* 2б. Традиции и инновации: естественный интеллект + искусственный (правки Сергея 22.10) */}
@@ -193,15 +192,10 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* 8. Слово основателя */}
-      {/* Слово основателя — крупно на чёрном: главная идея «власть CEO» (ревью 22.10) */}
-      {/* Слово основателя — красная «пауза»; фото в кадре видоискателя (редизайн 22.10) */}
+      {/* 8. Слово основателя — красная «пауза»: текст слева, цветное фото справа (правки Ника 22.10) */}
       <Section className="red">
         <Container>
           <figure data-reveal className="grid items-center gap-10 lg:grid-cols-12">
-            <Viewfinder cam="CAM 02" place="CEO" chips={["HD"]} fps="" corner="ECO-PRO" focus={false} timecode={false} className="vf-on-red mx-auto w-full max-w-sm p-5 lg:col-span-4">
-              <Image src="/images/team/sergey-malyutenkov-studio.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={400} height={400} className="aspect-square w-full object-cover grayscale" />
-            </Viewfinder>
             <div className="lg:col-span-8">
               <p className="label mb-6 text-white">{home.ceo.eyebrow}</p>
               <blockquote className="text-2xl font-medium leading-snug text-white sm:text-3xl">«{home.ceo.quote}»</blockquote>
@@ -210,6 +204,7 @@ export default function Home() {
                 <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="mt-2 inline-block text-sm text-white underline underline-offset-4">{home.ceo.channelLabel} ›</a>
               </figcaption>
             </div>
+            <Image src="/images/team/sergey-malyutenkov-color.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={640} height={640} className="mx-auto aspect-square w-full max-w-sm object-cover lg:col-span-4" />
           </figure>
         </Container>
       </Section>
@@ -253,8 +248,7 @@ export default function Home() {
                 <li key={t} className="flex gap-3"><span className="mt-2 size-2 shrink-0 bg-brand-solid" aria-hidden="true" />{t}</li>
               ))}
             </ul>
-            <IllPilot className="mt-8 hidden h-auto w-full max-w-md text-foreground/70 sm:block" />
-          </div>
+                      </div>
           <Viewfinder cam="CAM 03" place="Заявка" chips={["AI"]} fps="" corner="Ответ за 1 день" focus={false} timecode={false} className="bg-card p-6 pt-16 sm:p-10 sm:pt-16">
             <div data-reveal>
               <p className="display text-3xl">Заявка на пилот</p>
@@ -351,7 +345,7 @@ export default function Home() {
         <Section id="novosti">
           <Container>
             <SectionHead eyebrow="активность экосистемы" title="Новости и статьи" />
-            <div data-reveal className="grid gap-4 md:grid-cols-2">
+            <div data-reveal className="grid gap-4 md:grid-cols-3">
               {posts.map((p) => (
                 <Link key={p.slug} href={`/blog/${p.slug}/`} className="spot group border bg-card p-6 transition-colors sm:p-8">
                   <p className="label text-muted-foreground"><time dateTime={p.date}>{formatDate(p.date)}</time></p>

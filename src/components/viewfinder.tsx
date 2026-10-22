@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 
 // Кадр видоискателя камеры (дизайн-система ECO-PRO: Viewfinder): уголки, REC, плашки, таймкод, перекрестие
 // и красная рамка фокуса. Рамка обходит элементы [data-focus] внутри кадра (подпись — значение атрибута)
-// и следует за курсором. Без JavaScript и при reduced-motion — статичный кадр. Всё декоративное — aria-hidden.
+// и (если follow) следует за курсором. Без JavaScript и при reduced-motion — статичный кадр. Всё декоративное — aria-hidden.
 export function Viewfinder({
-  children, className, cam = "CAM 01", place, chips = ["AI", "4K"], fps = "25FPS", corner = "СЦ · 24/7", focus = true, cross = false, timecode = true,
+  children, className, cam = "CAM 01", place, chips = ["AI", "4K"], fps = "25FPS", corner = "СЦ · 24/7", focus = true, follow = true, cross = false, timecode = true,
 }: {
   children: React.ReactNode; className?: string; cam?: string; place?: string; chips?: string[]; fps?: string;
-  corner?: string; focus?: boolean; cross?: boolean; timecode?: boolean;
+  corner?: string; focus?: boolean; follow?: boolean; cross?: boolean; timecode?: boolean;
 }) {
   const root = useRef<HTMLDivElement>(null);
   const [tc, setTc] = useState("00:00:20:05");
@@ -51,9 +51,9 @@ export function Viewfinder({
       place(e.clientX - o.left, e.clientY - o.top, 140, 96, "Объект · 0,97");
     };
     const leave = () => { manual = false; go(); };
-    if (focus) { el.addEventListener("pointermove", move); el.addEventListener("pointerleave", leave); }
+    if (focus && follow) { el.addEventListener("pointermove", move); el.addEventListener("pointerleave", leave); }
     return () => { clearInterval(t); clearInterval(cycle); el.removeEventListener("pointermove", move); el.removeEventListener("pointerleave", leave); };
-  }, [focus, timecode]);
+  }, [focus, follow, timecode]);
 
   return (
     <div ref={root} className={cn("vf", className)}>
