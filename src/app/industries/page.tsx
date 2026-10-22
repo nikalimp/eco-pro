@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { industries } from "@/content/industries";
 import { Container, Section, SectionHead } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
 import { CtaBlock, IndustryCard } from "@/components/blocks";
 import { JsonLd } from "@/components/json-ld";
-import { breadcrumbs, graph, itemList } from "@/lib/schema";
+import { graph, itemList } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Решения для ритейла, HoReCa, производства и логистики",
@@ -14,13 +13,11 @@ export const metadata: Metadata = {
 };
 
 export default function Industries() {
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Отрасли", path: "/industries/" }];
   return (
     <>
-      <JsonLd data={graph(itemList("Отраслевые решения ECO-PRO", industries.map((i) => ({ name: i.title, path: `/industries/${i.slug}/` }))), breadcrumbs(crumbs))} />
+      <JsonLd data={graph(itemList("Отраслевые решения ECO-PRO", industries.map((i) => ({ name: i.title, path: `/industries/${i.slug}/` }))))} />
       <Section className="pt-10">
         <Container>
-          <Crumbs items={[crumbs[0], { name: "Отрасли" }]} />
           <SectionHead
             as="h1"
             className="mt-6"

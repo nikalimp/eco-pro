@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { formatDate, getPosts } from "@/lib/posts";
 import { Container, Section } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
-import { JsonLd } from "@/components/json-ld";
-import { breadcrumbs, graph } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Блог о ситуационных центрах и предотвращении потерь",
@@ -16,10 +13,8 @@ export default function Blog() {
   const posts = getPosts();
   return (
     <>
-      <JsonLd data={graph(breadcrumbs([{ name: "Главная", path: "/" }, { name: "Блог", path: "/blog/" }]))} />
       <Section className="pt-12">
         <Container className="max-w-5xl">
-          <Crumbs items={[{ name: "Главная", path: "/" }, { name: "Блог" }]} />
           <h1 className="text-center text-5xl leading-[0.92] sm:text-7xl">Блог ECO-PRO</h1>
           <p className="mx-auto mt-4 max-w-2xl text-center text-lg leading-relaxed text-muted-foreground">Статьи о предотвращении потерь, ситуационных центрах и управлении рисками — с примерами из практики экосистемы PRO.</p>
           <div className="mt-10 grid gap-4 md:grid-cols-2">

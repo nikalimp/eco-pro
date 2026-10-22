@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { Container, Section } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
@@ -15,7 +14,6 @@ export default function Cabinet() {
   return (
     <Section className="pt-10">
       <Container className="max-w-3xl text-center">
-        <Crumbs items={[{ name: "Главная", path: "/" }, { name: "Личный кабинет" }]} />
         <p className="mt-8 text-sm font-medium uppercase tracking-[0.14em] text-brand">в разработке</p>
         <h1 className="mt-2 text-5xl leading-[0.92] sm:text-7xl">Личный кабинет</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted-foreground">

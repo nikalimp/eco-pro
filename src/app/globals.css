@@ -343,7 +343,17 @@ main { counter-reset: sec; }
 .vf-on-red .chip-fill { background: #fff; color: var(--brand-solid); border-color: #fff; }
 }
 
-/* Карта по субъектам РФ (правки 22.10): регионы с проектами подсвечены целиком, по наведению загораются */
-.geo-reg { fill: var(--card); stroke: var(--border); stroke-width: .6; stroke-linejoin: round; }
-.geo-reg.is-on { fill: rgb(213 19 23 / 38%); stroke: var(--brand-solid); stroke-width: .8; cursor: pointer; outline: none; transition: fill .2s; }
-.geo-reg.is-on:hover, .geo-reg.is-on:focus-visible { fill: var(--brand-solid); stroke: #fff; stroke-width: 1.2; }
+/* Карта охвата по файлу клиента (правки 22.10): регионы присутствия красным, по наведению загораются; города — белые квадраты */
+.geo-reg { fill: var(--secondary); stroke: var(--background); stroke-width: .9; stroke-linejoin: round; }
+.geo-reg.is-on { fill: var(--brand-solid); cursor: pointer; outline: none; transition: fill .2s; }
+.geo-reg.is-on:hover, .geo-reg.is-on:focus-visible { fill: #ff4d47; stroke: #fff; stroke-width: 1.4; }
+.geo-city { cursor: pointer; }
+.geo-city-dot { fill: #fff; stroke: var(--background); stroke-width: .8; transform-box: fill-box; transform-origin: center; transition: transform .2s; }
+.geo-city:hover .geo-city-dot { transform: scale(1.8); }
+
+/* Светлая секция (правки 22.10): документы на белом выглядят аккуратнее. Переопределяет токены внутри блока. */
+.light-zone {
+  --background: #ffffff; --foreground: #0b0b0c; --card: #f4f4f5; --secondary: #e7e9ed; --muted: #e7e9ed; --accent: #e7e9ed;
+  --muted-foreground: #55585f; --border: #d5d8de; --input: #8a8d94; --ring: #0b0b0c; --brand: #c4111a;
+  background: var(--background); color: var(--foreground);
+}

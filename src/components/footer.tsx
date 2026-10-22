@@ -15,7 +15,7 @@ export function Footer() {
       <Container className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Link href="/"><Logo /></Link>
-          <p className="display mt-6 max-w-sm text-3xl leading-[0.95] text-foreground">{site.tagline}</p>
+          <p className="mt-6 max-w-sm text-base leading-relaxed text-muted-foreground">{site.tagline}</p>
           <BtnMod href={site.cta.href} size="sm" className="mt-6">{site.cta.label}</BtnMod>
         </div>
         <div className="lg:col-span-3">

@@ -29,8 +29,8 @@ function DesktopItem({ href, label, n }: { href: string; label: string; n: numbe
         <ul className="border bg-background p-2 shadow-[0_16px_40px_rgb(0_0_0/0.6)]">
           {sub.map((s) => (
             <li key={s.href}>
-              <Link href={s.href} className={s.code ? "grid grid-cols-[7.5rem_auto] items-baseline whitespace-nowrap px-4 py-2.5 hover:bg-card" : "block whitespace-nowrap px-4 py-2.5 hover:bg-card"}>
-                {s.code && <span className="tech text-[11px] text-brand">{s.code}</span>}
+              <Link href={s.href} className={s.code ? "flex items-baseline gap-5 whitespace-nowrap px-4 py-2.5 hover:bg-card" : "block whitespace-nowrap px-4 py-2.5 hover:bg-card"}>
+                {s.code && <span className="tech w-32 shrink-0 text-[11px] text-brand">{s.code}</span>}
                 {s.label}
               </Link>
             </li>

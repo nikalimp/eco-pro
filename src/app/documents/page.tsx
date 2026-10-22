@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { docsCompany, letters, licenses, partners, allDocs } from "@/content/documents";
 import { Container, Section, SectionHead } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
 import { CtaBlock } from "@/components/blocks";
 import { DocCard, DocLightboxes } from "@/components/doc-gallery";
 import { JsonLd } from "@/components/json-ld";
-import { breadcrumbs, graph, itemList } from "@/lib/schema";
+import { graph, itemList } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Лицензии, СРО и рекомендации — ECO-PRO",
@@ -15,13 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default function Documents() {
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Документы и рекомендации", path: "/documents/" }];
   return (
     <>
-      <JsonLd data={graph(itemList("Лицензии, допуски и рекомендации ECO-PRO", allDocs.map((d) => ({ name: `${d.title}${d.meta ? ` (${d.meta})` : ""}`, path: `/documents/#doc-${d.id}` }))), breadcrumbs(crumbs))} />
+      <JsonLd data={graph(itemList("Лицензии, допуски и рекомендации ECO-PRO", allDocs.map((d) => ({ name: `${d.title}${d.meta ? ` (${d.meta})` : ""}`, path: `/documents/#doc-${d.id}` }))))} />
       <Section id="dokumenty" className="pt-10 pb-8 sm:pb-10">
         <Container>
-          <Crumbs items={[crumbs[0], { name: "Документы и рекомендации" }]} />
           <SectionHead
             as="h1"
             className="mb-0 mt-6"
