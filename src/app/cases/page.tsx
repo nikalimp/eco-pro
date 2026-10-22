@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { cases, caseGroups, type CaseGroup } from "@/content/cases";
 import { Container, Section, SectionHead } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
 import { CaseGrid, CtaBlock } from "@/components/blocks";
 import { JsonLd } from "@/components/json-ld";
-import { breadcrumbs, graph, itemList } from "@/lib/schema";
+import { graph, itemList } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Кейсы внедрения ситуационного центра и ИИ",
@@ -16,13 +15,11 @@ export const metadata: Metadata = {
 const order: CaseGroup[] = ["ai", "power", "analysis", "operator"];
 
 export default function Cases() {
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Кейсы", path: "/cases/" }];
   return (
     <>
-      <JsonLd data={graph(itemList("Кейсы внедрения ECO-PRO", cases.map((c) => ({ name: `${c.title}: ${c.value} — ${c.valueLabel}`, path: `/cases/${c.id}/` }))), breadcrumbs(crumbs))} />
+      <JsonLd data={graph(itemList("Кейсы внедрения ECO-PRO", cases.map((c) => ({ name: `${c.title}: ${c.value} — ${c.valueLabel}`, path: `/cases/${c.id}/` }))))} />
       <Section className="pt-10 pb-8 sm:pb-10">
         <Container>
-          <Crumbs items={[crumbs[0], { name: "Кейсы" }]} />
           <SectionHead
             as="h1"
             className="mb-0 mt-6"

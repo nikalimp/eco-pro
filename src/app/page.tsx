@@ -198,7 +198,7 @@ export default function Home() {
           <figure data-reveal className="grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <p className="label mb-6 text-white">{home.ceo.eyebrow}</p>
-              <blockquote className="text-2xl font-medium leading-snug text-white sm:text-3xl">«{home.ceo.quote}»</blockquote>
+              <blockquote className="text-lg font-medium leading-relaxed text-white sm:text-xl">«{home.ceo.quote}»</blockquote>
               <figcaption className="mt-6 border-t border-white/40 pt-4">
                 <p className="display text-2xl">{home.ceo.name} — {home.ceo.role}</p>
                 <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="mt-2 inline-block text-sm text-white underline underline-offset-4">{home.ceo.channelLabel} ›</a>
@@ -219,7 +219,7 @@ export default function Home() {
       </Section>
 
       {/* 9б. Доверие: рекомендации заказчиков и допуски (документы «Император Техно», PRO-TECHNO) */}
-      <Section id="dokumenty" className="border-y bg-card">
+      <Section id="dokumenty" className="light-zone">
         <Container>
           <SectionHead eyebrow="доверие" title="Рекомендации и допуски" text="Крупные сети рекомендуют нас как надёжного партнёра по системам безопасности. Работы выполняем по лицензии МЧС и с допусками СРО." />
           {/* Письма клиентов и лицензии — разные истории, поэтому два отдельных ряда (правки Сергея 22.10) */}
@@ -307,26 +307,6 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* 12. Команда */}
-      <Section id="komanda">
-        <Container>
-          <SectionHead eyebrow={home.team.eyebrow} title={home.team.title} text={home.team.text} />
-          <ul data-reveal className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-            {home.team.people.map((p) => (
-              <li key={p.name}>
-                <Image src={p.photo} alt={`${p.name} — ${p.role}`} width={400} height={400} className="aspect-square w-full object-cover grayscale transition hover:grayscale-0" />
-                <p className="display mt-4 text-2xl">{p.name}</p>
-                <p className="mt-0.5 text-sm text-muted-foreground">{p.role}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <BtnMod href={site.contacts.telegram} variant="outline" icon="up" external>Telegram-канал</BtnMod>
-            <BtnMod href={site.contacts.max} variant="outline" icon="up" external>Канал в MAX</BtnMod>
-          </div>
-        </Container>
-      </Section>
-
       {/* 13. Отрасли */}
       <Section id="otrasli" className="border-y bg-card">
         <Container>
@@ -354,7 +334,18 @@ export default function Home() {
                 </Link>
               ))}
             </div>
-            <div className="mt-8"><BtnMod href="/blog/" variant="outline">Все статьи</BtnMod></div>
+            {/* Подписка на каналы — перенесено из блока «Команда» (правки Ника 22.10) */}
+            <div className="mt-8 flex flex-col gap-6 border-t pt-8 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="display text-2xl sm:text-3xl">Подписывайтесь на каналы <span className="whitespace-nowrap">ECO-PRO</span></p>
+                <p className="mt-2 max-w-xl text-muted-foreground">Новости экосистемы, разборы кейсов и анонсы статей — в Telegram и MAX.</p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <BtnMod href={site.contacts.telegram} icon="up" external>Telegram-канал</BtnMod>
+                <BtnMod href={site.contacts.max} variant="outline" icon="up" external>Канал в MAX</BtnMod>
+                <BtnMod href="/blog/" variant="outline">Все статьи</BtnMod>
+              </div>
+            </div>
           </Container>
         </Section>
       )}

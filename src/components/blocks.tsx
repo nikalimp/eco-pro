@@ -6,7 +6,6 @@ import type { Case } from "@/content/cases";
 import type { Direction } from "@/content/directions";
 import type { Industry } from "@/content/industries";
 import { cn } from "@/lib/utils";
-import { industryIllustration } from "./illustrations";
 import { Container, Eyebrow, Section } from "./container";
 import { BtnMod } from "./btn-mod";
 
@@ -48,10 +47,8 @@ export function DirectionCard({ d }: { d: Direction }) {
 }
 
 export function IndustryCard({ i }: { i: Industry }) {
-  const Ill = industryIllustration[i.slug];
   return (
     <Link href={`/industries/${i.slug}/`} className="spot group relative flex flex-col overflow-hidden border bg-card text-white">
-      {Ill && <Ill className="h-auto w-full border-b border-white/10 text-white/80 transition-transform duration-500 group-hover:scale-[1.03]" />}
       <span className="flex flex-1 flex-col p-6 sm:p-8">
         <span className="tech relative text-[12px] text-brand">{i.label}</span>
         <h3 className="relative mt-2 text-xl font-bold">{i.title}</h3>

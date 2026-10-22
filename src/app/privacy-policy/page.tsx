@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { Container, Section } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
 
 export const metadata: Metadata = {
   title: "Политика обработки персональных данных",
@@ -16,7 +15,6 @@ export default function Privacy() {
   return (
     <Section className="pt-10">
       <Container className="max-w-3xl">
-        <Crumbs items={[{ name: "Главная", path: "/" }, { name: "Политика обработки персональных данных" }]} />
         <h1 className="text-center text-3xl font-bold tracking-tight text-balance">Политика обработки персональных данных</h1>
         <div className="prose-site mt-8">
           <h2>1. Кто обрабатывает данные</h2>
