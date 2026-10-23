@@ -14,7 +14,7 @@ concurrency: { group: deploy, cancel-in-progress: false }
 jobs:
   site:
     permissions: { contents: write }   # deploy-kit коммитит обратно картинки статей
-    uses: nikalimp/deploy-kit/.github/workflows/site.yml@v1
+    uses: nikalimp/deploy-kit/.github/workflows/site.yml@main
     with:
       adapter: ssh-ftp
       site_dir: "."
