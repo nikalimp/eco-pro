@@ -28,7 +28,7 @@ const metrikaScript = (id: number) =>
 
 // Появление блоков при прокрутке: [data-reveal] получает .in, когда попадает в экран
 // Метка «JS работает» до отрисовки. Тема одна — тёмная (решение 22.10), переключателя нет.
-const jsScript = `document.documentElement.classList.add('js')`;
+const jsScript = `(function(){var d=document.documentElement;d.classList.add('js');var t=null;try{t=localStorage.getItem('theme')}catch(e){}d.dataset.theme=t==='light'?'light':'dark'})()`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -55,7 +55,7 @@ export function HeroDashboard() {
     <div className="hero-dash-stage">
       <div className="hero-dash dash-beam">
         <figure className="relative overflow-hidden border border-input bg-card text-left" aria-label="Пример экрана ситуационного центра PRO-TEST">
-          <div className="tech flex h-10 items-center justify-between border-b bg-secondary px-4 text-[10px] text-white">
+          <div className="tech flex h-10 items-center justify-between border-b bg-secondary px-4 text-[10px] text-foreground">
             <span className="flex gap-1.5" aria-hidden="true"><i className="size-2 bg-white/30" /><i className="size-2 bg-white/30" /><i className="size-2 bg-white/30" /></span>
             <span>{d.title}</span>
             <span className="flex items-center gap-1.5"><i className="live-dot size-1.5 rounded-full bg-positive" aria-hidden="true" />{d.status}</span>
