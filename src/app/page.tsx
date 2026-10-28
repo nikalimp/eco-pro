@@ -80,7 +80,7 @@ export default function Home() {
           <h2 className="sr-only">{home.clientsTitle}</h2>
           <div className="marquee-track flex w-max items-center gap-14">
             {[...clientLogos, ...clientLogos].map((l, i) => (
-              <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="h-10 w-auto max-w-[150px] object-contain" />
+              <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="client-logo h-10 w-auto max-w-[150px] object-contain" />
             ))}
           </div>
         </div>

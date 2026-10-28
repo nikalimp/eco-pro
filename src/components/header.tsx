@@ -5,6 +5,7 @@ import { directions } from "@/content/directions";
 import { industries } from "@/content/industries";
 import { Logo } from "./logo";
 import { BtnMod } from "./btn-mod";
+import { ThemeToggle } from "./theme-toggle";
 
 const submenus: Record<string, { href: string; label: string; code?: string }[]> = {
   "/services/": directions.map((d) => ({ href: `/services/${d.slug}/`, label: d.title, code: d.code })),
@@ -16,7 +17,7 @@ const num = (n: number) => `[${String(n + 1).padStart(2, "0")}]`;
 // Пункт меню — ячейка с номером [01]; выпадающее меню на CSS (:hover и :focus-within) — работает без JavaScript
 function DesktopItem({ href, label, n }: { href: string; label: string; n: number }) {
   const sub = submenus[href];
-  const cell = "tech flex h-16 items-center gap-2 border-l px-5 text-[12px] transition-colors hover:bg-card xl:px-6";
+  const cell = "tech flex h-16 items-center gap-2 border-l px-3 text-[12px] transition-colors hover:bg-card xl:px-4 2xl:px-6";
   if (!sub) return <Link href={href} className={cell}><span className="idx">{num(n)}</span>{label}</Link>;
   return (
     <div className="group relative">
@@ -43,12 +44,12 @@ function DesktopItem({ href, label, n }: { href: string; label: string; n: numbe
 
 function MobileMenu() {
   return (
-    <details className="group/m lg:hidden">
+    <details className="group/m xl:hidden">
       <summary aria-label="Открыть меню" className="inline-flex size-16 cursor-pointer list-none items-center justify-center border-l [&::-webkit-details-marker]:hidden">
         <Menu className="size-6 group-open/m:hidden" />
         <X className="hidden size-6 group-open/m:block" />
       </summary>
-      <div className="absolute inset-x-0 top-16 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b bg-background px-4 pb-6 pt-2">
+      <div className="fixed inset-x-0 top-16 hidden max-h-[calc(100dvh-4rem)] overflow-y-auto group-open/m:block md:max-h-[calc(100dvh-6rem)] border-b bg-background px-4 pb-6 pt-2">
         <ul className="divide-y">
           {nav.map((n, i) => (
             <li key={n.href} className="py-1">
@@ -81,11 +82,12 @@ export function Header() {
       </div>
       <div className="flex h-16 items-stretch border-b bg-background/90 backdrop-blur">
         <Link href="/" className="flex shrink-0 items-center px-4 sm:px-8"><Logo /></Link>
-        <nav aria-label="Основное меню" className="hidden flex-1 items-stretch border-r lg:flex">
+        <nav aria-label="Основное меню" className="hidden flex-1 items-stretch border-r xl:flex">
           {nav.map((n, i) => <DesktopItem key={n.href} {...n} n={i} />)}
         </nav>
         <div className="ml-auto flex items-stretch">
-          <Link href="/account/" className="hidden items-center border-l px-6 text-[15px] hover:bg-card md:flex">Кабинет</Link>
+          <ThemeToggle />
+          <Link href="/account/" className="hidden items-center border-l px-4 text-[15px] hover:bg-card 2xl:flex 2xl:px-6">Кабинет</Link>
           <BtnMod href={site.cta.href} className="hidden !h-16 sm:inline-flex">{site.cta.label}</BtnMod>
           <MobileMenu />
         </div>

@@ -48,11 +48,11 @@ export function DirectionCard({ d }: { d: Direction }) {
 
 export function IndustryCard({ i }: { i: Industry }) {
   return (
-    <Link href={`/industries/${i.slug}/`} className="spot group relative flex flex-col overflow-hidden border bg-card text-white">
+    <Link href={`/industries/${i.slug}/`} className="spot group relative flex flex-col overflow-hidden border bg-card text-foreground">
       <span className="flex flex-1 flex-col p-6 sm:p-8">
         <span className="tech relative text-[12px] text-brand">{i.label}</span>
         <h3 className="relative mt-2 text-xl font-bold">{i.title}</h3>
-        <span className="relative mt-3 flex-1 text-[15px] leading-relaxed text-white/70">{i.short}</span>
+        <span className="relative mt-3 flex-1 text-[15px] leading-relaxed text-muted-foreground">{i.short}</span>
         <span className="relative mt-6 flex items-center gap-1.5 text-sm font-medium">Смотреть обзор <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></span>
       </span>
     </Link>
