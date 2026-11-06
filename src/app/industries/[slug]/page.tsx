@@ -44,7 +44,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         <Container className="page-intro text-center">
           <Crumbs items={[crumbs[0], crumbs[1], { name: i.title }]} />
           <p className="mt-8 text-lg font-medium text-brand">{i.label}</p>
-          <h1 className="mx-auto mt-2 max-w-4xl text-5xl leading-[0.92] text-balance sm:text-7xl">{i.h1}</h1>
+          <h1 className="mx-auto mt-2 max-w-4xl text-4xl font-black leading-tight tracking-tight text-balance sm:text-5xl">{i.h1}</h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">{i.answer}</p>
           <Button asChild size="lg" className="mt-8"><a href={site.cta.href}>{site.cta.label}</a></Button>
         </Container>

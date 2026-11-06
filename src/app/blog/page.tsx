@@ -15,7 +15,7 @@ export default function Blog() {
     <>
       <Section className="pt-12">
         <Container className="max-w-5xl">
-          <h1 className="text-center text-5xl leading-[0.92] sm:text-7xl">Блог ECO-PRO</h1>
+          <h1 className="text-center text-4xl font-black tracking-tight">Блог ECO-PRO</h1>
           <p className="mx-auto mt-4 max-w-2xl text-center text-lg leading-relaxed text-muted-foreground">Статьи о предотвращении потерь, ситуационных центрах и управлении рисками — с примерами из практики экосистемы PRO.</p>
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {posts.length === 0 && <p className="py-6 text-muted-foreground">Статьи скоро появятся.</p>}

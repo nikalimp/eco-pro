@@ -56,7 +56,7 @@ export function ContourScheme({ code, active }: { code: string; active: number[]
                 y={y - PH / 2}
                 width={PW}
                 height={PH}
-                rx={0}
+                rx={PH / 2}
                 fill={on ? "var(--foreground)" : "var(--background)"}
                 stroke={role ? "var(--brand)" : on ? "var(--foreground)" : "var(--border)"}
                 strokeWidth={role ? 2 : 1.5}
@@ -77,7 +77,7 @@ export function ContourScheme({ code, active }: { code: string; active: number[]
           const on = isOn(n);
           const role = n === 6;
           return (
-            <li key={s} data-reveal style={{ "--i": i } as React.CSSProperties} className={cn("relative flex items-center gap-3 border px-5 py-3 text-[15px] font-medium", on && "border-foreground bg-foreground text-background", role && "border-2 border-dashed border-brand text-brand")}>
+            <li key={s} data-reveal style={{ "--i": i } as React.CSSProperties} className={cn("relative flex items-center gap-3 rounded-full border px-5 py-3 text-[15px] font-medium", on && "border-foreground bg-foreground text-background", role && "border-2 border-dashed border-brand text-brand")}>
               <span className={cn("text-sm", on ? "text-background/55" : "text-muted-foreground", role && "text-brand")}>{n}</span>
               {s}
               {role && <span className="ml-auto text-[11px] font-bold tracking-[0.12em]">ВАША РОЛЬ</span>}
@@ -88,9 +88,9 @@ export function ContourScheme({ code, active }: { code: string; active: number[]
       </ol>
 
       <figcaption className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 bg-foreground" aria-hidden="true" />Закрывает {code}</span>
-        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 border border-dashed border-brand" aria-hidden="true" />Решение руководителя</span>
-        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 border" aria-hidden="true" />Другие модули экосистемы</span>
+        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 rounded-full bg-foreground" aria-hidden="true" />Закрывает {code}</span>
+        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 rounded-full border border-dashed border-brand" aria-hidden="true" />Решение руководителя</span>
+        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 rounded-full border" aria-hidden="true" />Другие модули экосистемы</span>
       </figcaption>
     </figure>
   );

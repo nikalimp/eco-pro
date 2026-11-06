@@ -29,8 +29,8 @@ export function GeoPanel({ defaultTitle, defaultText }: { defaultTitle: string; 
   const label = !cur ? "Охват" : cur.kind === "город" ? "Город проекта" : n ? `${n} ${plural(n)} проектов` : "Регион присутствия";
   return (
     <div className="flex flex-col border bg-background p-5 sm:p-6" aria-live="polite">
-      <p className="label flex items-center gap-2 text-muted-foreground"><span className="size-2 bg-brand-solid" aria-hidden="true" />{label}</p>
-      <p className="display mt-4 text-3xl leading-[0.95]">{cur ? cur.name : defaultTitle}</p>
+      <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground"><span className="size-2 rounded-full bg-brand" aria-hidden="true" />{label}</p>
+      <p className="mt-3 text-2xl font-bold tracking-tight">{cur ? cur.name : defaultTitle}</p>
       <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{cur ? cur.cities : defaultText}</p>
     </div>
   );

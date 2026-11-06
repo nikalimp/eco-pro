@@ -50,7 +50,7 @@ export default async function DirectionPage({ params }: { params: Promise<{ slug
         <Container className="page-intro text-center">
           <Crumbs items={[crumbs[0], crumbs[1], { name: d.code }]} />
           <p className="mt-8 text-lg font-medium text-brand">{d.code}</p>
-          <h1 className="mx-auto mt-2 max-w-4xl text-5xl leading-[0.92] text-balance sm:text-7xl">{d.h1}</h1>
+          <h1 className="mx-auto mt-2 max-w-4xl text-4xl font-black leading-tight tracking-tight text-balance sm:text-5xl">{d.h1}</h1>
           <p className="mt-4 text-xl font-medium">{d.tagline}</p>
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">{d.answer}</p>
           {d.note && <p className="mx-auto mt-4 max-w-3xl text-[15px] text-muted-foreground">{d.note}</p>}
