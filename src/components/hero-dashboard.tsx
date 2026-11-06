@@ -56,7 +56,7 @@ export function HeroDashboard() {
       {/* Уголки видоискателя — только вокруг дашборда: идея наблюдения и контроля «Центра Правды» */}
       <span className="vf-c vf-tl" aria-hidden="true" /><span className="vf-c vf-tr" aria-hidden="true" /><span className="vf-c vf-bl" aria-hidden="true" /><span className="vf-c vf-br" aria-hidden="true" />
       <div className="hero-dash dash-beam">
-        <figure className="relative overflow-hidden border border-foreground bg-card text-left shadow-[0_40px_80px_-30px_rgb(0_0_0/0.35)]" aria-label="Пример экрана ситуационного центра PRO-TEST">
+        <figure className="relative overflow-hidden border border-foreground bg-card text-left text-foreground shadow-[0_40px_80px_-30px_rgb(0_0_0/0.35)]" aria-label="Пример экрана ситуационного центра PRO-TEST">
           <div className="flex h-10 items-center justify-between bg-ink px-4 text-[11px] text-white">
             <span className="hidden gap-1.5 sm:flex" aria-hidden="true"><i className="size-2 rounded-full bg-white/30" /><i className="size-2 rounded-full bg-white/30" /><i className="size-2 rounded-full bg-white/30" /></span>
             <span className="truncate">{d.title}</span>
