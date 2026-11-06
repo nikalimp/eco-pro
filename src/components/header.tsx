@@ -77,7 +77,6 @@ export function Header() {
           {nav.map((n) => <DesktopItem key={n.href} {...n} />)}
         </nav>
         <div className="flex items-center justify-self-end gap-2">
-          <Button asChild size="sm" variant="outline" className="hidden xl:inline-flex"><Link href="/account/">Личный кабинет</Link></Button>
           <Button asChild size="sm" className="hidden sm:inline-flex"><a href={site.cta.href}>{site.cta.label}</a></Button>
           <MobileMenu />
         </div>
