@@ -15,7 +15,7 @@ export default function Cabinet() {
     <Section className="pt-10">
       <Container className="max-w-3xl text-center">
         <p className="mt-8 text-sm font-medium uppercase tracking-[0.14em] text-brand">в разработке</p>
-        <h1 className="mt-2 text-5xl leading-[0.92] sm:text-7xl">Личный кабинет</h1>
+        <h1 className="mt-2 text-4xl font-black tracking-tight">Личный кабинет</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
           Личный кабинет с онлайн-дашбордами по объектам — в разработке. Действующим клиентам данные по объектам предоставляет менеджер: напишите на{" "}
           <a href={`mailto:${site.contacts.email}`} className="text-foreground underline underline-offset-4">{site.contacts.email}</a> или позвоните{" "}
