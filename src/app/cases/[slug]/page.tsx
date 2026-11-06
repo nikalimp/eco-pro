@@ -69,7 +69,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <dl className={`mx-auto mt-10 grid max-w-5xl gap-4 ${c.metrics.length > 3 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3"}`}>
             {c.metrics.map((m) => (
               <div key={m.label} className="border bg-background p-5">
-                <dd className="text-2xl font-black tracking-tight sm:text-3xl">{m.value}</dd>
+                <dd className="text-2xl font-black tracking-tight sm:text-3xl"><span className="font-light text-brand">[</span>{m.value}<span className="font-light text-brand">]</span></dd>
                 <dt className="mt-1 text-sm text-muted-foreground">{m.label}</dt>
               </div>
             ))}
