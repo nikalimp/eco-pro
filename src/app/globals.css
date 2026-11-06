@@ -281,3 +281,11 @@
 .geo-reg { fill: oklch(0.93 0 0); stroke: var(--background); stroke-width: .9; stroke-linejoin: round; }
 .geo-reg.is-on { fill: var(--brand); cursor: pointer; outline: none; transition: fill .2s; }
 .geo-reg.is-on:hover, .geo-reg.is-on:focus-visible { fill: oklch(0.42 0.17 27); }
+
+/* Уголки видоискателя вокруг дашборда первого экрана (единственное место с этим приёмом) */
+.vf-c { position: absolute; z-index: 2; width: 26px; height: 26px; border: 0 solid var(--brand); pointer-events: none; }
+.vf-tl { top: -12px; left: -12px; border-top-width: 2px; border-left-width: 2px; }
+.vf-tr { top: -12px; right: -12px; border-top-width: 2px; border-right-width: 2px; }
+.vf-bl { bottom: -12px; left: -12px; border-bottom-width: 2px; border-left-width: 2px; }
+.vf-br { bottom: -12px; right: -12px; border-bottom-width: 2px; border-right-width: 2px; }
+@media (max-width: 639px) { .vf-c { width: 18px; height: 18px; } .vf-tl, .vf-tr { top: -8px; } .vf-bl, .vf-br { bottom: -8px; } .vf-tl, .vf-bl { left: -8px; } .vf-tr, .vf-br { right: -8px; } }

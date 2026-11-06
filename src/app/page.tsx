@@ -45,8 +45,8 @@ export default function Home() {
             <Button asChild size="lg" className="btn-shine"><a href={site.cta.href}>{site.cta.label}</a></Button>
           </div>
         </Container>
-        {/* На телефоне дашборд скрыт: первый экран сразу ведёт к точкам входа, как на pro-nas.pro (ревью 22.10) */}
-        <Container className="relative mt-14 hidden sm:block">
+        {/* Живой мониторинг — и на телефоне, в компактном виде (правки Сергея 30.10: «типа живой мониторинг») */}
+        <Container className="relative mt-10 sm:mt-14">
           <HeroDashboard />
         </Container>
         <div aria-label={home.clientsTitle} role="region" className="marquee relative mt-14 overflow-hidden py-2">

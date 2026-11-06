@@ -18,7 +18,7 @@ export function CaseCard({ c }: { c: Case }) {
       <span className="card-sweep" aria-hidden="true" />
       <p className="text-xs font-light uppercase tracking-[0.12em] text-muted-foreground">{c.tag}</p>
       <h3 className="mt-3 text-lg font-bold group-hover:text-brand">{c.title}</h3>
-      <p className="mt-6 text-4xl font-black tracking-tight sm:text-5xl">{c.value}</p>
+      <p className="mt-6 whitespace-nowrap text-4xl font-black tracking-tight"><span className="font-light text-brand">[</span>{c.value}<span className="font-light text-brand">]</span></p>
       <p className="mt-2 text-sm text-muted-foreground">{c.valueLabel}</p>
       <p className="mt-5 flex-1 text-[15px] leading-relaxed text-muted-foreground">{c.text}</p>
       <p className="mt-6 flex items-center gap-1.5 text-sm font-medium">Читать кейс <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></p>
@@ -61,13 +61,13 @@ export function IndustryCard({ i }: { i: Industry }) {
 
 export function CtaBlock({ eyebrow = home.cta.eyebrow, title = home.cta.title, text = home.cta.text }: { eyebrow?: string; title?: string; text?: string }) {
   return (
-    <Section className="relative overflow-hidden bg-ink text-white">
-      <span className="cta-glow" aria-hidden="true" />
+    // Единственный крупный красный акцент на странице (правки Сергея 30.10: «Первый шаг — это встреча» на красном — «нравится»)
+    <Section className="relative overflow-hidden bg-brand-solid text-white">
       <Container className="relative text-center" data-reveal>
-        <Eyebrow className="text-white/60">{eyebrow}</Eyebrow>
+        <Eyebrow className="text-white/80">{eyebrow}</Eyebrow>
         <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">{title}</h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">{text}</p>
-        <Button asChild size="lg" className="btn-shine mt-8"><a href={site.cta.href}>{site.cta.label}</a></Button>
+        <p className="mx-auto mt-4 max-w-xl text-lg text-white/90">{text}</p>
+        <Button asChild size="lg" className="mt-8 bg-white text-black hover:bg-white/90"><a href={site.cta.href}>{site.cta.label}</a></Button>
       </Container>
     </Section>
   );
