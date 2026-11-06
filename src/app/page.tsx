@@ -35,10 +35,12 @@ export default function Home() {
         <span className="hero-grid" aria-hidden="true" />
         <Container className="relative text-center">
           <p className="hero-in mb-6 text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">{h.eyebrow}</p>
-          <h1 className="hero-in text-[40px] font-extrabold leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl">
-            {h.h1Line1}
+          {/* Кинетическая типографика (T53): строки поднимаются из-под маски, потом скобки «захлопываются» вокруг «за скобки»;
+              при наведении скобки чуть расходятся. Только CSS, текст целиком в HTML, без движения при «уменьшить движение» */}
+          <h1 className="kt text-[40px] font-extrabold leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl">
+            <span className="kt-line"><span className="kt-w">{h.h1Line1}</span></span>
             <br />
-            <span className="text-brand">[</span>{h.h1Bracket}<span className="text-brand">]</span>
+            <span className="kt-line kt-line-2"><span className="kt-w"><span className="kt-br kt-l text-brand">[</span><span className="kt-mid">{h.h1Bracket}</span><span className="kt-br kt-r text-brand">]</span></span></span>
           </h1>
           <p className="hero-in mx-auto mt-7 max-w-2xl text-lg font-medium leading-snug text-balance sm:text-[22px]">{h.subtitle}</p>
           <div className="hero-in mt-8 flex justify-center">
