@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { BarChart3, ClipboardList, Cpu, Factory, Gauge, Menu, Radar, ShieldAlert, ShoppingBag, Truck, UtensilsCrossed, Users, X } from "lucide-react";
+import { ArrowRight, BarChart3, ChevronDown, ClipboardList, Cpu, Crown, Database, Factory, Gauge, Menu, Radar, ShieldAlert, ShieldCheck, ShoppingBag, Truck, UtensilsCrossed, Users, X } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { nav, site } from "@/content/site";
 import { directions } from "@/content/directions";
+import { EcosystemGraph } from "@/components/ecosystem-graph";
 import { industries } from "@/content/industries";
 import { featuredCases } from "@/content/cases";
 import { geoMap } from "@/content/geo-map";
@@ -17,7 +18,7 @@ import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
 import { Logo } from "@/components/logo";
 import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, ProgressRing, Section, SectionHeader, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
-import { DirArt, HeroPlan } from "./iso";
+import { HeroPlan } from "./iso";
 import "./v3.css";
 
 // Версия 3 главной — секции brandsecurity.ru на дизайн-системе ECO-PRO v3 (src/components/ds, основа IBM Carbon), T56–T57.
@@ -31,29 +32,76 @@ export const metadata: Metadata = {
 const problemIcons = [ShieldAlert, ClipboardList, Cpu, BarChart3, Radar, Gauge];
 const caseIcons = [Truck, Users, Radar];
 const indIcons = [ShoppingBag, UtensilsCrossed, Factory];
+const entryIcons = [Crown, ShieldCheck, Database];
+
+// Шапка из /2 (T60): HUD-строка «REC», пункты-ячейки с номером [01] и выпадающими списками на CSS, «Кабинет», кнопка во всю высоту
+const submenus: Record<string, { href: string; label: string; code?: string }[]> = {
+  "/services/": directions.map((d) => ({ href: `/services/${d.slug}/`, label: d.title, code: d.code })),
+  "/industries/": industries.map((i) => ({ href: `/industries/${i.slug}/`, label: i.title })),
+};
+const num = (n: number) => `[${String(n + 1).padStart(2, "0")}]`;
+
+function NavItem({ href, label, n }: { href: string; label: string; n: number }) {
+  const sub = submenus[href];
+  const cell = "v3-cell flex h-16 items-center gap-2 border-l border-[var(--c-border)] px-4 2xl:px-6";
+  if (!sub) return <Link href={href} className={cell}><span className="ds-accent">{num(n)}</span>{label}</Link>;
+  return (
+    <div className="group relative">
+      <Link href={href} className={cell}><span className="ds-accent">{num(n)}</span>{label}<ChevronDown className="size-3.5 transition-transform group-hover:rotate-180" aria-hidden="true" /></Link>
+      <div className="invisible absolute left-0 top-full z-50 w-max opacity-0 transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+        <ul className="border border-[var(--c-border)] bg-white p-2 shadow-[0_16px_40px_rgb(0_0_0/.18)]">
+          {sub.map((x) => (
+            <li key={x.href}>
+              <Link href={x.href} className="flex items-baseline gap-5 whitespace-nowrap px-4 py-2.5 text-[15px] hover:bg-[var(--c-layer)] hover:text-[var(--c-brand)]">
+                {x.code && <span className="ds-label w-28 shrink-0 !text-[var(--c-brand)]">{x.code}</span>}{x.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 function Head() {
+  const c = site.contacts;
   return (
     <header className="v3-head">
-      <Wrap fluid className="flex h-[4.5rem] items-center gap-6">
-        <Link href="/" className="shrink-0"><Logo /></Link>
-        <nav aria-label="Основное меню" className="hidden flex-1 gap-1 lg:flex">
-          {nav.map((n) => <Link key={n.href} href={n.href} className="v3-seg">{n.label}</Link>)}
-          <a href="#faq" className="v3-seg">Вопросы</a>
+      <div className="hidden h-8 items-center justify-between border-b border-[var(--c-border)] px-[var(--sp-gutter)] md:flex">
+        <span className="v3-rec ds-label !text-[var(--c-text)]">REC · Ситуационный центр 24/7</span>
+        <a href={`tel:${c.phone}`} className="ds-label hover:!text-[var(--c-text)]">{c.phoneDisplay}</a>
+      </div>
+      <div className="flex h-16 items-stretch">
+        <Link href="/" className="flex shrink-0 items-center pl-[var(--sp-gutter)] pr-6 xl:pr-8"><Logo /></Link>
+        <nav aria-label="Основное меню" className="hidden flex-1 items-stretch border-r border-[var(--c-border)] xl:flex">
+          {nav.map((n, i) => <NavItem key={n.href} {...n} n={i} />)}
         </nav>
-        <Button asChild size="sm" className="ml-auto hidden sm:inline-flex"><a href={site.cta.href}>{site.cta.label}</a></Button>
-        <details className="group/m ml-auto sm:ml-0 lg:hidden">
-          <summary aria-label="Открыть меню" className="grid size-10 cursor-pointer list-none place-items-center border border-[var(--c-border)] [&::-webkit-details-marker]:hidden">
-            <Menu className="size-5 group-open/m:hidden" /><X className="hidden size-5 group-open/m:block" />
-          </summary>
-          <div className="fixed inset-x-0 top-[4.5rem] hidden border-b border-[var(--c-border)] bg-white p-4 group-open/m:block">
-            <div className="grid gap-1">
-              {nav.map((n) => <Link key={n.href} href={n.href} className="v3-seg h-12 text-base">{n.label}</Link>)}
-              <Button asChild className="mt-3"><a href={site.cta.href}>{site.cta.label}</a></Button>
+        <div className="ml-auto flex items-stretch">
+          <Link href="/account/" className="hidden items-center border-l border-[var(--c-border)] px-6 text-[15px] font-medium hover:text-[var(--c-brand)] 2xl:flex">Кабинет</Link>
+          <Button asChild icon="→" className="!h-16 hidden !gap-10 !pl-7 sm:inline-flex [&_.ds-btn-mod]:!h-16 [&_.ds-btn-mod]:!w-16 [&_.ds-btn-mod]:!bg-[var(--c-brand-hover)] [&_.ds-btn-mod]:!text-white !pr-0"><a href={site.cta.href}>{site.cta.label}</a></Button>
+          <details className="group/m xl:hidden">
+            <summary aria-label="Открыть меню" className="grid h-16 w-16 cursor-pointer list-none place-items-center border-l border-[var(--c-border)] [&::-webkit-details-marker]:hidden">
+              <Menu className="size-6 group-open/m:hidden" /><X className="hidden size-6 group-open/m:block" />
+            </summary>
+            <div className="fixed inset-x-0 top-16 hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-[var(--c-border)] bg-white px-4 pb-6 pt-2 group-open/m:block md:top-24">
+              <ul className="divide-y divide-[var(--c-border)]">
+                {nav.map((n, i) => (
+                  <li key={n.href} className="py-1">
+                    <a href={n.href} className="ds-h3 flex items-baseline gap-3 py-3"><span className="ds-label !text-[var(--c-brand)]">{num(i)}</span>{n.label}</a>
+                    {submenus[n.href] && (
+                      <ul className="mb-2 ml-3 border-l border-[var(--c-border)] pl-3">
+                        {submenus[n.href].map((x) => <li key={x.href}><a href={x.href} className="ds-small block py-1.5">{x.code ? `${x.code} — ` : ""}{x.label}</a></li>)}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+                <li className="py-1"><a href="/account/" className="ds-h3 flex items-baseline gap-3 py-3"><span className="ds-label !text-[var(--c-brand)]">{num(nav.length)}</span>Кабинет</a></li>
+              </ul>
+              <Button asChild className="mt-5 w-full"><a href={site.cta.href}>{site.cta.label}</a></Button>
             </div>
-          </div>
-        </details>
-      </Wrap>
+          </details>
+        </div>
+      </div>
     </header>
   );
 }
@@ -103,19 +151,30 @@ export default function V3() {
         </Surface>
       </section>
 
-      {/* 1а. Логотипы клиентов сразу под первым экраном */}
-      <section aria-labelledby="v3-trust" className="border-b border-[var(--c-border)]">
-        <div className="flex items-center gap-8 py-6 pl-[var(--sp-gutter)]">
-          <Eyebrow id="v3-trust" className="hidden shrink-0 md:block">{home.clientsTitle}</Eyebrow>
-          <div className="marquee min-w-0 flex-1 overflow-hidden">
-            <div className="marquee-track flex w-max items-center gap-16">
-              {[...clientLogos, ...clientLogos].map((l, i) => (
-                <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="v3-logo h-9 w-auto max-w-[140px] object-contain" />
-              ))}
-            </div>
+      {/* 1б. Что получает руководитель — три точки входа (из /2) */}
+      <Section tone="layer">
+        <Wrap fluid>
+          <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
+            <SectionHeader eyebrow={home.entryPoints.title} title={home.entryPoints.heading} />
+            <Text size="lead" className="max-w-[52ch]">{home.entryPoints.text}</Text>
           </div>
-        </div>
-      </section>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            {home.entryPoints.items.map((e, i) => {
+              const Icon = entryIcons[i];
+              return (
+                <Tile key={e.title} asChild className="group flex flex-col bg-white p-7 sm:p-9">
+                  <Link href={e.href}>
+                    <IconBox tone="red"><Icon /></IconBox>
+                    <Heading size="h4" as="h3" className="mt-8">{e.title}</Heading>
+                    <Text className="mt-3 flex-1">{e.text}</Text>
+                    <span className="mt-8 inline-flex items-center gap-2 text-[15px] font-bold group-hover:text-[var(--c-brand)]">{e.cta}<ArrowRight className="size-4" aria-hidden="true" /></span>
+                  </Link>
+                </Tile>
+              );
+            })}
+          </div>
+        </Wrap>
+      </Section>
 
       {/* 2. Задачи — закреплённая секция, задачи появляются вокруг круга */}
       <section className="v3-orbit-track">
@@ -259,26 +318,14 @@ export default function V3() {
         </Wrap>
       </Section>
 
-      {/* 7. Направления — плитки с меткой и чертёжной иллюстрацией */}
-      <Section>
+      {/* 7. Экосистема — граф из /2: PRO-TEST в центре, четыре направления вокруг */}
+      <Section className="v3-eco">
         <Wrap fluid>
-          <SectionHeader eyebrow={<>Пять направлений — <Accent>один Центр Правды</Accent></>} title={<>Экосистема <Accent>предотвращения потерь</Accent> и управления рисками</>} />
-          <Text className="mt-5 max-w-[68ch]">{home.answer}</Text>
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-6">
-            {directions.slice(0, 5).map((d, i) => (
-              <Tile key={d.slug} asChild className={`group flex flex-col ${i < 2 ? "lg:col-span-3 2xl:grid 2xl:grid-cols-[1fr_1.15fr] 2xl:items-stretch" : "lg:col-span-2"}`}>
-                <Link href={`/services/${d.slug}/`}>
-                  <div className="flex flex-1 flex-col p-6 sm:p-7">
-                    <Tag className="w-fit">{d.code}</Tag>
-                    <Heading size="h4" as="h3" className="mt-6">{d.title}</Heading>
-                    <Text size="small" className="mt-3 flex-1">{d.short}</Text>
-                    <span className="ds-btn mt-7 min-h-9 w-fit bg-[var(--c-brand)] pl-4 pr-1 text-[13px] text-white">Подробнее<span className="ds-btn-mod size-7 bg-white text-lg text-[var(--c-brand)]" aria-hidden="true">+</span></span>
-                  </div>
-                  <Surface tone="dark" className={`mx-6 mb-6 sm:mx-7 sm:mb-7 ${i < 2 ? "2xl:m-0 2xl:grid 2xl:place-items-center" : ""}`}><DirArt code={d.code} className="h-auto w-full" /></Surface>
-                </Link>
-              </Tile>
-            ))}
+          <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
+            <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} />
+            <Text className="max-w-[68ch]">{home.answer}</Text>
           </div>
+          <div className="mt-14"><EcosystemGraph /></div>
         </Wrap>
       </Section>
 
@@ -382,18 +429,22 @@ export default function V3() {
         </Surface>
       </section>
 
-      {/* 13. Основатель */}
-      <section className="grid lg:grid-cols-2">
-        <div className="v3-duo relative min-h-[24rem]">
-          <Image src="/images/team/sergey-malyutenkov-color.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover object-[50%_25%]" />
-        </div>
-        <Surface tone="dark" className="flex flex-col justify-center px-4 py-16 sm:px-12">
-          <Eyebrow>{home.ceo.eyebrow}</Eyebrow>
-          <blockquote className="mt-6 text-xl font-medium leading-relaxed sm:text-2xl">«{home.ceo.quote}»</blockquote>
-          <Heading size="h5" as="p" className="mt-8">{home.ceo.name} — {home.ceo.role}</Heading>
-          <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="ds-link ds-small mt-2 w-fit !text-[var(--c-brand-soft)]">{home.ceo.channelLabel} ↗</a>
-        </Surface>
-      </section>
+      {/* 13. Основатель — красная «пауза»: текст слева, цветное фото справа (из /2) */}
+      <Section tone="red" className="![background:var(--c-brand)]">
+        <Wrap fluid>
+          <figure className="grid items-center gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <Eyebrow className="!text-white">{home.ceo.eyebrow}</Eyebrow>
+              <blockquote className="mt-6 max-w-[52ch] text-xl font-medium leading-relaxed sm:text-2xl 2xl:text-[1.75rem]">«{home.ceo.quote}»</blockquote>
+              <figcaption className="mt-8 border-t border-white/40 pt-5">
+                <Heading size="h3" as="p">{home.ceo.name} — {home.ceo.role}</Heading>
+                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="ds-link ds-small mt-2 inline-block !text-white">{home.ceo.channelLabel} ↗</a>
+              </figcaption>
+            </div>
+            <Image src="/images/team/sergey-malyutenkov-color.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={640} height={640} className="mx-auto aspect-square w-full max-w-sm object-cover lg:col-span-4 lg:ml-auto lg:mr-0 2xl:max-w-md" />
+          </figure>
+        </Wrap>
+      </Section>
 
       {/* 13а. Команда */}
       <Section tone="layer">
@@ -417,6 +468,20 @@ export default function V3() {
           </ul>
         </Wrap>
       </Section>
+
+      {/* 13б. Логотипы клиентов — под командой (решение Ника 07.11) */}
+      <section aria-labelledby="v3-trust" className="border-y border-[var(--c-border)]">
+        <div className="flex items-center gap-8 py-6 pl-[var(--sp-gutter)]">
+          <Eyebrow id="v3-trust" className="hidden shrink-0 md:block">{home.clientsTitle}</Eyebrow>
+          <div className="marquee min-w-0 flex-1 overflow-hidden">
+            <div className="marquee-track flex w-max items-center gap-16">
+              {[...clientLogos, ...clientLogos].map((l, i) => (
+                <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="v3-logo h-9 w-auto max-w-[140px] object-contain" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* 14. Экспертиза — статьи */}
       {posts.length > 0 && (
