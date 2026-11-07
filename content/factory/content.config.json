@@ -1,0 +1,129 @@
+{
+  "factory_version": 2,
+  "project": "ECO-PRO",
+  "site": "https://eco-pro.nikalimp.ru",
+  "site_note": "Тестовый адрес (noindex). После переноса домена заменить site, article.url, publish.verify, brand.json и publish.json на https://pro-nas.pro",
+  "root": "../..",
+  "stack": "nextjs-github",
+  "language": "ru",
+  "timezone": "Europe/Moscow",
+  "cadence": "20",
+  "approval": false,
+  "author": "ECO-PRO",
+  "voice_mode": "we",
+  "paths": {
+    "plan": "content/factory/plan.md",
+    "strategy": "content/factory/strategy.md",
+    "voice": [
+      "content/factory/voice.md"
+    ],
+    "facts": "content/factory/facts.md",
+    "brand": "content/factory/brand.json",
+    "reports": "content/factory/reports/{date}-weekly.md",
+    "journal": "",
+    "article": "content/blog/{slug}.md",
+    "drafts": "content/factory/drafts/{slug}.md",
+    "media_spec": "content/media/{slug}.json",
+    "media_out": "public/blog/{slug}",
+    "photos": "public/images",
+    "secrets": "content/factory/.env",
+    "channels_registry": "content/media/channels.json"
+  },
+  "article": {
+    "url": "https://eco-pro.nikalimp.ru/blog/{slug}/",
+    "image_url": "/blog/{slug}/",
+    "cover_url": "/blog/{slug}/cover.jpg",
+    "frontmatter_required": [
+      "title",
+      "description",
+      "seoTitle",
+      "date",
+      "cover",
+      "coverAlt",
+      "rubric"
+    ],
+    "frontmatter_optional": [
+      "updated",
+      "legacy",
+      "image",
+      "channels"
+    ],
+    "photo_field": "",
+    "cover_rule": "Обложка — /blog/{slug}/cover.jpg: media.mjs рисует её в Actions по спецификации content/media/{slug}.json (layout type или shot; photo и logos не используем — strategy.md «Медиа»). Сайт берёт cover как og:image и картинку над статьёй, coverAlt — её alt. Инфографика — /blog/{slug}/info-N.png."
+  },
+  "links": {
+    "blog_prefix": "/blog/",
+    "internal": [
+      "/blog/",
+      "/cases/",
+      "/industries/retail/",
+      "/industries/horeca/",
+      "/industries/manufacturing-logistics/",
+      "/documents/"
+    ],
+    "services": {
+      "list": [
+        "situation-center",
+        "video-analytics-ai",
+        "digital-checklists",
+        "incident-analytics",
+        "security-systems"
+      ],
+      "prefix": "/services/"
+    },
+    "service_extra": [
+      "/#vstrecha"
+    ],
+    "catalogs": [
+      "/cases/"
+    ]
+  },
+  "rules": {
+    "meta_asterisk": false,
+    "forbidden": [
+      "уникальный",
+      "революционный",
+      "тотальная слежка",
+      "AI-агент"
+    ],
+    "emoji": false,
+    "first_person": false,
+    "we_voice": true
+  },
+  "tilda": {
+    "projectid": "",
+    "feeduid": "",
+    "parts": {},
+    "fields": {}
+  },
+  "publish": {
+    "how": "Push из облака (stacks/nextjs-github.md): add_repo nikalimp/eco-pro (push) → clone → content/blog/<slug>.md + content/media/<slug>.json → коммит «статья: <заголовок>» в main → deploy-kit (media.mjs → npm run check → выкладка на REG.RU по FTP → channels.mjs → коммит картинок обратно). Сайт пока на тестовом адресе (noindex) до переноса домена pro-nas.pro.",
+    "repo": "nikalimp/eco-pro",
+    "verify": "https://eco-pro.nikalimp.ru/blog/{slug}/",
+    "wait_minutes": 20
+  },
+  "channels": {
+    "runner": "ci",
+    "telegram": "@vynosim_za",
+    "telegram_public": "https://t.me/s/vynosim_za",
+    "max": null,
+    "enabled": false,
+    "note": "Каналы клиента: @vynosim_za и канал в MAX (Сергей, 13.10). Бот-администратор и секреты TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID (MAX_BOT_TOKEN, MAX_CHAT_ID) ещё не заданы — до них enabled: false. TELEGRAPH_TOKEN не нужен."
+  },
+  "notify": "telegram_bot",
+  "analytics": {
+    "metrika": "",
+    "webmaster": "pro-nas.pro",
+    "gsc": "",
+    "geo_pool": "content/factory/strategy.md"
+  },
+  "schedule": {
+    "daily": "Пн–Пт 11:11 — «Контент-завод — публикация» (общая задача)",
+    "weekly": "Пт 11:11 — «Контент-завод — отчёт недели»; Сб 11:11 — «Контент-завод — копирайтинг недели» (общие задачи)"
+  },
+  "tasks": [
+    "Контент-завод — отчёт недели",
+    "Контент-завод — копирайтинг недели",
+    "Контент-завод — публикация"
+  ]
+}

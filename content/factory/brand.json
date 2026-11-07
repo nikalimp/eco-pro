@@ -1,0 +1,35 @@
+{
+  "name": "ECO-PRO",
+  "site": "https://pro-nas.pro",
+  "siteLabel": "pro-nas.pro",
+  "author": "",
+  "avatar": "",
+  "logo": "logo.png",
+  "logosDir": "../../public/images/logos",
+  "blogPath": "/blog/",
+  "font": {
+    "family": "Geologica Variable",
+    "source": "fontsource:geologica"
+  },
+  "colors": {
+    "bg": "#FFFFFF",
+    "fg": "#000000",
+    "card": "#F5F5F5",
+    "muted": "#F5F5F5",
+    "mfg": "#6B6B6B",
+    "border": "#E0E0E0",
+    "brand": "#D51317",
+    "brandBg": "#FCECEC",
+    "onBrand": "#FFFFFF",
+    "shade": "rgb(0 0 0)"
+  },
+  "radius": 8,
+  "pattern": "dots",
+  "cta": {
+    "title": "Сколько ваша сеть теряет без контура реакции?",
+    "text": "На встрече покажем реальные кейсы и соберём чек-лист для пилота: 2 недели, удалённое подключение, на ваших камерах.",
+    "label": "Записаться на встречу →",
+    "url": "https://pro-nas.pro/#vstrecha"
+  },
+  "_source": "Дизайн-система ECO-PRO — светлая тема сайта (specs/03-design.md §0: 06.11.2026 тёмный редизайн отменён, вернули стиль pro-nas.pro). Цвета — токены src/app/globals.css :root: background #FFFFFF, foreground #000000, card/muted #F5F5F5, muted-foreground #6B6B6B, border #E0E0E0, brand #D51317, brand-bg = brand 8 % на белом; radius = --radius 0.5rem. Шрифт текста — Geologica (@fontsource-variable/geologica в package.json). siteLabel и CTA — целевой домен pro-nas.pro (форма «Записаться на встречу» #vstrecha); пока сайт на eco-pro.nikalimp.ru, каналы выключены, CTA в постах не используется."
+}
