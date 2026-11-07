@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { BarChart3, ClipboardList, Cpu, Factory, Gauge, Menu, Radar, ShieldAlert, ShoppingBag, Truck, UtensilsCrossed, Users, X } from "lucide-react";
-import "@fontsource/jetbrains-mono/400.css";
-import "@fontsource/jetbrains-mono/500.css";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { nav, site } from "@/content/site";
 import { directions } from "@/content/directions";
@@ -17,10 +15,11 @@ import { HeroDashboard } from "@/components/hero-dashboard";
 import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
 import { Logo } from "@/components/logo";
+import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, ProgressRing, Section, SectionHeader, Stat, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
 import { DirArt, HeroPlan } from "./iso";
 import "./v3.css";
 
-// Версия 3 главной — дизайн-система и лучшие секции brandsecurity.ru на контенте ECO-PRO (T56).
+// Версия 3 главной — секции brandsecurity.ru на дизайн-системе ECO-PRO v3 (src/components/ds, основа IBM Carbon), T56–T57.
 // Факты — только из src/content. Дубль «/»: canonical на главную, в sitemap и llms.txt нет.
 export const metadata: Metadata = {
   title: "ECO-PRO — ситуационный центр и экосистема контроля для бизнеса",
@@ -35,25 +34,25 @@ const indIcons = [ShoppingBag, UtensilsCrossed, Factory];
 function Head() {
   return (
     <header className="v3-head">
-      <div className="v3-wrap flex h-[4.5rem] items-center gap-6">
+      <Wrap className="flex h-[4.5rem] items-center gap-6">
         <Link href="/" className="shrink-0"><Logo /></Link>
         <nav aria-label="Основное меню" className="hidden flex-1 gap-1 lg:flex">
           {nav.map((n) => <Link key={n.href} href={n.href} className="v3-seg">{n.label}</Link>)}
           <a href="#faq" className="v3-seg">Вопросы</a>
         </nav>
-        <a href={site.cta.href} className="v3-btn v3-btn-sm ml-auto hidden sm:inline-flex">{site.cta.label}</a>
+        <Button asChild size="sm" className="ml-auto hidden sm:inline-flex"><a href={site.cta.href}>{site.cta.label}</a></Button>
         <details className="group/m ml-auto sm:ml-0 lg:hidden">
-          <summary aria-label="Открыть меню" className="grid size-10 cursor-pointer list-none place-items-center border border-[var(--line)] [&::-webkit-details-marker]:hidden">
+          <summary aria-label="Открыть меню" className="grid size-10 cursor-pointer list-none place-items-center border border-[var(--c-border)] [&::-webkit-details-marker]:hidden">
             <Menu className="size-5 group-open/m:hidden" /><X className="hidden size-5 group-open/m:block" />
           </summary>
-          <div className="fixed inset-x-0 top-[4.5rem] hidden border-b border-[var(--line)] bg-white p-4 group-open/m:block">
+          <div className="fixed inset-x-0 top-[4.5rem] hidden border-b border-[var(--c-border)] bg-white p-4 group-open/m:block">
             <div className="grid gap-1">
               {nav.map((n) => <Link key={n.href} href={n.href} className="v3-seg h-12 text-base">{n.label}</Link>)}
-              <a href={site.cta.href} className="v3-btn mt-3">{site.cta.label}</a>
+              <Button asChild className="mt-3"><a href={site.cta.href}>{site.cta.label}</a></Button>
             </div>
           </div>
         </details>
-      </div>
+      </Wrap>
     </header>
   );
 }
@@ -64,184 +63,180 @@ export default function V3() {
   const covered = coverMap.regions.filter((r) => r.name).length;
   const total = geoMap.cities.length + geoMap.inset.cities.length - 1;
   const stats = [
-    { v: "1000+", l: "реализованных проектов", red: true },
+    { v: "1000+", l: "реализованных проектов", accent: true },
     { v: "25+", l: "лет в отрасли" },
     { v: "5", l: "направлений экосистемы" },
     { v: String(total), l: "городов с проектами" },
-    { v: String(covered), l: "регионов присутствия", red: true },
+    { v: String(covered), l: "регионов присутствия", accent: true },
     { v: "9", l: "часовых поясов — от Калининграда до Владивостока" },
   ];
 
   return (
-    <div className="v3">
+    <DsRoot className="v3">
       <Head />
 
-      {/* 1. Первый экран: текст слева, чертёжная изометрия справа — план объекта поднят, камеры шлют сигналы в ситуационный центр */}
+      {/* 1. Первый экран: текст слева, чертёжная изометрия справа */}
       <section className="grid lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-2">
         <div className="flex flex-col justify-center px-4 py-14 sm:px-8 lg:py-16 lg:pl-[max(2rem,calc((100vw-82rem)/2+2rem))] lg:pr-14">
-          <p className="v3-chip v3-mono w-fit text-[13px] text-[var(--txt)]"><Radar className="size-4 text-[var(--red)]" aria-hidden="true" />{h.eyebrow}</p>
-          <h1 className="kt v3-h1 mt-8">
+          <Tag tone="gray" className="w-fit bg-white font-medium [font-family:var(--f-mono)]"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
+          <Heading size="display" className="kt mt-8">
             <span className="kt-line"><span className="kt-w">{h.h1Line1}</span></span>
             <br />
-            <span className="kt-line kt-line-2"><span className="kt-w"><span className="kt-br kt-l v3-red">[</span><span className="kt-mid v3-red">{h.h1Bracket}</span><span className="kt-br kt-r v3-red">]</span></span></span>
-          </h1>
-          <p className="v3-body mt-7 max-w-md">{h.subtitle}</p>
-          <div className="mt-9 flex flex-wrap gap-3"><a href={site.cta.href} className="v3-btn">{site.cta.label}</a></div>
+            <span className="kt-line kt-line-2"><span className="kt-w"><span className="kt-br kt-l ds-accent">[</span><span className="kt-mid ds-accent">{h.h1Bracket}</span><span className="kt-br kt-r ds-accent">]</span></span></span>
+          </Heading>
+          <Text className="mt-7 max-w-md">{h.subtitle}</Text>
+          <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
         </div>
-        <div className="v3-dark relative grid min-h-[22rem] place-items-center overflow-hidden px-4 py-10">
+        <Surface tone="dark" className="relative grid min-h-[22rem] place-items-center overflow-hidden px-4 py-10">
           <HeroPlan className="h-auto w-full max-w-[40rem]" />
-          <p className="v3-mono absolute bottom-4 left-4 text-[11px] text-white/60 sm:left-8">Схема: камеры на объекте → ситуационный центр PRO-TEST → руководитель</p>
-        </div>
+          <Text size="label" className="absolute bottom-4 left-4 sm:left-8">Схема: камеры на объекте → ситуационный центр PRO-TEST → руководитель</Text>
+        </Surface>
       </section>
 
-      {/* 2. Задачи — закреплённая секция, шесть задач появляются вокруг круга по мере прокрутки */}
+      {/* 2. Задачи — закреплённая секция, задачи появляются вокруг круга */}
       <section className="v3-orbit-track">
-        <div className="v3-orbit-pin v3-wrap py-16 lg:py-0">
+        <Wrap className="v3-orbit-pin py-16 lg:py-0">
           <div className="v3-orbit">
             <div className="v3-orbit-core mb-10 lg:mb-0">
               <div>
-                <h2 className="text-3xl font-bold leading-tight tracking-tight">С какими <span className="v3-red">задачами</span> к нам приходят</h2>
-                <p className="v3-body mt-4">{home.about.text}</p>
+                <Heading size="h3" className="!text-3xl">С какими <Accent>задачами</Accent> к нам приходят</Heading>
+                <Text className="mt-4">{home.about.text}</Text>
               </div>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:absolute lg:inset-0 lg:block">
               {home.about.problems.map((p, i) => {
                 const Icon = problemIcons[i];
                 return (
-                  <div key={p.title} className="v3-orbit-card border border-[var(--line)] bg-white p-4">
-                    <p className="flex items-stretch"><span className="grid size-9 shrink-0 place-items-center bg-[#444] text-white"><Icon className="size-4" aria-hidden="true" /></span><span className="v3-tag flex items-center">{p.title}</span></p>
-                    <p className="v3-body mt-3 text-[13px]">{p.text}</p>
-                  </div>
+                  <Tile key={p.title} className="v3-orbit-card bg-white p-4">
+                    <p className="flex items-stretch"><IconBox size="sm"><Icon /></IconBox><Tag className="flex items-center">{p.title}</Tag></p>
+                    <Text size="small" className="mt-3">{p.text}</Text>
+                  </Tile>
                 );
               })}
             </div>
           </div>
-        </div>
+        </Wrap>
       </section>
 
-      {/* 3. Кейсы — кирпичная полоса: вкладки слева, карточка с кольцом справа */}
-      <section className="v3-brick v3-cases v3-sec">
-        <div className="v3-wrap grid gap-10 lg:grid-cols-[20rem_1fr]">
+      {/* 3. Кейсы — вкладки на кирпичной полосе */}
+      <Section tone="brick" className="v3-cases">
+        <Wrap className="grid gap-10 lg:grid-cols-[20rem_1fr]">
           <div>
-            <h2 className="v3-h2 text-[clamp(1.75rem,1.3rem+1.4vw,2.5rem)]">Кейсы, которые разбираем на встрече</h2>
+            <Heading size="h3" as="h2" className="!text-[clamp(1.75rem,1.3rem+1.4vw,2.5rem)] !leading-[1.05]">Кейсы, которые разбираем на встрече</Heading>
             <div className="mt-8 grid gap-2">
               {featuredCases.map((c, i) => {
                 const Icon = caseIcons[i];
                 return (
                   <div key={c.id}>
                     <input type="radio" name="v3case" id={`v3c${i}`} className="sr-only" defaultChecked={i === 0} />
-                    <label htmlFor={`v3c${i}`} className="v3-tab"><span className="v3-tab-ico"><Icon className="size-4" aria-hidden="true" /></span>{c.title}</label>
+                    <label htmlFor={`v3c${i}`} className="v3-tab"><IconBox size="sm" tone="white"><Icon /></IconBox>{c.title}</label>
                   </div>
                 );
               })}
             </div>
-            <Link href="/cases/" className="v3-btn v3-btn-light mt-8">Все кейсы</Link>
+            <Button asChild variant="inverse" className="mt-8"><Link href="/cases/">Все кейсы</Link></Button>
           </div>
           <div>
             {featuredCases.map((c, i) => (
-              <article key={c.id} className={`v3-case v3-case-${i} gap-8 bg-white p-5 text-[var(--ink)] sm:p-8 md:grid-cols-[17rem_1fr]`}>
-                <div className="flex flex-col items-center bg-[var(--tile)] p-6 text-center">
-                  <p className="text-4xl font-bold tracking-tight v3-red">{c.value}</p>
-                  <p className="v3-mono mt-1 text-xs text-[var(--txt)]">{c.valueLabel}</p>
-                  <div className="v3-ring mt-6">
-                    <div><p className="text-3xl font-bold tracking-tight v3-red">{c.metrics[1].value}</p><p className="v3-mono mt-1 max-w-[8rem] text-[11px] leading-tight text-[var(--txt)]">{c.metrics[1].label}</p></div>
-                  </div>
-                </div>
+              <article key={c.id} className={`v3-case v3-case-${i} ds-theme-light gap-8 p-5 sm:p-8 md:grid-cols-[17rem_1fr]`}>
+                <Tile className="flex flex-col items-center border-0 p-6 text-center">
+                  <p className="text-4xl font-bold tracking-tight ds-accent">{c.value}</p>
+                  <Text size="label" className="mt-1">{c.valueLabel}</Text>
+                  <ProgressRing className="mt-6">
+                    <p className="text-3xl font-bold tracking-tight ds-accent">{c.metrics[1].value}</p>
+                    <Text size="label" className="mx-auto mt-1 max-w-[8rem] leading-tight">{c.metrics[1].label}</Text>
+                  </ProgressRing>
+                </Tile>
                 <div className="flex flex-col">
-                  <span className="v3-tag w-fit">{c.tag}</span>
-                  <h3 className="mt-5 text-3xl font-bold tracking-tight sm:text-[2.5rem] sm:leading-[1.05]">{c.title}</h3>
-                  <p className="v3-body mt-3">{c.scale}</p>
-                  <p className="mt-6 text-sm font-bold">Что изменилось:</p>
-                  <ul className="v3-body mt-2 list-disc space-y-1 pl-5 text-[13px]">{c.results.map((r) => <li key={r}>{r}</li>)}</ul>
-                  <Link href={`/cases/${c.id}/`} className="v3-btn mt-8 w-fit">Читать кейс</Link>
+                  <Tag className="w-fit">{c.tag}</Tag>
+                  <Heading size="h1" as="h3" className="mt-5 !text-3xl sm:!text-[2.5rem]">{c.title}</Heading>
+                  <Text className="mt-3">{c.scale}</Text>
+                  <Heading size="h5" as="p" className="mt-6">Что изменилось:</Heading>
+                  <List items={c.results} className="mt-2" />
+                  <Button asChild className="mt-8 w-fit"><Link href={`/cases/${c.id}/`}>Читать кейс</Link></Button>
                 </div>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
       {/* 4. Цифры лесенкой */}
-      <section className="v3-sec">
-        <div className="v3-wrap">
-          <p className="v3-eyebrow">ECO-PRO <span className="v3-red">в цифрах</span></p>
-          <div className="v3-stats mt-8">
-            {stats.map((s) => (
-              <div key={s.l} className="v3-tile flex flex-col p-5 sm:p-7">
-                <p className={`v3-stat-num ${s.red ? "v3-red" : ""}`}>{s.v}</p>
-                <p className="v3-body mt-auto border-t border-[var(--line)] pt-4 text-[13px] [margin-top:2.5rem]">{s.l}</p>
-              </div>
+      <Section>
+        <Wrap>
+          <Eyebrow>ECO-PRO <Accent>в цифрах</Accent></Eyebrow>
+          <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {stats.map((s, i) => (
+              <Stat key={s.l} value={s.v} label={s.l} accent={s.accent} className={["md:col-start-1 md:row-start-1", "md:col-start-2 md:row-start-1", "md:col-start-3 md:row-start-1", "md:col-start-2 md:row-start-2", "md:col-start-3 md:row-start-2", "md:col-start-4 md:row-start-2"][i]} />
             ))}
           </div>
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
-      {/* 5. Тёмно-красная полоса: увидеть нарушение — недостаточно */}
-      <section className="v3-deep v3-sec">
-        <div className="v3-wrap">
-          <p className="v3-eyebrow text-center !text-white/80">Увидеть нарушение — недостаточно. Важно <span className="text-[#ffb3ad]">добиться реакции</span></p>
-          <h2 className="v3-h2 mx-auto mt-5 max-w-4xl text-center">Естественный интеллект <span className="text-[#ffb3ad]">+</span> искусственный интеллект</h2>
+      {/* 5. ЕИ + ИИ на тёмно-красной полосе */}
+      <Section tone="deep">
+        <Wrap>
+          <SectionHeader align="center" eyebrow={<>Увидеть нарушение — недостаточно. Важно <Accent>добиться реакции</Accent></>} title={<>Естественный интеллект <Accent>+</Accent> искусственный интеллект</>} />
           <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-2">
             {[home.traditions.human, home.traditions.ai].map((c) => (
-              <div key={c.label} className="border border-white/20 bg-white/[.06] p-7 sm:p-9">
-                <p className="v3-mono text-[13px] text-white/70">{c.label}</p>
-                <h3 className="mt-3 text-2xl font-bold">{c.title}</h3>
-                <ul className="v3-mono mt-5 list-disc space-y-1.5 pl-5 text-[13px] text-white/90">{c.items.map((it) => <li key={it}>{it}</li>)}</ul>
-              </div>
+              <Tile key={c.label} className="p-7 sm:p-9">
+                <Text size="label">{c.label}</Text>
+                <Heading size="h3" className="mt-3">{c.title}</Heading>
+                <List items={c.items} className="mt-5" />
+              </Tile>
             ))}
           </div>
-          <p className="v3-mono mx-auto mt-8 max-w-2xl text-center text-[13px] text-white/80">{home.traditions.text}</p>
-        </div>
-      </section>
+          <Text className="mx-auto mt-8 max-w-2xl sm:text-center">{home.traditions.text}</Text>
+        </Wrap>
+      </Section>
 
-      {/* 6. Как начинаем — заголовок держится, этапы складываются */}
-      <section className="bg-[var(--tile)] v3-sec">
-        <div className="v3-wrap grid gap-12 lg:grid-cols-2">
+      {/* 6. Как начинаем — этапы стопкой */}
+      <Section tone="layer">
+        <Wrap className="grid gap-12 lg:grid-cols-2">
           <div className="v3-sticky self-start">
-            <p className="v3-eyebrow">Как мы <span className="v3-red">начинаем</span> работу</p>
-            <h2 className="v3-h2 mt-5"><span className="v3-red">Встреча, пилот,</span> масштабирование и интеграция в KPI</h2>
-            <p className="v3-body mt-5 max-w-md">{home.pilot.text}</p>
-            <a href={site.cta.href} className="v3-btn mt-10">{site.cta.label}</a>
+            <SectionHeader eyebrow={<>Как мы <Accent>начинаем</Accent> работу</>} title={<><Accent>Встреча, пилот,</Accent> масштабирование и интеграция в KPI</>} text={home.pilot.text} />
+            <Button asChild className="mt-10"><a href={site.cta.href}>{site.cta.label}</a></Button>
           </div>
           <ol className="v3-stack grid gap-4">
             {home.path.steps.map((s, i) => (
-              <li key={s.title} style={{ "--i": i } as React.CSSProperties} className="border border-[var(--line)] bg-white p-6 shadow-[0_-14px_30px_-22px_rgb(0_0_0/.3)] sm:p-8">
-                <p className="flex items-baseline justify-between border-b border-[var(--line)] pb-4"><span className="text-xl font-bold">{s.title}</span><span className="v3-idx">[{String(i + 1).padStart(2, "0")}]</span></p>
-                <p className="v3-body mt-5">{s.text}</p>
+              <li key={s.title} style={{ "--i": i } as React.CSSProperties} className="ds-tile bg-white p-6 shadow-[0_-14px_30px_-22px_rgb(0_0_0/.3)] sm:p-8">
+                <p className="flex items-baseline justify-between border-b border-[var(--c-border)] pb-4"><Heading size="h4" as="p">{s.title}</Heading><Index n={i + 1} /></p>
+                <Text className="mt-5">{s.text}</Text>
               </li>
             ))}
           </ol>
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
-      {/* 7. Направления — плитки с меткой, описанием и чертёжной иллюстрацией */}
-      <section className="v3-sec">
-        <div className="v3-wrap">
-          <p className="v3-eyebrow text-center">Пять направлений — <span className="v3-red">один Центр Правды</span></p>
-          <h2 className="v3-h2 mx-auto mt-5 max-w-3xl text-center">Экосистема <span className="v3-red">предотвращения потерь</span> и управления рисками</h2>
-          <p className="v3-body mx-auto mt-5 max-w-2xl">{home.answer}</p>
+      {/* 7. Направления — плитки с меткой и чертёжной иллюстрацией */}
+      <Section>
+        <Wrap>
+          <SectionHeader align="center" eyebrow={<>Пять направлений — <Accent>один Центр Правды</Accent></>} title={<>Экосистема <Accent>предотвращения потерь</Accent> и управления рисками</>} />
+          <Text className="mx-auto mt-5 max-w-2xl">{home.answer}</Text>
           <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-6">
             {directions.slice(0, 5).map((d, i) => (
-              <Link key={d.slug} href={`/services/${d.slug}/`} className={`v3-tile group flex flex-col transition-colors hover:border-[var(--red)] ${i < 2 ? "lg:col-span-3" : "lg:col-span-2"}`}>
-                <div className="flex flex-1 flex-col p-6 sm:p-7">
-                  <span className="v3-tag w-fit">{d.code}</span>
-                  <h3 className="v3-h3 mt-6">{d.title}</h3>
-                  <p className="v3-body mt-3 flex-1 text-[13px]">{d.short}</p>
-                  <span className="v3-btn v3-btn-sm mt-7 w-fit">Подробнее</span>
-                </div>
-                <div className="v3-dark mx-6 mb-6 sm:mx-7 sm:mb-7"><DirArt code={d.code} className="h-auto w-full" /></div>
-              </Link>
+              <Tile key={d.slug} asChild className={`group flex flex-col ${i < 2 ? "lg:col-span-3" : "lg:col-span-2"}`}>
+                <Link href={`/services/${d.slug}/`}>
+                  <div className="flex flex-1 flex-col p-6 sm:p-7">
+                    <Tag className="w-fit">{d.code}</Tag>
+                    <Heading size="h4" as="h3" className="mt-6">{d.title}</Heading>
+                    <Text size="small" className="mt-3 flex-1">{d.short}</Text>
+                    <span className="ds-btn mt-7 min-h-9 w-fit bg-[var(--c-brand)] pl-4 pr-1 text-[13px] text-white">Подробнее<span className="ds-btn-mod size-7 bg-white text-lg text-[var(--c-brand)]" aria-hidden="true">+</span></span>
+                  </div>
+                  <Surface tone="dark" className="mx-6 mb-6 sm:mx-7 sm:mb-7"><DirArt code={d.code} className="h-auto w-full" /></Surface>
+                </Link>
+              </Tile>
             ))}
           </div>
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
-      {/* 8. Клиенты и рекомендации — кирпичная полоса с белыми логотипами */}
-      <section className="v3-brick v3-sec">
-        <div className="v3-wrap text-center">
-          <h2 className="v3-h2 mx-auto max-w-3xl">{home.clientsTitle}</h2>
-          <p className="v3-mono mx-auto mt-5 max-w-2xl text-[13px] text-white/85">Рекомендательные письма: {letters.map((d) => d.title).join(", ")}. <Link href="/documents/" className="underline underline-offset-4">Лицензии и рекомендации →</Link></p>
-        </div>
+      {/* 8. Клиенты и рекомендации */}
+      <Section tone="brick">
+        <Wrap className="text-center">
+          <Heading size="h2">{home.clientsTitle}</Heading>
+          <Text className="mx-auto mt-5 max-w-2xl">Рекомендательные письма: {letters.map((d) => d.title).join(", ")}. <Link href="/documents/" className="ds-link text-white">Лицензии и рекомендации →</Link></Text>
+        </Wrap>
         <div className="marquee mt-12 overflow-hidden">
           <div className="marquee-track flex w-max items-center gap-16">
             {[...clientLogos, ...clientLogos].map((l, i) => (
@@ -249,137 +244,137 @@ export default function V3() {
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* 9. Вы — ключевой элемент экосистемы: три колонки с индексами */}
-      <section className="v3-sec">
-        <div className="v3-wrap grid gap-12 lg:grid-cols-[1fr_2fr]">
-          <div>
-            <p className="v3-eyebrow">{home.expertise.eyebrow}</p>
-            <h2 className="v3-h2 mt-5"><span className="v3-red">Вы</span> — ключевой элемент экосистемы</h2>
-            <p className="v3-body mt-5">{home.expertise.text}</p>
-          </div>
+      {/* 9. Вы — ключевой элемент */}
+      <Section>
+        <Wrap className="grid gap-12 lg:grid-cols-[1fr_2fr]">
+          <SectionHeader eyebrow={home.expertise.eyebrow} title={<><Accent>Вы</Accent> — ключевой элемент экосистемы</>} text={home.expertise.text} />
           <div className="grid gap-4 md:grid-cols-3">
-            {home.expertise.columns.map((c, i) => (
-              <div key={c.label} className={i === 2 ? "flex flex-col bg-[var(--red)] p-6 text-white" : "v3-tile flex flex-col p-6"}>
-                <p className="flex justify-between"><span className={`v3-mono text-[13px] ${i === 2 ? "text-white/85" : "v3-txt"}`}>{c.label}</span><span className={i === 2 ? "v3-mono text-sm text-white" : "v3-idx"}>[{String(i + 1).padStart(2, "0")}]</span></p>
-                <h3 className="v3-h3 mt-6">{c.title}</h3>
-                <ul className={`v3-mono mt-5 list-disc space-y-1.5 pl-5 text-[13px] ${i === 2 ? "text-white/90" : "v3-txt"}`}>{c.items.map((it) => <li key={it}>{it}</li>)}</ul>
-              </div>
-            ))}
+            {home.expertise.columns.map((c, i) => {
+              const body = (
+                <>
+                  <p className="flex justify-between"><Text size="label" as="span">{c.label}</Text><Index n={i + 1} /></p>
+                  <Heading size="h4" as="h3" className="mt-6">{c.title}</Heading>
+                  <List items={c.items} className="mt-5" />
+                </>
+              );
+              // «Результат» — красная плитка: тема red даёт белый текст, фон — сплошной фирменный
+              return i === 2
+                ? <Surface key={c.label} tone="red" className="flex flex-col p-6 ![background:var(--c-brand)]">{body}</Surface>
+                : <Tile key={c.label} className="flex flex-col p-6">{body}</Tile>;
+            })}
           </div>
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
-      {/* 10. Онлайн-дашборды — как блок платформ у референса: интерфейс личного кабинета */}
-      <section className="v3-redgrad v3-sec relative overflow-hidden">
-        <div className="v3-wrap grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
+      {/* 10. Онлайн-дашборды */}
+      <Section tone="red" className="relative overflow-hidden">
+        <Wrap className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
           <div>
-            <p className="v3-eyebrow !text-white/85">{home.audience.client.title}</p>
-            <h2 className="v3-h2 mt-5">Онлайн-дашборды по вашим объектам в одном интерфейсе</h2>
-            <p className="v3-mono mt-5 max-w-md text-[13px] text-white/85">{home.audience.client.text}.</p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <a href={site.cta.href} className="v3-btn v3-btn-light">{site.cta.label}</a>
-              <Link href={home.audience.client.href} className="v3-mono inline-flex items-center px-2 text-sm text-white underline underline-offset-4">{home.audience.client.cta} ↗</Link>
+            <SectionHeader eyebrow={home.audience.client.title} title="Онлайн-дашборды по вашим объектам в одном интерфейсе" text={`${home.audience.client.text}.`} />
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <Button asChild variant="inverse"><a href={site.cta.href}>{site.cta.label}</a></Button>
+              <Link href={home.audience.client.href} className="ds-link ds-small !text-white">{home.audience.client.cta} ↗</Link>
             </div>
           </div>
           <div className="relative"><HeroDashboard /></div>
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
       {/* 11. Отрасли */}
-      <section className="v3-sec">
-        <div className="v3-wrap">
-          <h2 className="v3-h2 mx-auto max-w-3xl text-center">Подбираем сценарии контроля <span className="v3-red">с учётом отрасли</span></h2>
+      <Section>
+        <Wrap>
+          <SectionHeader align="center" title={<>Подбираем сценарии контроля <Accent>с учётом отрасли</Accent></>} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {industries.map((ind, i) => {
               const Icon = indIcons[i] ?? Factory;
               return (
-                <Link key={ind.slug} href={`/industries/${ind.slug}/`} className="v3-tile group flex flex-col p-6 transition-colors hover:border-[var(--red)] sm:p-8">
-                  <p className="flex items-start justify-between"><span className="grid size-12 place-items-center bg-[#444] text-white"><Icon className="size-6" aria-hidden="true" /></span><span className="v3-idx">[{String(i + 1).padStart(2, "0")}]</span></p>
-                  <h3 className="v3-h3 mt-8">{ind.title}</h3>
-                  <p className="v3-body mt-3 flex-1 text-[13px]">{ind.short}</p>
-                  <span className="v3-btn v3-btn-sm mt-7 w-fit">Смотреть обзор</span>
-                </Link>
+                <Tile key={ind.slug} asChild className="group flex flex-col p-6 sm:p-8">
+                  <Link href={`/industries/${ind.slug}/`}>
+                    <p className="flex items-start justify-between"><IconBox><Icon /></IconBox><Index n={i + 1} /></p>
+                    <Heading size="h4" as="h3" className="mt-8">{ind.title}</Heading>
+                    <Text size="small" className="mt-3 flex-1">{ind.short}</Text>
+                    <span className="ds-btn mt-7 min-h-9 w-fit bg-[var(--c-brand)] pl-4 pr-1 text-[13px] text-white">Смотреть обзор<span className="ds-btn-mod size-7 bg-white text-lg text-[var(--c-brand)]" aria-hidden="true">+</span></span>
+                  </Link>
+                </Tile>
               );
             })}
           </div>
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
-      {/* 12. Пилот — разворот: форма на белом слева, тёмно-красная половина с предложением справа */}
+      {/* 12. Пилот — разворот: форма и предложение */}
       <section id="pilot" className="grid lg:grid-cols-2">
-        <div className="v3-deep order-1 flex flex-col justify-center px-4 py-16 sm:px-12 lg:order-2">
-          <p className="v3-eyebrow !text-white/85">{home.pilot.eyebrow}</p>
-          <h2 className="v3-h2 mt-5">Проверьте экосистему на своих объектах <span className="text-[#ffb3ad]">бесплатно</span></h2>
-          <ul className="v3-mono mt-8 space-y-3 text-[13px] text-white/90">
-            {home.pilot.points.map((t, i) => <li key={t} className="flex gap-3"><span className="text-[#ffb3ad]">[{String(i + 1).padStart(2, "0")}]</span>{t}</li>)}
-          </ul>
-        </div>
-        <div className="order-2 bg-[var(--tile)] px-4 py-16 sm:px-12 lg:order-1">
+        <Surface tone="deep" className="order-1 flex flex-col justify-center px-4 py-16 sm:px-12 lg:order-2">
+          <Eyebrow>{home.pilot.eyebrow}</Eyebrow>
+          <Heading size="h2" className="mt-5">Проверьте экосистему на своих объектах <Accent>бесплатно</Accent></Heading>
+          <ol className="mt-8 space-y-3">
+            {home.pilot.points.map((t, i) => <li key={t} className="ds-body flex gap-3"><Index n={i + 1} />{t}</li>)}
+          </ol>
+        </Surface>
+        <Surface tone="layer" className="order-2 px-4 py-16 sm:px-12 lg:order-1">
           <div className="mx-auto max-w-md">
-            <p className="text-2xl font-bold">Заявка на пилот</p>
-            <p className="v3-body mb-6 mt-1 text-[13px]">{home.pilot.text}</p>
+            <Heading size="h3" as="p">Заявка на пилот</Heading>
+            <Text size="small" className="mb-6 mt-1">{home.pilot.text}</Text>
             <LeadForm source="Пилот за 2 недели (/3/)" submitLabel={home.pilot.submit} />
           </div>
-        </div>
+        </Surface>
       </section>
 
-      {/* 13. Основатель — фото в красном дуотоне и цитата */}
+      {/* 13. Основатель */}
       <section className="grid lg:grid-cols-2">
         <div className="v3-duo relative min-h-[24rem]">
           <Image src="/images/team/sergey-malyutenkov-color.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover object-[50%_25%]" />
         </div>
-        <div className="v3-dark flex flex-col justify-center px-4 py-16 sm:px-12">
-          <p className="v3-eyebrow !text-white/70">{home.ceo.eyebrow}</p>
+        <Surface tone="dark" className="flex flex-col justify-center px-4 py-16 sm:px-12">
+          <Eyebrow>{home.ceo.eyebrow}</Eyebrow>
           <blockquote className="mt-6 text-xl font-medium leading-relaxed sm:text-2xl">«{home.ceo.quote}»</blockquote>
-          <p className="mt-8 font-bold">{home.ceo.name} — {home.ceo.role}</p>
-          <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="v3-mono mt-2 text-sm text-[#ffb3ad] underline underline-offset-4">{home.ceo.channelLabel} ↗</a>
-        </div>
+          <Heading size="h5" as="p" className="mt-8">{home.ceo.name} — {home.ceo.role}</Heading>
+          <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="ds-link ds-small mt-2 w-fit !text-[var(--c-brand-soft)]">{home.ceo.channelLabel} ↗</a>
+        </Surface>
       </section>
 
       {/* 14. Экспертиза — статьи */}
       {posts.length > 0 && (
-        <section className="v3-sec">
-          <div className="v3-wrap">
-            <h2 className="v3-h2 text-center"><span className="v3-red">Делимся экспертизой</span> в контроле и предотвращении потерь</h2>
+        <Section>
+          <Wrap>
+            <SectionHeader align="center" title={<><Accent>Делимся экспертизой</Accent> в контроле и предотвращении потерь</>} />
             <div className="mt-12 grid gap-4 md:grid-cols-3">
               {posts.map((p) => (
-                <Link key={p.slug} href={`/blog/${p.slug}/`} className="v3-tile group flex flex-col p-6 transition-colors hover:border-[var(--red)]">
-                  <p className="flex gap-2"><span className="v3-mono bg-white px-2 py-1 text-xs"><time dateTime={p.date}>{formatDate(p.date)}</time></span><span className="v3-mono bg-white px-2 py-1 text-xs">БЛОГ</span></p>
-                  <h3 className="mt-6 text-lg font-bold group-hover:text-[var(--red)]">{p.title}</h3>
-                  <p className="v3-body mt-3 text-[13px]">{p.description}</p>
-                </Link>
+                <Tile key={p.slug} asChild className="group flex flex-col p-6">
+                  <Link href={`/blog/${p.slug}/`}>
+                    <p className="flex gap-2"><Tag tone="white"><time dateTime={p.date} className="[font-family:var(--f-mono)]">{formatDate(p.date)}</time></Tag><Tag tone="white" className="[font-family:var(--f-mono)]">БЛОГ</Tag></p>
+                    <Heading size="h4" as="h3" className="mt-6 group-hover:text-[var(--c-brand)]">{p.title}</Heading>
+                    <Text size="small" className="mt-3">{p.description}</Text>
+                  </Link>
+                </Tile>
               ))}
             </div>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <Link href="/blog/" className="v3-btn">Все статьи</Link>
-              <a href={site.contacts.telegram} target="_blank" rel="noopener" className="v3-seg h-12">Telegram-канал ↗</a>
-              <a href={site.contacts.max} target="_blank" rel="noopener" className="v3-seg h-12">Канал в MAX ↗</a>
+              <Button asChild><Link href="/blog/">Все статьи</Link></Button>
+              <Button asChild variant="secondary" icon="↗"><a href={site.contacts.telegram} target="_blank" rel="noopener">Telegram-канал</a></Button>
+              <Button asChild variant="secondary" icon="↗"><a href={site.contacts.max} target="_blank" rel="noopener">Канал в MAX</a></Button>
             </div>
-          </div>
-        </section>
+          </Wrap>
+        </Section>
       )}
 
       {/* 15. FAQ */}
-      <section id="faq" className="bg-[var(--tile)] v3-sec">
-        <div className="v3-wrap grid gap-10 lg:grid-cols-[1fr_2fr]">
-          <div><p className="v3-eyebrow">Вопросы <span className="v3-red">и ответы</span></p><h2 className="v3-h2 mt-5">Часто задаваемые вопросы</h2></div>
+      <Section tone="layer" id="faq">
+        <Wrap className="grid gap-10 lg:grid-cols-[1fr_2fr]">
+          <SectionHeader eyebrow={<>Вопросы <Accent>и ответы</Accent></>} title="Часто задаваемые вопросы" />
           <FaqList items={homeFaq} />
-        </div>
-      </section>
+        </Wrap>
+      </Section>
 
       {/* 16. Финальный призыв */}
-      <section className="v3-redgrad py-16 sm:py-20">
-        <div className="v3-wrap grid items-end gap-8 lg:grid-cols-[1fr_auto]">
-          <div>
-            <p className="v3-eyebrow !text-white/85">{home.cta.eyebrow}</p>
-            <h2 className="v3-h2 mt-5">{home.cta.title}</h2>
-            <p className="v3-mono mt-5 max-w-2xl text-[13px] text-white/85">{home.cta.text}</p>
-          </div>
-          <a href={site.cta.href} className="v3-btn v3-btn-light">{site.cta.label}</a>
-        </div>
-      </section>
-    </div>
+      <Section tone="red" className="!py-16 sm:!py-20">
+        <Wrap className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
+          <SectionHeader eyebrow={home.cta.eyebrow} title={home.cta.title} text={home.cta.text} />
+          <Button asChild variant="inverse" size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button>
+        </Wrap>
+      </Section>
+    </DsRoot>
   );
 }

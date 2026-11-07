@@ -1,0 +1,127 @@
+/* Дизайн-система ECO-PRO v3 (T57). Основа — IBM Carbon: шкала отступов, типошкала, слои серого, рамки, движение.
+   Свои: фирменный красный #D51317 вместо синего Carbon, Geologica (гайдлайн) вместо IBM Plex Sans, IBM Plex Mono для подписей.
+   Токены живут на .ds и темах .ds-* — остальной сайт не меняется. Документация — артефакт «Дизайн-система ECO-PRO v3». */
+
+@layer components {
+  .ds {
+    /* Отступы Carbon: spacing-01…13 */
+    --sp-01: 2px; --sp-02: 4px; --sp-03: 8px; --sp-04: 12px; --sp-05: 16px; --sp-06: 24px; --sp-07: 32px;
+    --sp-08: 40px; --sp-09: 48px; --sp-10: 64px; --sp-11: 80px; --sp-12: 96px; --sp-13: 160px;
+    --sp-section: clamp(var(--sp-10), 2rem + 6vw, var(--sp-13));
+
+    /* Цвет: тема g10 Carbon + бренд */
+    --c-bg: #ffffff;
+    --c-layer: #f4f4f4;            /* layer-01: плитки */
+    --c-layer-2: #ffffff;          /* layer-02: плитка на плитке */
+    --c-layer-hover: #e8e8e8;
+    --c-border: #e0e0e0;           /* border-subtle */
+    --c-border-strong: #8d8d8d;
+    --c-text: #161616;             /* text-primary */
+    --c-text-2: #525252;           /* text-secondary — не светлее, AA 7.8:1 на белом */
+    --c-text-3: #6f6f6f;           /* helper — только 12 px+ подписи, 5.1:1 */
+    --c-text-inv: #ffffff;
+    --c-brand: #d51317;            /* interactive: кнопки, метки, акцентные слова */
+    --c-brand-hover: #b80f13;
+    --c-brand-active: #8f0c0f;
+    --c-brand-soft: #ffb3ad;       /* красный текст на тёмном и красном */
+    --c-focus: #d51317;
+    --c-success: #198038;
+    --c-brick: #a3282a;
+    --c-deep: radial-gradient(120% 140% at 0% 0%, #b3191c 0%, #7d1214 45%, #2a0506 100%);
+    --c-dark: radial-gradient(90% 120% at 70% 30%, #3a0b0c 0%, #120303 65%);
+
+    /* Шрифты */
+    --f-sans: "Geologica Variable", ui-sans-serif, system-ui, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+    /* Движение Carbon: productive — интерфейс, expressive — крупные появления */
+    --ease-productive: cubic-bezier(0.2, 0, 0.38, 0.9);
+    --ease-expressive: cubic-bezier(0.4, 0.14, 0.3, 1);
+    --ease-entrance: cubic-bezier(0, 0, 0.38, 0.9);
+    --dur-fast: 110ms; --dur-moderate: 240ms; --dur-slow: 400ms; --dur-slower: 700ms;
+
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-family: var(--f-sans);
+  }
+
+  /* Темы для полос: тёмная (g100), красная, кирпичная, тёмно-красная */
+  .ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep {
+    --c-layer: rgb(255 255 255 / .06); --c-layer-2: rgb(255 255 255 / .1); --c-layer-hover: rgb(255 255 255 / .12);
+    --c-border: rgb(255 255 255 / .22); --c-border-strong: rgb(255 255 255 / .6);
+    --c-text: #ffffff; --c-text-2: rgb(255 255 255 / .82); --c-text-3: rgb(255 255 255 / .7);
+    --c-focus: #ffffff; color: var(--c-text);
+  }
+  .ds-theme-dark { background: var(--c-dark); }
+  .ds-theme-red { background: linear-gradient(100deg, #e11d22 0%, #c3151a 45%, #6e0b0d 100%); }
+  .ds-theme-brick { background: var(--c-brick); }
+  .ds-theme-deep { background: var(--c-deep); }
+  /* Светлый островок внутри цветной полосы (белая карточка кейса на кирпичном) — возвращает светлые токены */
+  .ds-theme-light { --c-layer: #f4f4f4; --c-layer-2: #fff; --c-layer-hover: #e8e8e8; --c-border: #e0e0e0; --c-border-strong: #8d8d8d;
+    --c-text: #161616; --c-text-2: #525252; --c-text-3: #6f6f6f; --c-focus: #d51317; background: #fff; color: var(--c-text); }
+  .ds-theme-layer { background: var(--c-layer); --c-layer: #ffffff; --c-layer-2: #f4f4f4; }
+
+  /* ── Типошкала (Carbon productive + expressive, на Geologica) ── */
+  .ds-display  { font-size: clamp(2.75rem, 1.6rem + 3.4vw, 4.25rem); line-height: .95; font-weight: 700; letter-spacing: -0.03em; }
+  .ds-h1       { font-size: clamp(2.25rem, 1.5rem + 2.6vw, 3.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; text-wrap: balance; }
+  .ds-h2       { font-size: clamp(1.875rem, 1.3rem + 2vw, 3rem); line-height: 1.05; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
+  .ds-h3       { font-size: 1.5rem; line-height: 1.17; font-weight: 700; letter-spacing: -0.015em; }   /* heading-04-ish */
+  .ds-h4       { font-size: 1.25rem; line-height: 1.4; font-weight: 700; letter-spacing: -0.01em; }    /* heading-03 */
+  .ds-h5       { font-size: 1rem; line-height: 1.375; font-weight: 700; }                               /* heading-02 */
+  .ds-lead     { font-size: 1.125rem; line-height: 1.55; color: var(--c-text-2); }
+  .ds-body     { font-family: var(--f-mono); font-size: 14px; line-height: 20px; letter-spacing: 0; color: var(--c-text-2); } /* body-01 в моно */
+  .ds-small    { font-family: var(--f-mono); font-size: 13px; line-height: 18px; color: var(--c-text-2); }
+  .ds-label    { font-family: var(--f-mono); font-size: 12px; line-height: 16px; letter-spacing: .02em; color: var(--c-text-3); } /* label-01 */
+  .ds-num      { font-size: clamp(2.75rem, 1.8rem + 3.4vw, 5.5rem); line-height: .95; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .ds-accent   { color: var(--c-brand); }
+  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-accent { color: var(--c-brand-soft); }
+  .ds-theme-light .ds-accent, .ds-theme-light .ds-index { color: var(--c-brand); }
+  .ds-eyebrow  { font-family: var(--f-mono); font-size: 13px; line-height: 18px; font-weight: 500; color: var(--c-text-2); }
+  .ds-eyebrow::before { content: "[ "; } .ds-eyebrow::after { content: " ]"; }
+  .ds-index    { font-family: var(--f-mono); font-size: 14px; font-weight: 500; color: var(--c-brand); }
+  .ds-index::before { content: "["; } .ds-index::after { content: "]"; }
+  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-index { color: var(--c-brand-soft); }
+
+  /* ── Сетка ── */
+  .ds-wrap { max-width: 82rem; margin-inline: auto; padding-inline: var(--sp-05); }
+  @media (min-width: 640px) { .ds-wrap { padding-inline: var(--sp-07); } }
+  .ds-section { padding-block: var(--sp-section); }
+
+  /* ── Кнопка: красная плашка + белый модуль «+», как у референса; состояния Carbon ── */
+  .ds-btn { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--sp-06); font-family: var(--f-sans); font-weight: 700; line-height: 1.1; white-space: nowrap;
+    transition: background var(--dur-fast) var(--ease-productive), color var(--dur-fast) var(--ease-productive); outline: none; }
+  .ds-btn:focus-visible { box-shadow: 0 0 0 2px var(--c-bg), 0 0 0 4px var(--c-focus); }
+  .ds-btn-mod { flex: none; display: grid; place-items: center; transition: transform var(--dur-moderate) var(--ease-expressive); }
+  .ds-btn:hover .ds-btn-mod { transform: rotate(90deg); }
+  .ds-btn:disabled, .ds-btn[aria-disabled=true] { opacity: .45; pointer-events: none; }
+
+  /* ── Плитка (Carbon tile) ── */
+  .ds-tile { background: var(--c-layer); border: 1px solid var(--c-border); }
+  .ds-tile-click { transition: border-color var(--dur-fast) var(--ease-productive), background var(--dur-fast) var(--ease-productive); outline: none; }
+  .ds-tile-click:hover { border-color: var(--c-brand); }
+  .ds-tile-click:focus-visible { box-shadow: 0 0 0 2px var(--c-focus); }
+  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-tile-click:hover { border-color: var(--c-border-strong); background: var(--c-layer-hover); }
+
+  /* ── Метка (Carbon tag, прямоугольная) ── */
+  .ds-tag { display: inline-flex; align-items: center; gap: var(--sp-02); font-size: 13px; line-height: 1.15; font-weight: 700; padding: 6px 8px; }
+
+  /* Ссылка в тексте */
+  .ds-link { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: color var(--dur-fast) var(--ease-productive); }
+  .ds-link:hover { color: var(--c-brand); }
+  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-link:hover { color: var(--c-brand-soft); }
+
+  /* ── Данные (по образцу Tremor: ProgressCircle, Tracker, BarList) ── */
+  .ds-ring { --v: 100; position: relative; display: grid; place-items: center; text-align: center; border-radius: 50%; aspect-ratio: 1;
+    background: conic-gradient(var(--c-brand) calc(var(--v) * 1%), #f0d3d4 0); }
+  .ds-ring::before { content: ""; position: absolute; inset: var(--ring-w, 18px); border-radius: 50%; background: var(--ring-bg, var(--c-layer)); }
+  .ds-ring > * { position: relative; }
+  .ds-tracker { display: flex; gap: 2px; height: 2rem; }
+  .ds-tracker > span { flex: 1; min-width: 2px; }
+  .ds-barlist { display: grid; gap: var(--sp-03); }
+  .ds-bar { position: relative; display: flex; justify-content: space-between; align-items: center; height: 2rem; padding-inline: var(--sp-03); font-size: 13px; }
+  .ds-bar > i { position: absolute; inset: 0 auto 0 0; background: rgb(213 19 23 / .14); }
+  .ds-bar > * { position: relative; }
+
+  @keyframes ds-fade { from { opacity: 0; transform: translateY(8px); } }
+  @media (prefers-reduced-motion: reduce) { .ds *, .ds *::before, .ds *::after { transition-duration: 1ms !important; } }
+}
