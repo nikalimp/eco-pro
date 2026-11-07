@@ -3,6 +3,8 @@
 
 /* Свою шапку /3/ рисует сама — общую на этой странице прячем */
 body:has(.v3) > header { display: none; }
+/* Подвал на /3/ — тоже во всю ширину, с теми же полями, что у страницы */
+body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px, 3.3vw, 64px); }
 
 @layer components {
   /* Шапка: меню отдельными сегментами */
