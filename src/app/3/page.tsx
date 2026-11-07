@@ -8,6 +8,7 @@ import { directions } from "@/content/directions";
 import { industries } from "@/content/industries";
 import { featuredCases } from "@/content/cases";
 import { geoMap } from "@/content/geo-map";
+import { GeoPanel } from "@/components/geo-panel";
 import { coverMap } from "@/content/cover-map";
 import { letters } from "@/content/documents";
 import { getPosts, formatDate } from "@/lib/posts";
@@ -15,7 +16,7 @@ import { HeroDashboard } from "@/components/hero-dashboard";
 import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
 import { Logo } from "@/components/logo";
-import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, ProgressRing, Section, SectionHeader, Stat, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
+import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, ProgressRing, Section, SectionHeader, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
 import { DirArt, HeroPlan } from "./iso";
 import "./v3.css";
 
@@ -59,7 +60,7 @@ function Head() {
 
 export default function V3() {
   const h = home.hero;
-  const posts = getPosts().slice(0, 3);
+  const posts = getPosts().slice(0, 4);
   const covered = coverMap.regions.filter((r) => r.name).length;
   const total = geoMap.cities.length + geoMap.inset.cities.length - 1;
   const stats = [
@@ -78,19 +79,42 @@ export default function V3() {
       {/* 1. Первый экран: текст слева, чертёжная изометрия справа */}
       <section className="grid lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-2">
         <div className="flex flex-col justify-center px-4 py-14 sm:px-8 lg:py-16 lg:pl-[var(--sp-gutter)] lg:pr-14">
-          <Tag tone="gray" className="w-fit bg-white font-medium [font-family:var(--f-mono)]"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
+          <Tag tone="gray" className="w-fit lg:mt-auto bg-white font-medium [font-family:var(--f-mono)]"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
           <Heading size="display" className="kt mt-8">
             <span className="kt-line"><span className="kt-w">{h.h1Line1}</span></span>
             <br />
             <span className="kt-line kt-line-2"><span className="kt-w"><span className="kt-br kt-l ds-accent">[</span><span className="kt-mid ds-accent">{h.h1Bracket}</span><span className="kt-br kt-r ds-accent">]</span></span></span>
           </Heading>
-          <Text className="mt-7 max-w-md">{h.subtitle}</Text>
+          <Text size="lead" className="mt-7 max-w-[34ch]">{h.subtitle}</Text>
           <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
+          {/* Доказательства на первом экране — те же цифры, что в блоке «География» */}
+          <dl className="mt-12 grid max-w-[44rem] grid-cols-3 border-t border-[var(--c-border)] pt-6 lg:mt-auto">
+            {stats.slice(0, 3).map((s) => (
+              <div key={s.l} className="flex flex-col-reverse justify-end pr-4">
+                <dt className="ds-small mt-1">{s.l}</dt>
+                <dd className="v3-hero-num">{s.v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
         <Surface tone="dark" className="relative grid min-h-[22rem] place-items-center overflow-hidden px-4 py-10">
           <HeroPlan className="h-auto w-full max-w-[52rem]" />
           <Text size="label" className="absolute bottom-4 left-4 sm:left-8">Схема: камеры на объекте → ситуационный центр PRO-TEST → руководитель</Text>
         </Surface>
+      </section>
+
+      {/* 1а. Логотипы клиентов сразу под первым экраном */}
+      <section aria-labelledby="v3-trust" className="border-b border-[var(--c-border)]">
+        <div className="flex items-center gap-8 py-6 pl-[var(--sp-gutter)]">
+          <Eyebrow id="v3-trust" className="hidden shrink-0 md:block">{home.clientsTitle}</Eyebrow>
+          <div className="marquee min-w-0 flex-1 overflow-hidden">
+            <div className="marquee-track flex w-max items-center gap-16">
+              {[...clientLogos, ...clientLogos].map((l, i) => (
+                <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="v3-logo h-9 w-auto max-w-[140px] object-contain" />
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* 2. Задачи — закреплённая секция, задачи появляются вокруг круга */}
@@ -120,7 +144,7 @@ export default function V3() {
 
       {/* 3. Кейсы — вкладки на кирпичной полосе */}
       <Section tone="brick" className="v3-cases">
-        <Wrap fluid className="grid gap-10 lg:grid-cols-[20rem_1fr]">
+        <Wrap fluid className="grid gap-10 lg:grid-cols-[minmax(20rem,0.3fr)_1fr]">
           <div>
             <Heading size="h3" as="h2" className="!text-[clamp(1.75rem,1.3rem+1.4vw,2.5rem)] !leading-[1.05]">Кейсы, которые разбираем на встрече</Heading>
             <div className="mt-8 grid gap-2">
@@ -138,7 +162,7 @@ export default function V3() {
           </div>
           <div>
             {featuredCases.map((c, i) => (
-              <article key={c.id} className={`v3-case v3-case-${i} ds-theme-light gap-8 p-5 sm:p-8 md:grid-cols-[17rem_1fr]`}>
+              <article key={c.id} className={`v3-case v3-case-${i} ds-theme-light gap-8 p-5 sm:p-8 md:grid-cols-[17rem_1fr] 2xl:grid-cols-[19rem_1fr_minmax(16rem,0.5fr)] 2xl:p-12`}>
                 <Tile className="flex flex-col items-center border-0 p-6 text-center">
                   <p className="text-4xl font-bold tracking-tight ds-accent">{c.value}</p>
                   <Text size="label" className="mt-1">{c.valueLabel}</Text>
@@ -155,38 +179,65 @@ export default function V3() {
                   <List items={c.results} className="mt-2" />
                   <Button asChild className="mt-8 w-fit"><Link href={`/cases/${c.id}/`}>Читать кейс</Link></Button>
                 </div>
+                <dl className="hidden content-start divide-y divide-[var(--c-border)] border-y border-[var(--c-border)] 2xl:grid">
+                  {c.metrics.map((m) => (
+                    <div key={m.label} className="flex flex-col-reverse bg-white py-4 pl-5">
+                      <dt className="ds-small">{m.label}</dt>
+                      <dd className="text-2xl font-bold tracking-tight">{m.value}</dd>
+                    </div>
+                  ))}
+                </dl>
               </article>
             ))}
           </div>
         </Wrap>
       </Section>
 
-      {/* 4. Цифры лесенкой */}
-      <Section>
-        <Wrap fluid>
-          <Eyebrow>ECO-PRO <Accent>в цифрах</Accent></Eyebrow>
-          <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-            {stats.map((s, i) => (
-              <Stat key={s.l} value={s.v} label={s.l} accent={s.accent} className={["md:col-start-1 md:row-start-1", "md:col-start-2 md:row-start-1", "md:col-start-3 md:row-start-1", "md:col-start-2 md:row-start-2", "md:col-start-3 md:row-start-2", "md:col-start-4 md:row-start-2"][i]} />
-            ))}
+      {/* 4. География: карта регионов + цифры (широкий экран — главный визуал) */}
+      <Section tone="dark" className="v3-geo">
+        <Wrap fluid className="grid items-center gap-10 xl:grid-cols-[1.7fr_1fr]">
+          <div className="geo-map order-2 xl:order-1">
+            <svg viewBox={`0 0 ${coverMap.width} ${coverMap.height}`} className="h-auto w-full" role="group" aria-label={`Карта России: ${covered} регионов присутствия ECO-PRO`}>
+              {coverMap.regions.map((r, i) =>
+                r.name ? (
+                  <path key={i} d={r.d} className="geo-reg is-on" tabIndex={0} role="img" aria-label={r.cities?.length ? `${r.name}: ${r.cities.join(", ")}` : r.name} data-name={r.name} data-cities={r.cities?.join(", ") ?? ""} />
+                ) : (
+                  <path key={i} d={r.d} className="geo-reg" aria-hidden="true" />
+                ),
+              )}
+            </svg>
+          </div>
+          <div className="order-1 xl:order-2">
+            <SectionHeader eyebrow={home.geo.eyebrow} title={<>{home.geo.title.split(" ").slice(0, -2).join(" ")} <Accent>{home.geo.title.split(" ").slice(-2).join(" ")}</Accent></>} text={home.geo.text} />
+            <div className="mt-10 grid grid-cols-2 gap-px bg-[var(--c-border)]">
+              {stats.map((s) => (
+                <div key={s.l} className="flex flex-col-reverse bg-[var(--c-ink-fixed)] p-5">
+                  <p className="ds-small mt-2">{s.l}</p>
+                  <p className={`v3-geo-num ${s.accent ? "ds-accent" : ""}`}>{s.v}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 hidden xl:block"><GeoPanel defaultTitle={`${covered} регионов`} defaultText={`Наведите на регион, чтобы увидеть города. Всего ${total} городов с проектами.`} /></div>
           </div>
         </Wrap>
       </Section>
 
-      {/* 5. ЕИ + ИИ на тёмно-красной полосе */}
-      <Section tone="deep">
-        <Wrap fluid>
-          <SectionHeader align="center" eyebrow={<>Увидеть нарушение — недостаточно. Важно <Accent>добиться реакции</Accent></>} title={<>Естественный интеллект <Accent>+</Accent> искусственный интеллект</>} />
-          <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-2">
-            {[home.traditions.human, home.traditions.ai].map((c) => (
-              <Tile key={c.label} className="p-7 sm:p-9">
-                <Text size="label">{c.label}</Text>
-                <Heading size="h3" className="mt-3">{c.title}</Heading>
+      {/* 5. ЕИ + ИИ — заголовок слева, две колонки справа */}
+      <Section>
+        <Wrap fluid className="grid gap-10 lg:grid-cols-[1fr_2fr]">
+          <div>
+            <SectionHeader eyebrow={<>Увидеть нарушение — недостаточно. Важно <Accent>добиться реакции</Accent></>} title={<>Естественный интеллект <Accent>+</Accent> искусственный интеллект</>} />
+            <Text className="mt-6 max-w-[48ch]">{home.traditions.text}</Text>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {[home.traditions.human, home.traditions.ai].map((c, i) => (
+              <Tile key={c.label} className={`flex flex-col p-7 sm:p-9 ${i === 1 ? "ds-theme-dark ![background:var(--c-ink-fixed)]" : ""}`}>
+                <p className="flex justify-between"><Text size="label" as="span">{c.label}</Text><Index n={i + 1} /></p>
+                <Heading size="h3" className="mt-10">{c.title}</Heading>
                 <List items={c.items} className="mt-5" />
               </Tile>
             ))}
           </div>
-          <Text className="mx-auto mt-8 max-w-2xl sm:text-center">{home.traditions.text}</Text>
         </Wrap>
       </Section>
 
@@ -211,11 +262,11 @@ export default function V3() {
       {/* 7. Направления — плитки с меткой и чертёжной иллюстрацией */}
       <Section>
         <Wrap fluid>
-          <SectionHeader align="center" eyebrow={<>Пять направлений — <Accent>один Центр Правды</Accent></>} title={<>Экосистема <Accent>предотвращения потерь</Accent> и управления рисками</>} />
-          <Text className="mx-auto mt-5 max-w-2xl">{home.answer}</Text>
+          <SectionHeader eyebrow={<>Пять направлений — <Accent>один Центр Правды</Accent></>} title={<>Экосистема <Accent>предотвращения потерь</Accent> и управления рисками</>} />
+          <Text className="mt-5 max-w-[68ch]">{home.answer}</Text>
           <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-6">
             {directions.slice(0, 5).map((d, i) => (
-              <Tile key={d.slug} asChild className={`group flex flex-col ${i < 2 ? "lg:col-span-3" : "lg:col-span-2"}`}>
+              <Tile key={d.slug} asChild className={`group flex flex-col ${i < 2 ? "lg:col-span-3 2xl:grid 2xl:grid-cols-[1fr_1.15fr] 2xl:items-stretch" : "lg:col-span-2"}`}>
                 <Link href={`/services/${d.slug}/`}>
                   <div className="flex flex-1 flex-col p-6 sm:p-7">
                     <Tag className="w-fit">{d.code}</Tag>
@@ -223,7 +274,7 @@ export default function V3() {
                     <Text size="small" className="mt-3 flex-1">{d.short}</Text>
                     <span className="ds-btn mt-7 min-h-9 w-fit bg-[var(--c-brand)] pl-4 pr-1 text-[13px] text-white">Подробнее<span className="ds-btn-mod size-7 bg-white text-lg text-[var(--c-brand)]" aria-hidden="true">+</span></span>
                   </div>
-                  <Surface tone="dark" className="mx-6 mb-6 sm:mx-7 sm:mb-7"><DirArt code={d.code} className="h-auto w-full" /></Surface>
+                  <Surface tone="dark" className={`mx-6 mb-6 sm:mx-7 sm:mb-7 ${i < 2 ? "2xl:m-0 2xl:grid 2xl:place-items-center" : ""}`}><DirArt code={d.code} className="h-auto w-full" /></Surface>
                 </Link>
               </Tile>
             ))}
@@ -231,19 +282,27 @@ export default function V3() {
         </Wrap>
       </Section>
 
-      {/* 8. Клиенты и рекомендации */}
+      {/* 8. Рекомендательные письма — сканы, а не строка текста */}
       <Section tone="brick">
-        <Wrap fluid className="text-center">
-          <Heading size="h2">{home.clientsTitle}</Heading>
-          <Text className="mx-auto mt-5 max-w-2xl">Рекомендательные письма: {letters.map((d) => d.title).join(", ")}. <Link href="/documents/" className="ds-link text-white">Лицензии и рекомендации →</Link></Text>
-        </Wrap>
-        <div className="marquee mt-12 overflow-hidden">
-          <div className="marquee-track flex w-max items-center gap-16">
-            {[...clientLogos, ...clientLogos].map((l, i) => (
-              <Image key={i} src={l.src.replace(".svg", "-white.svg")} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="h-10 w-auto max-w-[150px] object-contain opacity-90" />
-            ))}
+        <Wrap fluid>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeader eyebrow="рекомендации" title={<>Нас рекомендуют <Accent>клиенты</Accent></>} text="Письма крупных сетей и отраслевых ассоциаций. Лицензии, СРО и партнёрские сертификаты — на странице документов." />
+            <Button asChild variant="inverse"><Link href="/documents/">Все документы</Link></Button>
           </div>
-        </div>
+          <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
+            {letters.map((d) => (
+              <li key={d.id}>
+                <Link href="/documents/" className="group block">
+                  <span className="block overflow-hidden bg-white p-2">
+                    <Image src={d.image.replace(".webp", "-sm.webp")} alt={`${d.title}: ${d.text}`} width={339} height={480} className="aspect-[339/480] h-auto w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+                  </span>
+                  <span className="ds-h5 mt-3 block">{d.title}</span>
+                  <span className="ds-small block">{d.issuer}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Wrap>
       </Section>
 
       {/* 9. Вы — ключевой элемент */}
@@ -285,7 +344,7 @@ export default function V3() {
       {/* 11. Отрасли */}
       <Section>
         <Wrap fluid>
-          <SectionHeader align="center" title={<>Подбираем сценарии контроля <Accent>с учётом отрасли</Accent></>} />
+          <SectionHeader eyebrow="отрасли" title={<>Подбираем сценарии контроля <Accent>с учётом отрасли</Accent></>} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {industries.map((ind, i) => {
               const Icon = indIcons[i] ?? Factory;
@@ -294,7 +353,8 @@ export default function V3() {
                   <Link href={`/industries/${ind.slug}/`}>
                     <p className="flex items-start justify-between"><IconBox><Icon /></IconBox><Index n={i + 1} /></p>
                     <Heading size="h4" as="h3" className="mt-8">{ind.title}</Heading>
-                    <Text size="small" className="mt-3 flex-1">{ind.short}</Text>
+                    <Text size="small" className="mt-3">{ind.short}</Text>
+                    <List items={ind.tasks} className="mt-6 flex-1 border-t border-[var(--c-border)] pt-6" />
                     <span className="ds-btn mt-7 min-h-9 w-fit bg-[var(--c-brand)] pl-4 pr-1 text-[13px] text-white">Смотреть обзор<span className="ds-btn-mod size-7 bg-white text-lg text-[var(--c-brand)]" aria-hidden="true">+</span></span>
                   </Link>
                 </Tile>
@@ -314,7 +374,7 @@ export default function V3() {
           </ol>
         </Surface>
         <Surface tone="layer" className="order-2 px-4 py-16 sm:px-12 lg:order-1">
-          <div className="mx-auto max-w-md">
+          <div className="mx-auto max-w-md 2xl:max-w-xl">
             <Heading size="h3" as="p">Заявка на пилот</Heading>
             <Text size="small" className="mb-6 mt-1">{home.pilot.text}</Text>
             <LeadForm source="Пилот за 2 недели (/3/)" submitLabel={home.pilot.submit} />
@@ -335,12 +395,35 @@ export default function V3() {
         </Surface>
       </section>
 
+      {/* 13а. Команда */}
+      <Section tone="layer">
+        <Wrap fluid>
+          <div className="grid gap-6 lg:grid-cols-[1fr_2fr] lg:items-end">
+            <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} />
+            <Text className="max-w-[60ch]">{home.team.text}</Text>
+          </div>
+          <ul className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {home.team.people.map((p) => (
+              <li key={p.name} className="ds-tile bg-white">
+                <div className="v3-duo v3-duo-soft relative aspect-[4/5]">
+                  <Image src={p.photo} alt={`${p.name}, ${p.role.toLowerCase()}`} fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover object-top" />
+                </div>
+                <div className="p-5 sm:p-6">
+                  <p className="ds-h4">{p.name}</p>
+                  <p className="ds-small mt-1">{p.role}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Wrap>
+      </Section>
+
       {/* 14. Экспертиза — статьи */}
       {posts.length > 0 && (
         <Section>
           <Wrap fluid>
-            <SectionHeader align="center" title={<><Accent>Делимся экспертизой</Accent> в контроле и предотвращении потерь</>} />
-            <div className="mt-12 grid gap-4 md:grid-cols-3">
+            <SectionHeader eyebrow="блог" title={<><Accent>Делимся экспертизой</Accent> в контроле и предотвращении потерь</>} />
+            <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {posts.map((p) => (
                 <Tile key={p.slug} asChild className="group flex flex-col p-6">
                   <Link href={`/blog/${p.slug}/`}>
@@ -351,7 +434,7 @@ export default function V3() {
                 </Tile>
               ))}
             </div>
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <div className="mt-10 flex flex-wrap gap-3">
               <Button asChild><Link href="/blog/">Все статьи</Link></Button>
               <Button asChild variant="secondary" icon="↗"><a href={site.contacts.telegram} target="_blank" rel="noopener">Telegram-канал</a></Button>
               <Button asChild variant="secondary" icon="↗"><a href={site.contacts.max} target="_blank" rel="noopener">Канал в MAX</a></Button>

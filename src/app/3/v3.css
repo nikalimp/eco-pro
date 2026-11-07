@@ -3,6 +3,16 @@
 
 /* Свою шапку /3/ рисует сама — общую на этой странице прячем */
 body:has(.v3) > header { display: none; }
+/* География на /3/ — вне слоя, чтобы перебить общие стили карты из globals.css */
+/* География: регионы на тёмном, чертёжной сеткой */
+.v3-geo .geo-reg { fill: rgb(255 255 255 / .07); stroke: #1a0505; stroke-width: .9; }
+.v3-geo .geo-reg.is-on { fill: var(--c-brand); cursor: pointer; outline: none; transition: fill var(--dur-fast) var(--ease-productive); }
+.v3-geo .geo-reg.is-on:hover, .v3-geo .geo-reg.is-on:focus-visible { fill: var(--c-brand-soft); }
+.v3-geo-num { font-size: clamp(2rem, 1.2rem + 1.7vw, 3.75rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.v3-geo [aria-live] { background: transparent; border-color: var(--c-border); color: var(--c-text); }
+.v3-geo [aria-live] p { color: inherit; }
+.v3-geo [aria-live] p:last-child { color: var(--c-text-2); }
+
 /* Подвал на /3/ — тоже во всю ширину, с теми же полями, что у страницы */
 body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px, 3.3vw, 64px); }
 
@@ -19,10 +29,11 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
   @media (min-width: 1024px) {
     .v3-orbit-track { height: 200vh; view-timeline-name: --orbit; }
     .v3-orbit-pin { position: sticky; top: 4.5rem; height: calc(100vh - 4.5rem); display: grid; place-items: center; }
-    .v3-orbit { position: relative; width: 100%; height: min(44rem, 88%); }
-    .v3-orbit-core { text-align: center; position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 24rem; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; padding: 3.5rem;
+    .v3-orbit { position: relative; width: 100%; height: min(54rem, 88%); }
+    .v3-orbit-core { text-align: center; position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: clamp(24rem, 26vw, 34rem); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; padding: 3.5rem;
       background: radial-gradient(circle at 50% 35%, #fff 0%, #f0f0f0 75%); box-shadow: 0 0 0 1px var(--c-border), 0 0 0 5rem rgb(0 0 0 / .02), 0 0 0 10rem rgb(0 0 0 / .015); }
-    .v3-orbit-card { position: absolute; width: 19rem; }
+    .v3-orbit-card { position: absolute; width: clamp(19rem, 19vw, 27rem); }
+    .v3-orbit-card:nth-child(1), .v3-orbit-card:nth-child(6) { left: 4%; } .v3-orbit-card:nth-child(3), .v3-orbit-card:nth-child(4) { right: 4%; }
     .v3-orbit-card:nth-child(1) { left: 0; top: 16%; }   .v3-orbit-card:nth-child(2) { left: 50%; top: 0; translate: -50% 0; }
     .v3-orbit-card:nth-child(3) { right: 0; top: 16%; }  .v3-orbit-card:nth-child(4) { right: 0; bottom: 16%; }
     .v3-orbit-card:nth-child(5) { left: 50%; bottom: 0; translate: -50% 0; } .v3-orbit-card:nth-child(6) { left: 0; bottom: 16%; }
@@ -74,8 +85,17 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
   @keyframes iso-pulse { 50% { transform: scale(1.6); opacity: .6; } }
   @keyframes iso-cone { 50% { fill-opacity: .3; } }
 
+  /* Первый экран: цифры-доказательства */
+  .v3-hero-num { font-size: clamp(1.75rem, 1rem + 1.6vw, 3.25rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  /* Логотипы клиентов на белом: серые, по наведению — в цвете */
+  .v3-logo { filter: grayscale(1); opacity: .6; transition: filter var(--dur-moderate) var(--ease-productive), opacity var(--dur-moderate) var(--ease-productive); }
+  .v3-logo:hover { filter: none; opacity: 1; }
+
   /* Фото в красном дуотоне */
   .v3-duo { position: relative; overflow: hidden; background: #7d1214; }
   .v3-duo img { filter: grayscale(1) contrast(1.15); mix-blend-mode: multiply; }
+  .v3-duo-soft { background: #f4f4f4; } .v3-duo-soft img { mix-blend-mode: normal; filter: grayscale(1) contrast(1.05); transition: filter var(--dur-slow) var(--ease-productive); }
+  li:hover > .v3-duo-soft img { filter: none; }
+  .v3-duo-soft::after { opacity: 0; }
   .v3-duo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(140deg, rgb(255 60 50 / .45), transparent 55%); mix-blend-mode: screen; pointer-events: none; }
 }
