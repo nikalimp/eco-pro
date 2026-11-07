@@ -71,7 +71,7 @@ const buttonVariants = cva("ds-btn", {
   variants: {
     variant: {
       primary: "bg-[var(--c-brand)] text-white hover:bg-[var(--c-brand-hover)] active:bg-[var(--c-brand-active)]",
-      inverse: "bg-white text-[#161616] hover:bg-[#e8e8e8]",
+      inverse: "bg-white text-[var(--c-ink-fixed)] hover:bg-[var(--c-white-hover)]",
       secondary: "border border-[var(--c-border-strong)] bg-transparent text-[var(--c-text)] hover:border-[var(--c-brand)] hover:text-[var(--c-brand)]",
       ghost: "bg-transparent text-[var(--c-text)] underline-offset-4 hover:underline",
     },
@@ -111,9 +111,9 @@ const tagVariants = cva("ds-tag", {
     tone: {
       red: "bg-[var(--c-brand)] text-white",
       gray: "bg-[var(--c-layer)] text-[var(--c-text)] border border-[var(--c-border)]",
-      dark: "bg-[#393939] text-white",
+      dark: "bg-[var(--c-icon-box)] text-white",
       outline: "border border-[var(--c-border-strong)] text-[var(--c-text)]",
-      white: "bg-white text-[#161616] font-medium",
+      white: "bg-white text-[var(--c-ink-fixed)] font-medium",
     },
   },
   defaultVariants: { tone: "red" },
@@ -127,7 +127,7 @@ export function Tile({ asChild, clickable, className, ...p }: React.ComponentPro
 
 /** Квадрат с иконкой: тёмный (по умолчанию) или красный */
 export function IconBox({ children, tone = "dark", size = "md", className }: { children: React.ReactNode; tone?: "dark" | "red" | "white"; size?: "sm" | "md" | "lg"; className?: string }) {
-  const t = { dark: "bg-[#393939] text-white", red: "bg-[var(--c-brand)] text-white", white: "bg-white text-[var(--c-brand)]" }[tone];
+  const t = { dark: "bg-[var(--c-icon-box)] text-white", red: "bg-[var(--c-brand)] text-white", white: "bg-white text-[var(--c-brand)]" }[tone];
   const s = { sm: "size-9 [&_svg]:size-4", md: "size-12 [&_svg]:size-6", lg: "size-14 [&_svg]:size-7" }[size];
   return <span className={cn("grid shrink-0 place-items-center", t, s, className)} aria-hidden="true">{children}</span>;
 }
@@ -151,7 +151,7 @@ export function ProgressRing({ value = 100, size = "12.5rem", width = "18px", bg
 
 /** Полоса событий (Tremor Tracker): ok / warn / bad по клеткам */
 export function Tracker({ data, className, label }: { data: ("ok" | "warn" | "bad")[]; className?: string; label?: string }) {
-  const c = { ok: "bg-[#5a5a5a]", warn: "bg-[#f1a1a3]", bad: "bg-[var(--c-brand)]" };
+  const c = { ok: "bg-[var(--c-tracker-ok)]", warn: "bg-[var(--c-tracker-warn)]", bad: "bg-[var(--c-brand)]" };
   return <div className={cn("ds-tracker", className)} role="img" aria-label={label}>{data.map((d, i) => <span key={i} className={c[d]} />)}</div>;
 }
 
