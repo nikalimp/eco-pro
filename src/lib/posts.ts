@@ -3,7 +3,8 @@ import path from "node:path";
 import { typograf } from "./typograf.mjs";
 
 // Статьи: content/blog/<slug>.md с frontmatter title, description, date (YYYY-MM-DD), опционально updated.
-export type Post = { slug: string; title: string; description: string; date: string; updated?: string; image?: string; seoTitle?: string; body: string };
+// Контент-завод: cover (обложка /blog/<slug>/cover.jpg) — картинка статьи и og:image, coverAlt — её alt; старое поле image тоже работает.
+export type Post = { slug: string; title: string; description: string; date: string; updated?: string; image?: string; imageAlt?: string; seoTitle?: string; body: string };
 
 const dir = path.join(process.cwd(), "content/blog");
 
@@ -17,7 +18,7 @@ function parse(file: string): Post {
     if (i > 0) meta[line.slice(0, i).trim()] = line.slice(i + 1).trim().replace(/^"|"$/g, "");
   }
   // Типограф при сборке: файлы статей не меняются
-  return { slug: file.replace(/\.md$/, ""), title: typograf(meta.title), description: typograf(meta.description), date: meta.date, updated: meta.updated, image: meta.image, seoTitle: meta.seoTitle, body: typograf(m[2].trim()) };
+  return { slug: file.replace(/\.md$/, ""), title: typograf(meta.title), description: typograf(meta.description), date: meta.date, updated: meta.updated, image: meta.cover || meta.image, imageAlt: meta.coverAlt ? typograf(meta.coverAlt) : undefined, seoTitle: meta.seoTitle, body: typograf(m[2].trim()) };
 }
 
 export function getPosts(): Post[] {

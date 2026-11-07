@@ -23,5 +23,4 @@ jobs:
       rsync_exclude: "api/config.php api/logs/"
       url: https://eco-pro.nikalimp.ru
       build_command: "SITE_URL=https://eco-pro.nikalimp.ru npm run check"   # адрес сайта в canonical, sitemap, IndexNow; при переезде — вместе с url
-      media_brand: content/media/brand.json   # до переноса завода в content/factory/
     secrets: inherit

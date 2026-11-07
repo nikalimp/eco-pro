@@ -1,5 +1,5 @@
 // Контент-завод (скилл /content): скриншоты, фото, обложки и инфографика статей в фирменном стиле проекта.
-// Оригинал — NikitOS/.claude/skills/content/tools/media/media.mjs; в проекты копируется как есть.
+// Оригинал — NikitOS/.claude/plugins/website/skills/content/tools/media/media.mjs; в проекты копируется как есть.
 // Бренд (цвета, шрифт, автор, аватар, логотипы, CTA) — brand.json проекта; пути в нём — относительно самого brand.json.
 //
 //   node media.mjs [--brand brand.json] [--specs content/media] [--out public/blog] [--root .] [<slug>] [--force]

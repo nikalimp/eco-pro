@@ -35,14 +35,14 @@
 - [ ] **T__** `06-launch-checklist.md` пройден
 - [ ] **T__** Деплой на боевой домен
 
-## Этап 7. Контент-завод (предложено 15.10.2026, ждёт «ок» Ника)
+## Этап 7. Контент-завод (предложено 15.10.2026, «ок» Ника 07.11.2026 — завод v2)
 > Основание: `/content init`, решения Ника 15.10 (Next.js + push из облака, Telegram, автопубликация, 20 статей/мес). Бриф, голос, факты, план — `content/`.
-- [ ] **T30** Репозиторий: `git init`, приватный репозиторий на GitHub, секреты деплоя (`SSH_*`, `SITE_DIR`, `SITE_URL`), доступ приложения Claude — *делает Ник* · *проверка:* push в main запускает Deploy, сайт отвечает 200
-- [ ] **T31** Блог: поля frontmatter `cover`, `coverAlt`, `rubric` в `src/lib/posts.ts` (`cover` → `image`), рубрика и миниатюра в `/blog/`, `coverAlt` как alt обложки — *проверка:* `npm run check` проходит, у статьи с cover есть og:image и image в BlogPosting
-- [ ] **T32** Медиа: `scripts/media.mjs` и `scripts/channels.mjs` (уже скопированы), `content/media/brand.json` + `logo.png` (готовы), devDependencies `playwright@1.56.1` — *проверка:* `node scripts/media.mjs --brand content/media/brand.json` рисует обложку тестовой спецификации
-- [ ] **T33** Workflow: шаги из `NikitOS/.claude/skills/content/tools/nextjs/deploy-steps.yml` в `.github/workflows/deploy.yml` («Медиа статей» после `npm ci`, «Telegram и Max» и «Сохранить сгенерированные файлы» после заливки, пути `public/blog content/media`), `permissions: contents: write`, `fetch-depth: 50`, env `MEDIA_BRAND=content/media/brand.json`, `paths-ignore` + `content/**` — *проверка:* пробная статья выходит на сайт, картинки коммитятся обратно
-- [ ] **T34** Пробная статья по первой теме плана (`situation-center-for-business`), `check_post.py` без ошибок — *проверка:* статья и `cover.jpg` отвечают на тестовом адресе
-- [ ] **T35** Telegram: бот-админ в @vynosim_za, секреты `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAPH_TOKEN`; `channels.enabled=true` — *проверка:* анонс пробной статьи в канале
+- [x] **T30** Репозиторий: `git init`, приватный репозиторий на GitHub, секреты деплоя (`SSH_*`, `SITE_DIR`, `SITE_URL`), доступ приложения Claude — *делает Ник* · *проверка:* push в main запускает Deploy, сайт отвечает 200
+- [x] **T31** _(07.11: cover → картинка и og:image, coverAlt → alt; рубрика и миниатюры в `/blog/` не делались — без правки дизайна)_ Блог: поля frontmatter `cover`, `coverAlt`, `rubric` в `src/lib/posts.ts` (`cover` → `image`), рубрика и миниатюра в `/blog/`, `coverAlt` как alt обложки — *проверка:* `npm run check` проходит, у статьи с cover есть og:image и image в BlogPosting
+- [x] **T32** _(07.11: копии из toolkit, brand.json и logo.png — в `content/factory/`, обложка проверена локально)_ Медиа: `scripts/media.mjs` и `scripts/channels.mjs` (уже скопированы), `content/media/brand.json` + `logo.png` (готовы), devDependencies `playwright@1.56.1` — *проверка:* `node scripts/media.mjs --brand content/media/brand.json` рисует обложку тестовой спецификации
+- [x] **T33** _(07.11: шаги медиа и каналов делает deploy-kit; brand.json по умолчанию `content/factory/brand.json`)_ Workflow: шаги из `NikitOS/.claude/skills/content/tools/nextjs/deploy-steps.yml` в `.github/workflows/deploy.yml` («Медиа статей» после `npm ci`, «Telegram и Max» и «Сохранить сгенерированные файлы» после заливки, пути `public/blog content/media`), `permissions: contents: write`, `fetch-depth: 50`, env `MEDIA_BRAND=content/media/brand.json`, `paths-ignore` + `content/**` — *проверка:* пробная статья выходит на сайт, картинки коммитятся обратно
+- [ ] **T34** _(07.11: первую статью 09.11 пишет и выпускает общая задача «Контент-завод — публикация»)_ Пробная статья по первой теме плана (`situation-center-for-business`), `check_post.py` без ошибок — *проверка:* статья и `cover.jpg` отвечают на тестовом адресе
+- [ ] **T35** Telegram: бот-админ в @vynosim_za, секреты `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (Max — `MAX_BOT_TOKEN`, `MAX_CHAT_ID`; `TELEGRAPH_TOKEN` не нужен); `channels.enabled=true` — *проверка:* анонс пробной статьи в канале
 
 ## Этап 8. Редизайн по дизайн-системе (решение Ника 22.10.2026)
 > Основание: просьба Ника 22.10 «запускать редизайн», дизайн-система «ECO-PRO» v3, `03-design.md` §0. Тексты и факты не меняются.
@@ -75,7 +75,7 @@
 | 2026-11-06 | T50 | Дашборд на телефоне — 3 показателя и лента событий без графика; CtaBlock на bg-brand-solid с белой кнопкой; [цифры] в CaseCard и на странице кейса; .vf-c в globals.css | Предложить команде клиента как опции, при отказе откатить отдельно |
 | 2026-11-06 | T49 | Вёрстка и стили — из версии до редизайна (95d265c), контент и правки после неё сохранены; новые EcosystemList и карта cover-map в светлом стиле; FAQ 10 вопросов | Открытые вопросы ТЗ решены по умолчанию: точки городов убраны, шаги — в FAQ, переключателя нет, даты писем скрыты |
 | 2026-10-28 | T48 | Токены [data-theme=light], ThemeToggle в шапке, логотипы клиентов инвертируются в светлой теме | Панель мобильного меню скрыта, пока меню закрыто; body overflow-x: clip от всплывашек экосистемы |
-| Этап 7 | Статьи выходят на тестовый адрес (noindex) до переноса домена — ок или ждать pro-nas.pro? | Ник | |
+| Этап 7 | Статьи выходят на тестовый адрес (noindex) до переноса домена — ок или ждать pro-nas.pro? | Ник | 07.11: выходят на тестовый адрес, переедут вместе с сайтом |
 | T35 | Сергей подтвердил действующие каналы (13.10); бот-админ в @vynosim_za ещё не добавлен | Сергей | |
 
 ## Журнал
@@ -91,3 +91,4 @@
 | 2026-10-14 | Правки v0.7: кейсы, тексты, разделение сущностей | 13 страниц кейсов, check 9.8/10 | Уточнить у Сергея 3 расхождения в цифрах кейсов |
 | 2026-10-15 | /content init | content/: strategy, voice, facts, plan (20 тем, 19.10–13.11), content.config.json; content/media/brand.json + logo.png; scripts/media.mjs, channels.mjs | Предложен этап 7 (T30–T35); в deploy/_stage и _to_delete — пустой мусор от установки, удалить вручную |
 | 2026-10-17 | Материалы клиента: документы и рекомендации | /documents/, блоки на главной и PRO-TECHNO, контент-завод (+5 тем); check 9.8/10 | Запросить актуальные сертификаты Parsec, Smartec, ITK, TRASSIR — сроки истекли |
+| 2026-11-07 | T31–T33, этап 7 | Контент-завод v2: content/factory/ (коммит в main), план 09.11–11.12 (сезон 1 заново с Н1), cover/coverAlt в posts.ts, media.mjs и channels.mjs из toolkit, playwright 1.56.1, media_brand по умолчанию; check 9.6/10 | Каналы выключены до T35; рубрика и миниатюры в /blog/ — не делали |

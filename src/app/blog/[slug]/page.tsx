@@ -44,7 +44,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             {site.name} · <time dateTime={p.date}>{formatDate(p.date)}</time>
             {p.updated && p.updated !== p.date && <> · обновлено <time dateTime={p.updated}>{formatDate(p.updated)}</time></>}
           </p>
-          {p.image && <Image src={p.image} alt={p.title} width={1000} height={1500} className="mt-8 max-h-[560px] w-full rounded-md object-cover" />}
+          {p.image && <Image src={p.image} alt={p.imageAlt ?? p.title} width={1000} height={1500} className="mt-8 max-h-[560px] w-full rounded-md object-cover" />}
           <article className="prose-site mt-10">
             <Markdown remarkPlugins={[remarkGfm]}>{p.body}</Markdown>
           </article>
