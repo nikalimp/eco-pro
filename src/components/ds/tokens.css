@@ -64,7 +64,7 @@
   /* Светлый островок внутри цветной полосы (белая карточка кейса на кирпичном) — возвращает светлые токены */
   .ds-theme-light { --c-layer: #f4f4f4; --c-layer-2: #fff; --c-layer-hover: #e8e8e8; --c-border: #e0e0e0; --c-border-strong: #8d8d8d;
     --c-text: #161616; --c-text-2: #525252; --c-text-3: #6f6f6f; --c-focus: #d51317; background: #fff; color: var(--c-text); }
-  .ds-theme-layer { background: var(--c-layer); --c-layer: #ffffff; --c-layer-2: #f4f4f4; }
+  .ds-theme-layer { background: #f4f4f4; --c-layer: #ffffff; --c-layer-2: #f4f4f4; } /* фон задан явно: var(--c-layer) тут уже переопределён на белый */
 
   /* ── Типошкала (Carbon productive + expressive, на Geologica) ── */
   .ds-display  { font-size: clamp(2.75rem, 1rem + 4.4vw, 7.5rem); line-height: .95; font-weight: 700; letter-spacing: -0.03em; }
@@ -98,8 +98,7 @@
   .ds-btn { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--sp-06); font-family: var(--f-sans); font-weight: 700; line-height: 1.1; white-space: nowrap;
     transition: background var(--dur-fast) var(--ease-productive), color var(--dur-fast) var(--ease-productive); outline: none; }
   .ds-btn:focus-visible { box-shadow: 0 0 0 2px var(--c-bg), 0 0 0 4px var(--c-focus); }
-  .ds-btn-mod { flex: none; display: grid; place-items: center; transition: transform var(--dur-moderate) var(--ease-expressive); }
-  .ds-btn:hover .ds-btn-mod { transform: rotate(90deg); }
+  .ds-btn-mod { flex: none; display: grid; place-items: center; } /* без вращения «+» по наведению (решение Ника 07.11) */
   .ds-btn:disabled, .ds-btn[aria-disabled=true] { opacity: .45; pointer-events: none; }
 
   /* ── Плитка (Carbon tile) ── */
