@@ -8,6 +8,7 @@
     --sp-01: 2px; --sp-02: 4px; --sp-03: 8px; --sp-04: 12px; --sp-05: 16px; --sp-06: 24px; --sp-07: 32px;
     --sp-08: 40px; --sp-09: 48px; --sp-10: 64px; --sp-11: 80px; --sp-12: 96px; --sp-13: 160px;
     --sp-section: clamp(var(--sp-10), 2rem + 6vw, var(--sp-13));
+    --sp-gutter: clamp(var(--sp-05), 3.3vw, var(--sp-10)); /* поле страницы во всю ширину */
 
     /* Цвет: тема g10 Carbon + бренд */
     --c-bg: #ffffff;
@@ -89,6 +90,8 @@
   /* ── Сетка ── */
   .ds-wrap { max-width: 82rem; margin-inline: auto; padding-inline: var(--sp-05); }
   @media (min-width: 640px) { .ds-wrap { padding-inline: var(--sp-07); } }
+  /* Во всю ширину экрана: без ограничения 82rem, поля растут от 16 до 64 px (/3/, решение Ника 07.11) */
+  .ds-wrap-fluid { max-width: none; padding-inline: var(--sp-gutter); }
   .ds-section { padding-block: var(--sp-section); }
 
   /* ── Кнопка: красная плашка + белый модуль «+», как у референса; состояния Carbon ── */

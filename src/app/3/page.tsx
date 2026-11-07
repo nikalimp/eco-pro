@@ -34,7 +34,7 @@ const indIcons = [ShoppingBag, UtensilsCrossed, Factory];
 function Head() {
   return (
     <header className="v3-head">
-      <Wrap className="flex h-[4.5rem] items-center gap-6">
+      <Wrap fluid className="flex h-[4.5rem] items-center gap-6">
         <Link href="/" className="shrink-0"><Logo /></Link>
         <nav aria-label="Основное меню" className="hidden flex-1 gap-1 lg:flex">
           {nav.map((n) => <Link key={n.href} href={n.href} className="v3-seg">{n.label}</Link>)}
@@ -77,7 +77,7 @@ export default function V3() {
 
       {/* 1. Первый экран: текст слева, чертёжная изометрия справа */}
       <section className="grid lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-4 py-14 sm:px-8 lg:py-16 lg:pl-[max(2rem,calc((100vw-82rem)/2+2rem))] lg:pr-14">
+        <div className="flex flex-col justify-center px-4 py-14 sm:px-8 lg:py-16 lg:pl-[var(--sp-gutter)] lg:pr-14">
           <Tag tone="gray" className="w-fit bg-white font-medium [font-family:var(--f-mono)]"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
           <Heading size="display" className="kt mt-8">
             <span className="kt-line"><span className="kt-w">{h.h1Line1}</span></span>
@@ -88,14 +88,14 @@ export default function V3() {
           <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
         </div>
         <Surface tone="dark" className="relative grid min-h-[22rem] place-items-center overflow-hidden px-4 py-10">
-          <HeroPlan className="h-auto w-full max-w-[40rem]" />
+          <HeroPlan className="h-auto w-full max-w-[52rem]" />
           <Text size="label" className="absolute bottom-4 left-4 sm:left-8">Схема: камеры на объекте → ситуационный центр PRO-TEST → руководитель</Text>
         </Surface>
       </section>
 
       {/* 2. Задачи — закреплённая секция, задачи появляются вокруг круга */}
       <section className="v3-orbit-track">
-        <Wrap className="v3-orbit-pin py-16 lg:py-0">
+        <Wrap fluid className="v3-orbit-pin py-16 lg:py-0">
           <div className="v3-orbit">
             <div className="v3-orbit-core mb-10 lg:mb-0">
               <div>
@@ -120,7 +120,7 @@ export default function V3() {
 
       {/* 3. Кейсы — вкладки на кирпичной полосе */}
       <Section tone="brick" className="v3-cases">
-        <Wrap className="grid gap-10 lg:grid-cols-[20rem_1fr]">
+        <Wrap fluid className="grid gap-10 lg:grid-cols-[20rem_1fr]">
           <div>
             <Heading size="h3" as="h2" className="!text-[clamp(1.75rem,1.3rem+1.4vw,2.5rem)] !leading-[1.05]">Кейсы, которые разбираем на встрече</Heading>
             <div className="mt-8 grid gap-2">
@@ -163,7 +163,7 @@ export default function V3() {
 
       {/* 4. Цифры лесенкой */}
       <Section>
-        <Wrap>
+        <Wrap fluid>
           <Eyebrow>ECO-PRO <Accent>в цифрах</Accent></Eyebrow>
           <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
             {stats.map((s, i) => (
@@ -175,7 +175,7 @@ export default function V3() {
 
       {/* 5. ЕИ + ИИ на тёмно-красной полосе */}
       <Section tone="deep">
-        <Wrap>
+        <Wrap fluid>
           <SectionHeader align="center" eyebrow={<>Увидеть нарушение — недостаточно. Важно <Accent>добиться реакции</Accent></>} title={<>Естественный интеллект <Accent>+</Accent> искусственный интеллект</>} />
           <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-2">
             {[home.traditions.human, home.traditions.ai].map((c) => (
@@ -192,7 +192,7 @@ export default function V3() {
 
       {/* 6. Как начинаем — этапы стопкой */}
       <Section tone="layer">
-        <Wrap className="grid gap-12 lg:grid-cols-2">
+        <Wrap fluid className="grid gap-12 lg:grid-cols-2">
           <div className="v3-sticky self-start">
             <SectionHeader eyebrow={<>Как мы <Accent>начинаем</Accent> работу</>} title={<><Accent>Встреча, пилот,</Accent> масштабирование и интеграция в KPI</>} text={home.pilot.text} />
             <Button asChild className="mt-10"><a href={site.cta.href}>{site.cta.label}</a></Button>
@@ -210,7 +210,7 @@ export default function V3() {
 
       {/* 7. Направления — плитки с меткой и чертёжной иллюстрацией */}
       <Section>
-        <Wrap>
+        <Wrap fluid>
           <SectionHeader align="center" eyebrow={<>Пять направлений — <Accent>один Центр Правды</Accent></>} title={<>Экосистема <Accent>предотвращения потерь</Accent> и управления рисками</>} />
           <Text className="mx-auto mt-5 max-w-2xl">{home.answer}</Text>
           <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-6">
@@ -233,7 +233,7 @@ export default function V3() {
 
       {/* 8. Клиенты и рекомендации */}
       <Section tone="brick">
-        <Wrap className="text-center">
+        <Wrap fluid className="text-center">
           <Heading size="h2">{home.clientsTitle}</Heading>
           <Text className="mx-auto mt-5 max-w-2xl">Рекомендательные письма: {letters.map((d) => d.title).join(", ")}. <Link href="/documents/" className="ds-link text-white">Лицензии и рекомендации →</Link></Text>
         </Wrap>
@@ -248,7 +248,7 @@ export default function V3() {
 
       {/* 9. Вы — ключевой элемент */}
       <Section>
-        <Wrap className="grid gap-12 lg:grid-cols-[1fr_2fr]">
+        <Wrap fluid className="grid gap-12 lg:grid-cols-[1fr_2fr]">
           <SectionHeader eyebrow={home.expertise.eyebrow} title={<><Accent>Вы</Accent> — ключевой элемент экосистемы</>} text={home.expertise.text} />
           <div className="grid gap-4 md:grid-cols-3">
             {home.expertise.columns.map((c, i) => {
@@ -270,7 +270,7 @@ export default function V3() {
 
       {/* 10. Онлайн-дашборды */}
       <Section tone="red" className="relative overflow-hidden">
-        <Wrap className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
+        <Wrap fluid className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
           <div>
             <SectionHeader eyebrow={home.audience.client.title} title="Онлайн-дашборды по вашим объектам в одном интерфейсе" text={`${home.audience.client.text}.`} />
             <div className="mt-9 flex flex-wrap items-center gap-4">
@@ -284,7 +284,7 @@ export default function V3() {
 
       {/* 11. Отрасли */}
       <Section>
-        <Wrap>
+        <Wrap fluid>
           <SectionHeader align="center" title={<>Подбираем сценарии контроля <Accent>с учётом отрасли</Accent></>} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {industries.map((ind, i) => {
@@ -338,7 +338,7 @@ export default function V3() {
       {/* 14. Экспертиза — статьи */}
       {posts.length > 0 && (
         <Section>
-          <Wrap>
+          <Wrap fluid>
             <SectionHeader align="center" title={<><Accent>Делимся экспертизой</Accent> в контроле и предотвращении потерь</>} />
             <div className="mt-12 grid gap-4 md:grid-cols-3">
               {posts.map((p) => (
@@ -362,7 +362,7 @@ export default function V3() {
 
       {/* 15. FAQ */}
       <Section tone="layer" id="faq">
-        <Wrap className="grid gap-10 lg:grid-cols-[1fr_2fr]">
+        <Wrap fluid className="grid gap-10 lg:grid-cols-[1fr_2fr]">
           <SectionHeader eyebrow={<>Вопросы <Accent>и ответы</Accent></>} title="Часто задаваемые вопросы" />
           <FaqList items={homeFaq} />
         </Wrap>
@@ -370,7 +370,7 @@ export default function V3() {
 
       {/* 16. Финальный призыв */}
       <Section tone="red" className="!py-16 sm:!py-20">
-        <Wrap className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
+        <Wrap fluid className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
           <SectionHeader eyebrow={home.cta.eyebrow} title={home.cta.title} text={home.cta.text} />
           <Button asChild variant="inverse" size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button>
         </Wrap>

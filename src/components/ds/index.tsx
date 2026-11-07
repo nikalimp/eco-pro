@@ -26,9 +26,9 @@ export function Section({ tone = "default", pad = true, className, ...p }: React
   return <section className={cn(pad && "ds-section", toneClass[tone], className)} {...p} />;
 }
 
-/** Контейнер 82rem с полями 16/32 px */
-export function Wrap({ className, ...p }: React.ComponentProps<"div">) {
-  return <div className={cn("ds-wrap", className)} {...p} />;
+/** Контейнер 82rem с полями 16/32 px; fluid — во всю ширину экрана с полями 16–64 px */
+export function Wrap({ fluid, className, ...p }: React.ComponentProps<"div"> & { fluid?: boolean }) {
+  return <div className={cn(fluid ? "ds-wrap-fluid" : "ds-wrap", className)} {...p} />;
 }
 
 /** Тема без отступов секции — для половин разворотов */
