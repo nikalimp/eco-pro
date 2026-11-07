@@ -28,11 +28,11 @@
 | Актуальные сертификаты Parsec, Smartec, ITK, TRASSIR (у текущих истёк срок) | клиент | ждём |
 | Telegram-уведомления о заявках | — | проверено 21.10, tg-check.php удалён |
 | Хабы `/services/`, `/industries/`, `/blog/` короче 250 слов: дописать или оставить в исключениях | Ник | вопрос |
-| Перенос контент-завода в `content/factory/` | `/content-factory:update` | следующий шаг |
+| Перенос контент-завода в `content/factory/` | `/content-factory:update` | готово 07.11, первая статья 09.11 |
 | Редизайн 22.10 (тёмная тема, капс, видоискатель) — показать Сергею, «да» по моно-шрифту | Ник | ждём |
-| Бот-админ в @vynosim_za, секреты `TELEGRAM_*`, `TELEGRAPH_TOKEN` (T35) | Ник | ждём |
+| Бот-админ в @vynosim_za, секреты `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (T35), затем `channels.enabled: true` | Ник | ждём |
 
 ## Переезд на pro-nas.pro
 1. A-запись домена на REG.RU, сайт в ISPmanager, SSL, галочка HTTPS.
-2. `FTP_DIR` → `www/pro-nas.pro/`, `url` в `publish.json`, `deploy.yml` и `content/content.config.json`, `site.url`.
+2. `FTP_DIR` → `www/pro-nas.pro/`, `url` в `publish.json`, `deploy.yml`, `pr.yml` и `content/factory/content.config.json` (site, article.url, publish.verify), `site.url`.
 3. Подключить Метрику, Вебмастер и Search Console, проверить 301 со старых адресов.

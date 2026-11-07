@@ -29,5 +29,4 @@ jobs:
       rsync_exclude: "api/config.php api/logs/"
       url: https://eco-pro.nikalimp.ru
       build_command: "SITE_URL=https://eco-pro.nikalimp.ru npm run check"
-      media_brand: content/media/brand.json
     secrets: inherit

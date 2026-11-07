@@ -6,7 +6,7 @@
   "adapter": "ssh-ftp",
   "mode": "auto",
   "content_dir": "content",
-  "factory": "content/content.config.json",
+  "factory": "content/factory/content.config.json",
   "schedule": {
     "daily": "09:05",
     "weekly": "mon 08:50",
@@ -14,7 +14,7 @@
     "days": "1-5"
   },
   "version": 1,
-  "notes": "После переезда на pro-nas.pro — заменить url здесь, в deploy.yml и в content.config.json. Конфиг завода переедет в content/factory/ через /content-factory:update. REG.RU: SSH из Actions закрыт, выкладка идёт по FTP.",
+  "notes": "После переезда на pro-nas.pro — заменить url здесь, в deploy.yml, pr.yml и content/factory/content.config.json (site, article.url, publish.verify). Контент-завод v2 — content/factory/ (07.11.2026), brand.json по умолчанию deploy-kit. REG.RU: SSH из Actions закрыт, выкладка идёт по FTP.",
   "out_dir": "out",
   "app_path": "",
   "rsync_exclude": "api/config.php api/logs/",
