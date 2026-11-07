@@ -21,7 +21,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const c = caseById((await params).slug);
   if (!c) return {};
-  const title = `${c.title} — кейс ECO-PRO`;
+  const title = `${c.title} — кейс ECO-PRO, ситуационный центр`;
   return {
     title: { absolute: title.length > 65 ? `${c.title} — кейс` : title },
     description: c.text,
