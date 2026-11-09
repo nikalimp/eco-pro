@@ -9,9 +9,11 @@ body:has(.v3) > header { display: none; }
 .v3-geo .geo-reg.is-on { fill: var(--c-brand); cursor: pointer; outline: none; transition: fill var(--dur-fast) var(--ease-productive); }
 .v3-geo .geo-reg.is-on:hover, .v3-geo .geo-reg.is-on:focus-visible { fill: var(--c-brand-soft); }
 .v3-geo-num { font-size: clamp(2rem, 1.2rem + 1.7vw, 3.75rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.v3-geo [aria-live] { background: transparent; border-color: var(--c-border); color: var(--c-text); }
-.v3-geo [aria-live] p { color: inherit; }
-.v3-geo [aria-live] p:last-child { color: var(--c-text-2); }
+/* Подсказка с названием региона (geo-tip.tsx) */
+.v3-geo-tip { position: absolute; z-index: 5; pointer-events: none; translate: -50% calc(-100% - 14px); padding: 6px 10px; background: #fff; color: var(--c-ink-fixed);
+  font-family: var(--f-mono); font-size: 13px; font-weight: 500; white-space: nowrap; box-shadow: 0 10px 30px rgb(0 0 0 / .35); opacity: 0; transition: opacity var(--dur-fast) var(--ease-productive); }
+.v3-geo-tip[data-on] { opacity: 1; }
+.v3-geo-tip::after { content: ""; position: absolute; left: 50%; top: 100%; translate: -50% 0; border: 6px solid transparent; border-top-color: #fff; }
 
 /* Экосистема (T61): центр — PRO-TEST во весь рост, по бокам по две карточки, от них к центру «течёт» сигнал */
 .v3-eco-grid { display: grid; gap: 1rem; }
@@ -87,16 +89,6 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
     @media (min-width: 1024px) { .v3-orbit-track { height: auto; } .v3-orbit-pin { position: static; height: auto; padding-block: 6rem; } .v3-orbit { height: 44rem; } }
   }
   @keyframes v3-pop { from { opacity: 0; transform: scale(.88) translateY(1rem); } }
-
-  /* ── Кейсы: вкладки на CSS (радио + :has), текст всех кейсов в HTML ── */
-  .v3-case { display: none; }
-  .v3-cases:not(:has(input:checked)) .v3-case:first-of-type,
-  .v3-cases:has(#v3c0:checked) .v3-case-0, .v3-cases:has(#v3c1:checked) .v3-case-1, .v3-cases:has(#v3c2:checked) .v3-case-2 { display: grid; animation: ds-fade var(--dur-moderate) var(--ease-entrance) both; }
-  .v3-tab { display: flex; align-items: center; gap: .75rem; width: 100%; border: 1px solid rgb(255 255 255 / .9); color: #fff; padding: .25rem 1rem .25rem .25rem; cursor: pointer; font-size: 14px; font-weight: 700; text-align: left;
-    transition: background var(--dur-fast) var(--ease-productive), color var(--dur-fast) var(--ease-productive); }
-  .v3-tab:hover { background: rgb(255 255 255 / .1); }
-  .v3-cases:has(#v3c0:checked) label[for=v3c0], .v3-cases:has(#v3c1:checked) label[for=v3c1], .v3-cases:has(#v3c2:checked) label[for=v3c2] { background: #fff; color: #161616; }
-  .v3-cases input:focus-visible + label { outline: 2px solid #fff; outline-offset: 3px; }
 
   /* ── Этапы: заголовок держится слева, карточки складываются справа ── */
   @media (min-width: 1024px) {

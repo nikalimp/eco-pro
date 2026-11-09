@@ -8,7 +8,6 @@ import { directions } from "@/content/directions";
 import { industries } from "@/content/industries";
 import { featuredCases } from "@/content/cases";
 import { geoMap } from "@/content/geo-map";
-import { GeoPanel } from "@/components/geo-panel";
 import { coverMap } from "@/content/cover-map";
 import { letters } from "@/content/documents";
 import { getPosts, formatDate } from "@/lib/posts";
@@ -16,8 +15,9 @@ import { HeroDashboard } from "@/components/hero-dashboard";
 import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
 import { Logo } from "@/components/logo";
-import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, ProgressRing, Section, SectionHeader, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
+import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, Section, SectionHeader, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
 import { EcoScene, HeroPlan } from "./iso";
+import { GeoTip } from "./geo-tip";
 import "./v3.css";
 
 // Версия 3 главной — секции brandsecurity.ru на дизайн-системе ECO-PRO v3 (src/components/ds, основа IBM Carbon), T56–T57.
@@ -202,8 +202,8 @@ export default function V3() {
 
       {/* 4. География: карта регионов + цифры (широкий экран — главный визуал) */}
       <Section tone="dark" className="v3-geo">
-        <Wrap fluid className="grid items-center gap-10 xl:grid-cols-[1.7fr_1fr]">
-          <div className="geo-map order-2 xl:order-1">
+        <Wrap fluid className="grid items-center gap-10 xl:grid-cols-[1fr_1.7fr]">
+          <div className="geo-map relative order-2">
             <svg viewBox={`0 0 ${coverMap.width} ${coverMap.height}`} className="h-auto w-full" role="group" aria-label={`Карта России: ${covered} регионов присутствия ECO-PRO`}>
               {coverMap.regions.map((r, i) =>
                 r.name ? (
@@ -213,8 +213,9 @@ export default function V3() {
                 ),
               )}
             </svg>
+            <GeoTip />
           </div>
-          <div className="order-1 xl:order-2">
+          <div className="order-1">
             <SectionHeader eyebrow={home.geo.eyebrow} title={<>{home.geo.title.split(" ").slice(0, -2).join(" ")} <Accent>{home.geo.title.split(" ").slice(-2).join(" ")}</Accent></>} text={home.geo.text} />
             <div className="mt-10 grid grid-cols-2 gap-px bg-[var(--c-border)]">
               {stats.map((s) => (
@@ -224,7 +225,6 @@ export default function V3() {
                 </div>
               ))}
             </div>
-            <div className="mt-6 hidden xl:block"><GeoPanel defaultTitle={`${covered} регионов`} defaultText={`Наведите на регион, чтобы увидеть города. Всего ${total} городов с проектами.`} /></div>
           </div>
         </Wrap>
       </Section>
@@ -390,57 +390,35 @@ export default function V3() {
         </Surface>
       </section>
 
-      {/* 12а. Кейсы — под заявкой на пилот (решение Ника 09.11), вкладки на кирпичной полосе */}
+      {/* 12а. Кейсы — под заявкой на пилот, три карточки в ряд без вкладок (решения Ника 09.11) */}
       <Section tone="brick" className="v3-cases">
         <Wrap fluid>
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeader className="max-w-5xl" eyebrow="кейсы, которые разбираем на встрече" title={<>Превращаем повторяемые ошибки <Accent>в успешно решённые кейсы</Accent></>} />
+            <SectionHeader className="max-w-[72rem]" eyebrow="кейсы, которые разбираем на встрече" title={<>Превращаем повторяемые ошибки <Accent>в успешно решённые кейсы</Accent></>} />
             <Button asChild variant="inverse"><Link href="/cases/">Все кейсы</Link></Button>
           </div>
-          <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(18rem,0.28fr)_1fr]">
-          <div>
-            <div className="grid gap-2">
-              {featuredCases.map((c, i) => {
-                const Icon = caseIcons[i];
-                return (
-                  <div key={c.id}>
-                    <input type="radio" name="v3case" id={`v3c${i}`} className="sr-only" defaultChecked={i === 0} />
-                    <label htmlFor={`v3c${i}`} className="v3-tab"><IconBox size="sm" tone="white"><Icon /></IconBox>{c.title}</label>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            {featuredCases.map((c, i) => (
-              <article key={c.id} className={`v3-case v3-case-${i} ds-theme-light gap-8 p-5 sm:p-8 md:grid-cols-[17rem_1fr] 2xl:grid-cols-[19rem_1fr_minmax(16rem,0.5fr)] 2xl:p-12`}>
-                <Tile className="flex flex-col items-center border-0 p-6 text-center">
-                  <p className="text-4xl font-bold tracking-tight ds-accent">{c.value}</p>
-                  <Text size="label" className="mt-1">{c.valueLabel}</Text>
-                  <ProgressRing className="mt-6">
-                    <p className="text-3xl font-bold tracking-tight ds-accent">{c.metrics[1].value}</p>
-                    <Text size="label" className="mx-auto mt-1 max-w-[8rem] leading-tight">{c.metrics[1].label}</Text>
-                  </ProgressRing>
-                </Tile>
-                <div className="flex flex-col">
-                  <Tag className="w-fit">{c.tag}</Tag>
-                  <Heading size="h1" as="h3" className="mt-5 !text-3xl sm:!text-[2.5rem]">{c.title}</Heading>
-                  <Text className="mt-3">{c.scale}</Text>
+          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+            {featuredCases.map((c, i) => {
+              const Icon = caseIcons[i];
+              return (
+                <article key={c.id} className="ds-theme-light group flex flex-col p-6 sm:p-8">
+                  <p className="flex items-start justify-between gap-4"><Tag className="w-fit">{c.tag}</Tag><IconBox size="sm" tone="red"><Icon /></IconBox></p>
+                  <Heading size="h3" as="h3" className="mt-6">{c.title}</Heading>
+                  <Text size="small" className="mt-2">{c.scale}</Text>
+                  <dl className="mt-6 grid grid-cols-2 gap-px border border-[var(--c-border)] bg-[var(--c-border)]">
+                    {c.metrics.slice(0, 4).map((m, k) => (
+                      <div key={m.label} className="flex flex-col-reverse justify-end bg-white p-4">
+                        <dt className="ds-small mt-1">{m.label}</dt>
+                        <dd className={`text-2xl font-bold tracking-tight 2xl:text-3xl ${k === 0 ? "ds-accent" : ""}`}>{m.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
                   <Heading size="h5" as="p" className="mt-6">Что изменилось:</Heading>
-                  <List items={c.results} className="mt-2" />
+                  <List items={c.results} className="mt-2 flex-1" />
                   <Button asChild className="mt-8 w-fit"><Link href={`/cases/${c.id}/`}>Читать кейс</Link></Button>
-                </div>
-                <dl className="hidden content-start divide-y divide-[var(--c-border)] border-y border-[var(--c-border)] 2xl:grid">
-                  {c.metrics.map((m) => (
-                    <div key={m.label} className="flex flex-col-reverse bg-white py-4 pl-5">
-                      <dt className="ds-small">{m.label}</dt>
-                      <dd className="text-2xl font-bold tracking-tight">{m.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </article>
-            ))}
-          </div>
+                </article>
+              );
+            })}
           </div>
         </Wrap>
       </Section>
