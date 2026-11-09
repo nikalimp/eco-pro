@@ -290,23 +290,11 @@
 .vf-br { bottom: -12px; right: -12px; border-bottom-width: 2px; border-right-width: 2px; }
 @media (max-width: 639px) { .vf-c { width: 18px; height: 18px; } .vf-tl, .vf-tr { top: -8px; } .vf-bl, .vf-br { bottom: -8px; } .vf-tl, .vf-bl { left: -8px; } .vf-tr, .vf-br { right: -8px; } }
 
-/* ── Кинетическая типографика H1 главной (T53) ──────────────────────
-   1) строки поднимаются из-под маски; 2) скобки прилетают с боков и «захлопываются» с отскоком,
-   «за скобки» в этот момент чуть сжимается; 3) при наведении скобки расходятся — фраза «выносится». */
+/* ── H1 главной (T53, упрощено в T61): строки поднимаются из-под маски. Сжатие «за скобки» и движение скобок убраны везде (решение Ника 09.11) ── */
 .kt-line { display: inline-block; overflow: clip; overflow-clip-margin: 0.12em; padding-inline: 0.06em; vertical-align: top; }
-.kt-w { display: inline-block; }
-.kt-br, .kt-mid { display: inline-block; }
-.kt-br { transition: transform .5s cubic-bezier(.3, 1.5, .5, 1); }
-.kt:hover .kt-l { transform: translateX(-0.12em); }
-.kt:hover .kt-r { transform: translateX(0.12em); }
+.kt-w, .kt-br, .kt-mid { display: inline-block; }
 @media (prefers-reduced-motion: no-preference) {
   .kt-w { animation: kt-up .9s cubic-bezier(.16, 1, .3, 1) backwards; }
   .kt-line-2 .kt-w { animation-delay: .12s; }
-  .kt-l { animation: kt-in-l .75s cubic-bezier(.3, 1.5, .5, 1) .75s backwards; }
-  .kt-r { animation: kt-in-r .75s cubic-bezier(.3, 1.5, .5, 1) .75s backwards; }
-  .kt-mid { animation: kt-squeeze .5s cubic-bezier(.3, 1.4, .5, 1) 1.05s backwards; transform-origin: 50% 60%; }
 }
 @keyframes kt-up { from { transform: translateY(105%); } }
-@keyframes kt-in-l { from { transform: translateX(-1.4em); opacity: 0; } }
-@keyframes kt-in-r { from { transform: translateX(1.4em); opacity: 0; } }
-@keyframes kt-squeeze { 0% { transform: scaleX(1.06); } 45% { transform: scaleX(0.95); } 100% { transform: none; } }
