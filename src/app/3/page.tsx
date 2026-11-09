@@ -5,7 +5,6 @@ import { ArrowRight, BarChart3, ChevronDown, ClipboardList, Cpu, Crown, Database
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { nav, site } from "@/content/site";
 import { directions } from "@/content/directions";
-import { EcosystemGraph } from "@/components/ecosystem-graph";
 import { industries } from "@/content/industries";
 import { featuredCases } from "@/content/cases";
 import { geoMap } from "@/content/geo-map";
@@ -18,7 +17,7 @@ import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
 import { Logo } from "@/components/logo";
 import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, ProgressRing, Section, SectionHeader, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
-import { HeroPlan } from "./iso";
+import { EcoScene, HeroPlan } from "./iso";
 import "./v3.css";
 
 // Версия 3 главной — секции brandsecurity.ru на дизайн-системе ECO-PRO v3 (src/components/ds, основа IBM Carbon), T56–T57.
@@ -201,57 +200,6 @@ export default function V3() {
         </Wrap>
       </section>
 
-      {/* 3. Кейсы — вкладки на кирпичной полосе */}
-      <Section tone="brick" className="v3-cases">
-        <Wrap fluid className="grid gap-10 lg:grid-cols-[minmax(20rem,0.3fr)_1fr]">
-          <div>
-            <Heading size="h3" as="h2" className="!text-[clamp(1.75rem,1.3rem+1.4vw,2.5rem)] !leading-[1.05]">Кейсы, которые разбираем на встрече</Heading>
-            <div className="mt-8 grid gap-2">
-              {featuredCases.map((c, i) => {
-                const Icon = caseIcons[i];
-                return (
-                  <div key={c.id}>
-                    <input type="radio" name="v3case" id={`v3c${i}`} className="sr-only" defaultChecked={i === 0} />
-                    <label htmlFor={`v3c${i}`} className="v3-tab"><IconBox size="sm" tone="white"><Icon /></IconBox>{c.title}</label>
-                  </div>
-                );
-              })}
-            </div>
-            <Button asChild variant="inverse" className="mt-8"><Link href="/cases/">Все кейсы</Link></Button>
-          </div>
-          <div>
-            {featuredCases.map((c, i) => (
-              <article key={c.id} className={`v3-case v3-case-${i} ds-theme-light gap-8 p-5 sm:p-8 md:grid-cols-[17rem_1fr] 2xl:grid-cols-[19rem_1fr_minmax(16rem,0.5fr)] 2xl:p-12`}>
-                <Tile className="flex flex-col items-center border-0 p-6 text-center">
-                  <p className="text-4xl font-bold tracking-tight ds-accent">{c.value}</p>
-                  <Text size="label" className="mt-1">{c.valueLabel}</Text>
-                  <ProgressRing className="mt-6">
-                    <p className="text-3xl font-bold tracking-tight ds-accent">{c.metrics[1].value}</p>
-                    <Text size="label" className="mx-auto mt-1 max-w-[8rem] leading-tight">{c.metrics[1].label}</Text>
-                  </ProgressRing>
-                </Tile>
-                <div className="flex flex-col">
-                  <Tag className="w-fit">{c.tag}</Tag>
-                  <Heading size="h1" as="h3" className="mt-5 !text-3xl sm:!text-[2.5rem]">{c.title}</Heading>
-                  <Text className="mt-3">{c.scale}</Text>
-                  <Heading size="h5" as="p" className="mt-6">Что изменилось:</Heading>
-                  <List items={c.results} className="mt-2" />
-                  <Button asChild className="mt-8 w-fit"><Link href={`/cases/${c.id}/`}>Читать кейс</Link></Button>
-                </div>
-                <dl className="hidden content-start divide-y divide-[var(--c-border)] border-y border-[var(--c-border)] 2xl:grid">
-                  {c.metrics.map((m) => (
-                    <div key={m.label} className="flex flex-col-reverse bg-white py-4 pl-5">
-                      <dt className="ds-small">{m.label}</dt>
-                      <dd className="text-2xl font-bold tracking-tight">{m.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </article>
-            ))}
-          </div>
-        </Wrap>
-      </Section>
-
       {/* 4. География: карта регионов + цифры (широкий экран — главный визуал) */}
       <Section tone="dark" className="v3-geo">
         <Wrap fluid className="grid items-center gap-10 xl:grid-cols-[1.7fr_1fr]">
@@ -318,14 +266,27 @@ export default function V3() {
         </Wrap>
       </Section>
 
-      {/* 7. Экосистема — граф из /2: PRO-TEST в центре, четыре направления вокруг */}
+      {/* 7. Экосистема во всю ширину: PRO-TEST в центре, четыре направления вокруг — у каждой карточки своя схема процесса (T61) */}
       <Section className="v3-eco">
         <Wrap fluid>
           <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
             <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} />
             <Text className="max-w-[68ch]">{home.answer}</Text>
           </div>
-          <div className="mt-14"><EcosystemGraph /></div>
+          <div className="v3-eco-grid mt-14">
+            {[directions[0], ...directions.slice(1, 5)].map((d, i) => (
+              <Tile key={d.slug} asChild className={`v3-eco-card group flex flex-col ${i === 0 ? "v3-eco-core" : `v3-eco-side v3-eco-${i}`}`}>
+                <Link href={`/services/${d.slug}/`}>
+                  <div className="flex flex-col p-5 sm:p-6">
+                    <p className="flex items-center justify-between gap-3"><Tag>{d.code}</Tag>{i === 0 && <Text size="label" as="span">центр экосистемы</Text>}</p>
+                    <Heading size={i === 0 ? "h3" : "h4"} as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
+                    <Text size="small" className="mt-2">{d.short}</Text>
+                  </div>
+                  <Surface tone="dark" className="v3-eco-panel mx-5 mb-5 flex-1 sm:mx-6 sm:mb-6"><EcoScene code={d.code} className={i === 0 ? "h-full w-full" : "h-auto w-full"} /></Surface>
+                </Link>
+              </Tile>
+            ))}
+          </div>
         </Wrap>
       </Section>
 
@@ -413,14 +374,14 @@ export default function V3() {
 
       {/* 12. Пилот — разворот: форма и предложение */}
       <section id="pilot" className="grid lg:grid-cols-2">
-        <Surface tone="deep" className="order-1 flex flex-col justify-center px-4 py-16 sm:px-12 lg:order-2">
+        <Surface tone="deep" className="order-1 flex flex-col justify-center px-4 py-16 sm:px-12 lg:pl-[var(--sp-gutter)]">
           <Eyebrow>{home.pilot.eyebrow}</Eyebrow>
           <Heading size="h2" className="mt-5">Проверьте экосистему на своих объектах <Accent>бесплатно</Accent></Heading>
           <ol className="mt-8 space-y-3">
             {home.pilot.points.map((t, i) => <li key={t} className="ds-body flex gap-3"><Index n={i + 1} />{t}</li>)}
           </ol>
         </Surface>
-        <Surface tone="layer" className="order-2 px-4 py-16 sm:px-12 lg:order-1">
+        <Surface tone="layer" className="order-2 px-4 py-16 sm:px-12">
           <div className="mx-auto max-w-md 2xl:max-w-xl">
             <Heading size="h3" as="p">Заявка на пилот</Heading>
             <Text size="small" className="mb-6 mt-1">{home.pilot.text}</Text>
@@ -428,6 +389,61 @@ export default function V3() {
           </div>
         </Surface>
       </section>
+
+      {/* 12а. Кейсы — под заявкой на пилот (решение Ника 09.11), вкладки на кирпичной полосе */}
+      <Section tone="brick" className="v3-cases">
+        <Wrap fluid>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeader className="max-w-5xl" eyebrow="кейсы, которые разбираем на встрече" title={<>Превращаем повторяемые ошибки <Accent>в успешно решённые кейсы</Accent></>} />
+            <Button asChild variant="inverse"><Link href="/cases/">Все кейсы</Link></Button>
+          </div>
+          <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(18rem,0.28fr)_1fr]">
+          <div>
+            <div className="grid gap-2">
+              {featuredCases.map((c, i) => {
+                const Icon = caseIcons[i];
+                return (
+                  <div key={c.id}>
+                    <input type="radio" name="v3case" id={`v3c${i}`} className="sr-only" defaultChecked={i === 0} />
+                    <label htmlFor={`v3c${i}`} className="v3-tab"><IconBox size="sm" tone="white"><Icon /></IconBox>{c.title}</label>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            {featuredCases.map((c, i) => (
+              <article key={c.id} className={`v3-case v3-case-${i} ds-theme-light gap-8 p-5 sm:p-8 md:grid-cols-[17rem_1fr] 2xl:grid-cols-[19rem_1fr_minmax(16rem,0.5fr)] 2xl:p-12`}>
+                <Tile className="flex flex-col items-center border-0 p-6 text-center">
+                  <p className="text-4xl font-bold tracking-tight ds-accent">{c.value}</p>
+                  <Text size="label" className="mt-1">{c.valueLabel}</Text>
+                  <ProgressRing className="mt-6">
+                    <p className="text-3xl font-bold tracking-tight ds-accent">{c.metrics[1].value}</p>
+                    <Text size="label" className="mx-auto mt-1 max-w-[8rem] leading-tight">{c.metrics[1].label}</Text>
+                  </ProgressRing>
+                </Tile>
+                <div className="flex flex-col">
+                  <Tag className="w-fit">{c.tag}</Tag>
+                  <Heading size="h1" as="h3" className="mt-5 !text-3xl sm:!text-[2.5rem]">{c.title}</Heading>
+                  <Text className="mt-3">{c.scale}</Text>
+                  <Heading size="h5" as="p" className="mt-6">Что изменилось:</Heading>
+                  <List items={c.results} className="mt-2" />
+                  <Button asChild className="mt-8 w-fit"><Link href={`/cases/${c.id}/`}>Читать кейс</Link></Button>
+                </div>
+                <dl className="hidden content-start divide-y divide-[var(--c-border)] border-y border-[var(--c-border)] 2xl:grid">
+                  {c.metrics.map((m) => (
+                    <div key={m.label} className="flex flex-col-reverse bg-white py-4 pl-5">
+                      <dt className="ds-small">{m.label}</dt>
+                      <dd className="text-2xl font-bold tracking-tight">{m.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </article>
+            ))}
+          </div>
+          </div>
+        </Wrap>
+      </Section>
 
       {/* 13. Основатель — красная «пауза»: текст слева, цветное фото справа (из /2) */}
       <Section tone="red" className="![background:var(--c-brand)]">
