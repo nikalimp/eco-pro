@@ -247,8 +247,9 @@ export const home = {
     text: "С вами работают люди, которые запускали ситуационные центры для сетей из сотен объектов. Следите за нашими проектами в каналах.",
     people: [
       { name: "Сергей Малютенков", role: "Основатель и CEO", photo: "/images/team/sergey-malyutenkov-studio.webp" },
-      { name: "Денис Гридчин", role: "Менеджер по работе с клиентами", photo: "/images/team/denis-gridchin-studio.webp" },
       { name: "Юрий Калинин", role: "Директор по производству", photo: "/images/team/yuriy-kalinin-studio.webp" },
+      { name: "Денис Гридчин", role: "Менеджер по работе с клиентами", photo: "/images/team/denis-gridchin-studio.webp" },
+      { name: "Борис Вишняков", role: "Независимый эксперт по ИИ", photo: "/images/team/boris-vishnyakov-studio.webp" },
     ],
   },
 
