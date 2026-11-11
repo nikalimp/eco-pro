@@ -55,7 +55,7 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
   /* ── Орбита задач: секция закреплена, карточки появляются по очереди при прокрутке ── */
   .v3-orbit-core { text-align: left; }
   @media (min-width: 1024px) {
-    .v3-orbit-track { height: 300vh; view-timeline-name: --orbit; }
+    .v3-orbit-track { height: 340vh; view-timeline-name: --orbit; }
     .v3-orbit-pin { position: sticky; top: 4rem; height: calc(100vh - 4rem); display: grid; place-items: center; }
     .v3-orbit { position: relative; width: 100%; height: min(54rem, 88%); }
     .v3-orbit-core { text-align: center; position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: clamp(24rem, 26vw, 34rem); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; padding: 3.5rem;
@@ -75,13 +75,23 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
       /* После появления всех карточек: заголовок и карточки меняются на «исправляем», карточки зеленеют (T63) */
       .v3-flip-wrap { display: grid; }
       .v3-flip-wrap > .v3-face-prob, .v3-flip-wrap > .v3-face-fix { grid-area: 1 / 1; margin: 0; border: 0; padding: 0; }
-      .v3-face-prob { animation: v3-out linear both; animation-timeline: --orbit; animation-range: contain 50% contain 60%; }
-      .v3-face-fix { animation: v3-in linear both; animation-timeline: --orbit; animation-range: contain 52% contain 62%; }
+      /* Заголовок меняется первым, затем карточки зеленеют по одной в порядке появления (T64) */
+      .v3-face-prob { animation: v3-out linear both; animation-timeline: --orbit; animation-range: contain 46% contain 50%; }
+      .v3-face-fix { animation: v3-in linear both; animation-timeline: --orbit; animation-range: contain 47% contain 51%; }
       .v3-orbit-core .v3-flip-wrap > .v3-face-fix { display: block; }
       .v3-orbit-card.v3-flip-wrap { animation-name: v3-pop, v3-green; animation-timeline: --orbit, --orbit; }
-      .v3-orbit-card.v3-flip-wrap:nth-child(1) { animation-range: contain 0% contain 8%, contain 50% contain 62%; } .v3-orbit-card.v3-flip-wrap:nth-child(2) { animation-range: contain 6% contain 14%, contain 50% contain 62%; }
-      .v3-orbit-card.v3-flip-wrap:nth-child(3) { animation-range: contain 12% contain 20%, contain 50% contain 62%; } .v3-orbit-card.v3-flip-wrap:nth-child(4) { animation-range: contain 18% contain 26%, contain 50% contain 62%; }
-      .v3-orbit-card.v3-flip-wrap:nth-child(5) { animation-range: contain 24% contain 32%, contain 50% contain 62%; } .v3-orbit-card.v3-flip-wrap:nth-child(6) { animation-range: contain 30% contain 38%, contain 50% contain 62%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(1) { animation-range: contain 0% contain 8%, contain 52% contain 57%; }
+      .v3-orbit-card:nth-child(1) > .v3-face-prob { animation-range: contain 52% contain 55%; } .v3-orbit-card:nth-child(1) > .v3-face-fix { animation-range: contain 53% contain 56%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(2) { animation-range: contain 6% contain 14%, contain 58% contain 63%; }
+      .v3-orbit-card:nth-child(2) > .v3-face-prob { animation-range: contain 58% contain 61%; } .v3-orbit-card:nth-child(2) > .v3-face-fix { animation-range: contain 59% contain 62%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(3) { animation-range: contain 12% contain 20%, contain 64% contain 69%; }
+      .v3-orbit-card:nth-child(3) > .v3-face-prob { animation-range: contain 64% contain 67%; } .v3-orbit-card:nth-child(3) > .v3-face-fix { animation-range: contain 65% contain 68%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(4) { animation-range: contain 18% contain 26%, contain 70% contain 75%; }
+      .v3-orbit-card:nth-child(4) > .v3-face-prob { animation-range: contain 70% contain 73%; } .v3-orbit-card:nth-child(4) > .v3-face-fix { animation-range: contain 71% contain 74%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(5) { animation-range: contain 24% contain 32%, contain 76% contain 81%; }
+      .v3-orbit-card:nth-child(5) > .v3-face-prob { animation-range: contain 76% contain 79%; } .v3-orbit-card:nth-child(5) > .v3-face-fix { animation-range: contain 77% contain 80%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(6) { animation-range: contain 30% contain 38%, contain 82% contain 87%; }
+      .v3-orbit-card:nth-child(6) > .v3-face-prob { animation-range: contain 82% contain 85%; } .v3-orbit-card:nth-child(6) > .v3-face-fix { animation-range: contain 83% contain 86%; }
     }
   }
   @media (prefers-reduced-motion: reduce) and (min-width: 1024px) {
