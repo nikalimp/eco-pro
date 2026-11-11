@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BarChart3, ChevronDown, ClipboardList, Cpu, Crown, Database, Factory, Gauge, Menu, Radar, ShieldAlert, ShieldCheck, ShoppingBag, Truck, UtensilsCrossed, Users, X } from "lucide-react";
+import { ArrowRight, BarChart3, Check, ChevronDown, ClipboardList, Cpu, Crown, Database, Factory, Gauge, Menu, Radar, ShieldAlert, ShieldCheck, ShoppingBag, Truck, UtensilsCrossed, Users, X } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { nav, site } from "@/content/site";
 import { directions } from "@/content/directions";
@@ -16,7 +16,7 @@ import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
 import { Logo } from "@/components/logo";
 import { Accent, Button, DsRoot, Eyebrow, Heading, IconBox, Index, List, Section, SectionHeader, Surface, Tag, Text, Tile, Wrap } from "@/components/ds";
-import { EcoScene, HeroPlan } from "./iso";
+import { EcoScene, HeroPlan, StepArt } from "./iso";
 import { GeoTip } from "./geo-tip";
 import "./v3.css";
 
@@ -65,11 +65,16 @@ function NavItem({ href, label, n }: { href: string; label: string; n: number })
 function Head() {
   const c = site.contacts;
   return (
-    <header className="v3-head">
-      <div className="hidden h-8 items-center justify-between border-b border-[var(--c-border)] px-[var(--sp-gutter)] md:flex">
-        <span className="v3-rec ds-label !text-[var(--c-text)]">REC · Ситуационный центр 24/7</span>
+    <>
+    {/* Верхняя строка прокручивается вместе со страницей, закреплён только второй ряд (решение Ника 11.11) */}
+    <div className="hidden h-8 items-center justify-between border-b border-[var(--c-border)] bg-white px-[var(--sp-gutter)] md:flex">
+      <span className="v3-rec ds-label !text-[var(--c-text)]">REC · Ситуационный центр 24/7</span>
+      <span className="flex gap-6">
         <a href={`tel:${c.phone}`} className="ds-label hover:!text-[var(--c-text)]">{c.phoneDisplay}</a>
-      </div>
+        <a href={`mailto:${c.email}`} className="ds-label hover:!text-[var(--c-text)]">{c.email}</a>
+      </span>
+    </div>
+    <header className="v3-head">
       <div className="flex h-16 items-stretch">
         <Link href="/" className="flex shrink-0 items-center pl-[var(--sp-gutter)] pr-6 xl:pr-8"><Logo /></Link>
         <nav aria-label="Основное меню" className="hidden flex-1 items-stretch border-r border-[var(--c-border)] xl:flex">
@@ -82,7 +87,7 @@ function Head() {
             <summary aria-label="Открыть меню" className="grid h-16 w-16 cursor-pointer list-none place-items-center border-l border-[var(--c-border)] [&::-webkit-details-marker]:hidden">
               <Menu className="size-6 group-open/m:hidden" /><X className="hidden size-6 group-open/m:block" />
             </summary>
-            <div className="fixed inset-x-0 top-16 hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-[var(--c-border)] bg-white px-4 pb-6 pt-2 group-open/m:block md:top-24">
+            <div className="absolute inset-x-0 top-full hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-[var(--c-border)] bg-white px-4 pb-6 pt-2 group-open/m:block">
               <ul className="divide-y divide-[var(--c-border)]">
                 {nav.map((n, i) => (
                   <li key={n.href} className="py-1">
@@ -102,6 +107,7 @@ function Head() {
         </div>
       </div>
     </header>
+    </>
   );
 }
 
@@ -153,10 +159,7 @@ export default function V3() {
       {/* 1б. Что получает руководитель — три точки входа (из /2) */}
       <Section tone="layer">
         <Wrap fluid>
-          <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-            <SectionHeader eyebrow={home.entryPoints.title} title={home.entryPoints.heading} />
-            <Text size="lead" className="max-w-[52ch]">{home.entryPoints.text}</Text>
-          </div>
+          <SectionHeader eyebrow={home.entryPoints.title} title={home.entryPoints.heading} text={home.entryPoints.text} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {home.entryPoints.items.map((e, i) => {
               const Icon = entryIcons[i];
@@ -180,18 +183,30 @@ export default function V3() {
         <Wrap fluid className="v3-orbit-pin py-16 lg:py-0">
           <div className="v3-orbit">
             <div className="v3-orbit-core mb-10 lg:mb-0">
-              <div>
-                <Heading size="h3" className="!text-3xl">С какими <Accent>задачами</Accent> к нам приходят</Heading>
-                <Text className="mt-4">{home.about.text}</Text>
+              <div className="v3-flip-wrap">
+                <div className="v3-face-prob">
+                  <Heading size="h3" className="!text-3xl">С какими <Accent>задачами</Accent> к нам приходят</Heading>
+                  <Text className="mt-4">{home.about.text}</Text>
+                </div>
+                <div className="v3-face-fix">
+                  <Heading size="h3" as="p" className="!text-3xl">И всё это мы <span className="v3-ok">исправляем</span></Heading>
+                  <Text className="mt-4">Каждую задачу закрывает своё направление экосистемы, а ситуационный центр доводит работу до результата.</Text>
+                </div>
               </div>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:absolute lg:inset-0 lg:block">
               {home.about.problems.map((p, i) => {
                 const Icon = problemIcons[i];
                 return (
-                  <Tile key={p.title} className="v3-orbit-card bg-white p-4">
-                    <p className="flex items-stretch"><IconBox size="sm"><Icon /></IconBox><Tag className="flex items-center">{p.title}</Tag></p>
-                    <Text size="small" className="mt-3">{p.text}</Text>
+                  <Tile key={p.title} className="v3-orbit-card v3-flip-wrap bg-white p-4">
+                    <div className="v3-face-prob">
+                      <p className="flex items-stretch"><IconBox size="sm"><Icon /></IconBox><Tag className="flex items-center">{p.title}</Tag></p>
+                      <Text size="small" className="mt-3">{p.text}</Text>
+                    </div>
+                    <div className="v3-face-fix">
+                      <p className="flex items-stretch"><IconBox size="sm" className="!bg-[var(--c-success)]"><Check /></IconBox><Tag className="flex items-center !bg-[var(--c-success)]">{p.fix.title}</Tag></p>
+                      <Text size="small" className="mt-3">{p.fix.text}</Text>
+                    </div>
                   </Tile>
                 );
               })}
@@ -218,7 +233,7 @@ export default function V3() {
           <div className="order-1">
             <SectionHeader eyebrow={home.geo.eyebrow} title={<>{home.geo.title.split(" ").slice(0, -2).join(" ")} <Accent>{home.geo.title.split(" ").slice(-2).join(" ")}</Accent></>} text={home.geo.text} />
             <div className="mt-10 grid grid-cols-2 gap-px bg-[var(--c-border)]">
-              {stats.map((s) => (
+              {stats.filter((s) => !/направлений|часовых/.test(s.l)).map((s) => (
                 <div key={s.l} className="flex flex-col-reverse bg-[var(--c-ink-fixed)] p-5">
                   <p className="ds-small mt-2">{s.l}</p>
                   <p className={`v3-geo-num ${s.accent ? "ds-accent" : ""}`}>{s.v}</p>
@@ -233,7 +248,7 @@ export default function V3() {
       <Section>
         <Wrap fluid className="grid gap-10 lg:grid-cols-[1fr_2fr]">
           <div>
-            <SectionHeader eyebrow={<>Увидеть нарушение — недостаточно. Важно <Accent>добиться реакции</Accent></>} title={<>Естественный интеллект <Accent>+</Accent> искусственный интеллект</>} />
+            <SectionHeader eyebrow={<>Автоматизируйте процессы <Accent>с интеграцией ИИ</Accent></>} title={<>Естественный интеллект <Accent>+</Accent> искусственный интеллект</>} />
             <Text className="mt-6 max-w-[48ch]">{home.traditions.text}</Text>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -259,7 +274,10 @@ export default function V3() {
             {home.path.steps.map((s, i) => (
               <li key={s.title} style={{ "--i": i } as React.CSSProperties} className="ds-tile bg-white p-6 shadow-[0_-14px_30px_-22px_rgb(0_0_0/.3)] sm:p-8">
                 <p className="flex items-baseline justify-between border-b border-[var(--c-border)] pb-4"><Heading size="h4" as="p">{s.title}</Heading><Index n={i + 1} /></p>
-                <Text className="mt-5">{s.text}</Text>
+                <div className="mt-5 grid items-center gap-5 sm:grid-cols-[1fr_1.1fr]">
+                  <Text>{s.text}</Text>
+                  <Surface tone="dark" className="v3-eco-panel"><StepArt n={i} className="h-auto w-full" /></Surface>
+                </div>
               </li>
             ))}
           </ol>
@@ -269,23 +287,31 @@ export default function V3() {
       {/* 7. Экосистема во всю ширину: PRO-TEST в центре, четыре направления вокруг — у каждой карточки своя схема процесса (T61) */}
       <Section className="v3-eco">
         <Wrap fluid>
-          <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-            <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} />
-            <Text className="max-w-[68ch]">{home.answer}</Text>
-          </div>
+          <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} text={home.answer} />
           <div className="v3-eco-grid mt-14">
-            {[directions[0], ...directions.slice(1, 5)].map((d, i) => (
-              <Tile key={d.slug} asChild className={`v3-eco-card group flex flex-col ${i === 0 ? "v3-eco-core" : `v3-eco-side v3-eco-${i}`}`}>
+            {directions.slice(1, 5).map((d) => (
+              <Tile key={d.slug} asChild className="v3-eco-card v3-eco-side group flex flex-col">
                 <Link href={`/services/${d.slug}/`}>
                   <div className="flex flex-col p-5 sm:p-6">
-                    <p className="flex items-center justify-between gap-3"><Tag>{d.code}</Tag>{i === 0 && <Text size="label" as="span">центр экосистемы</Text>}</p>
-                    <Heading size={i === 0 ? "h3" : "h4"} as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
+                    <Tag className="w-fit">{d.code}</Tag>
+                    <Heading size="h4" as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
                     <Text size="small" className="mt-2">{d.short}</Text>
                   </div>
-                  <Surface tone="dark" className="v3-eco-panel mx-5 mb-5 flex-1 sm:mx-6 sm:mb-6"><EcoScene code={d.code} className={i === 0 ? "h-full w-full" : "h-auto w-full"} /></Surface>
+                  <Surface tone="dark" className="v3-eco-panel mx-5 mb-5 mt-auto sm:mx-6 sm:mb-6"><EcoScene code={d.code} className="h-auto w-full" /></Surface>
                 </Link>
               </Tile>
             ))}
+            <Tile asChild className="v3-eco-card v3-eco-core group">
+              <Link href={`/services/${directions[0].slug}/`} className="grid items-center gap-6 p-5 sm:p-8 lg:grid-cols-[1fr_1.6fr]">
+                <div>
+                  <p className="flex items-center gap-3"><Tag>{directions[0].code}</Tag><Text size="label" as="span">центр экосистемы</Text></p>
+                  <Heading size="h3" as="h3" className="mt-5 group-hover:text-[var(--c-brand)]">{directions[0].title}</Heading>
+                  <Text className="mt-4 max-w-[52ch]">{directions[0].answer}</Text>
+                  <span className="ds-btn mt-8 min-h-12 w-fit bg-[var(--c-brand)] pl-5 pr-1 text-sm text-white">Подробнее<span className="ds-btn-mod size-10 bg-white text-[22px] text-[var(--c-brand)]" aria-hidden="true">+</span></span>
+                </div>
+                <Surface tone="dark" className="v3-eco-panel"><EcoScene code={directions[0].code} className="h-auto w-full" /></Surface>
+              </Link>
+            </Tile>
           </div>
         </Wrap>
       </Section>
@@ -310,28 +336,6 @@ export default function V3() {
               </li>
             ))}
           </ul>
-        </Wrap>
-      </Section>
-
-      {/* 9. Вы — ключевой элемент */}
-      <Section>
-        <Wrap fluid className="grid gap-12 lg:grid-cols-[1fr_2fr]">
-          <SectionHeader eyebrow={home.expertise.eyebrow} title={<><Accent>Вы</Accent> — ключевой элемент экосистемы</>} text={home.expertise.text} />
-          <div className="grid gap-4 md:grid-cols-3">
-            {home.expertise.columns.map((c, i) => {
-              const body = (
-                <>
-                  <p className="flex justify-between"><Text size="label" as="span">{c.label}</Text><Index n={i + 1} /></p>
-                  <Heading size="h4" as="h3" className="mt-6">{c.title}</Heading>
-                  <List items={c.items} className="mt-5" />
-                </>
-              );
-              // «Результат» — красная плитка: тема red даёт белый текст, фон — сплошной фирменный
-              return i === 2
-                ? <Surface key={c.label} tone="red" className="flex flex-col p-6 ![background:var(--c-brand)]">{body}</Surface>
-                : <Tile key={c.label} className="flex flex-col p-6">{body}</Tile>;
-            })}
-          </div>
         </Wrap>
       </Section>
 
@@ -443,11 +447,8 @@ export default function V3() {
       {/* 13а. Команда */}
       <Section tone="layer">
         <Wrap fluid>
-          <div className="grid gap-6 lg:grid-cols-[1fr_2fr] lg:items-end">
-            <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} />
-            <Text className="max-w-[60ch]">{home.team.text}</Text>
-          </div>
-          <ul className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} text={home.team.text} />
+          <ul className={`mt-12 grid grid-cols-2 gap-4 ${home.team.people.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
             {home.team.people.map((p) => (
               <li key={p.name} className="ds-tile bg-white">
                 <div className="v3-duo v3-duo-soft relative aspect-[4/5]">
