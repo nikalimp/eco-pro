@@ -163,35 +163,35 @@ const Flow = ({ d }: { d: string }) => <path d={d} fill="none" stroke="#ff8a80" 
 
 export function EcoScene({ code, className = "" }: { code: string; className?: string }) {
   const core = code === "PRO-TEST";
-  const W = core ? 520 : 360, H = core ? 520 : 220;
+  const W = core ? 760 : 360, H = core ? 320 : 220;
   let body: React.ReactNode = null;
   if (core) {
-    // Сверху сигналы, в центре видеостена и пульт оператора, снизу — реакция, устранение, отчёт
-    const f = proj({ x: 214, y: 236, s: 24 });
+    // Слева сигналы, в центре видеостена и пульт оператора, справа — проверка, реакция, устранение, отчёт
+    const f = proj({ x: 330, y: 168, s: 21 });
     const wall = [0, 1, 2].flatMap((c) => [0, 1].map((r) => ({ c, r })));
     const op = f([4.6, 5.8, 0]);
     body = (
       <>
-        <Chip x={20} y={24} w={140} title="CAM" />
-        <Chip x={190} y={24} w={140} title="ИИ-ДЕТЕКЦИЯ" />
-        <Chip x={360} y={24} w={140} title="ЧЕК-ЛИСТЫ" />
-        <Flow d="M90,46 C90,90 200,90 236,128" />
-        <Flow d="M260,46 L260,118" />
-        <Flow d="M430,46 C430,90 330,96 300,128" />
+        <Chip x={20} y={70} w={150} title="CAM" />
+        <Chip x={20} y={150} w={150} title="ИИ-ДЕТЕКЦИЯ" />
+        <Chip x={20} y={230} w={150} title="ЧЕК-ЛИСТЫ" />
+        <Flow d="M170,81 C220,81 230,140 262,150" />
+        <Flow d="M170,161 L258,166" />
+        <Flow d="M170,241 C220,241 230,190 262,182" />
         <polygon points={pts(f, [[0, 0, 0], [9, 0, 0], [9, 7, 0], [0, 7, 0]])} fill="none" stroke={RED} strokeOpacity=".45" strokeDasharray="3 4" />
         {wall.map(({ c, r }) => <Box key={`${c}${r}`} f={f} x={0.6 + c * 2.7} y={0.4} z={1.1 + r * 1.9} w={2.5} d={0.2} h={1.75} fill={c === 1 && r === 0 ? "#ff3b30" : RED} cls="iso-edge" />)}
         <Box f={f} x={1} y={3.8} w={7} d={1.4} h={1} fill={RED} cls="iso-edge" />
         {[1.6, 3.9, 6.2].map((x) => <Box key={x} f={f} x={x} y={3.9} z={1} w={1.3} d={0.15} h={0.9} fill={RED} cls="iso-edge" />)}
         <ellipse cx={op[0]} cy={op[1]} rx="9" ry="4.5" fill={RED} opacity=".35" />
         <circle cx={op[0]} cy={op[1] - 13} r="6" fill="#ffb3ad" />
-        <Chip x={372} y={300} title="ОПЕРАТОР" sub="ПРОВЕРКА 24/7" />
-        <line x1={op[0] + 12} y1={op[1] - 12} x2="370" y2="317" stroke="#ff8a80" strokeWidth=".8" />
-        <Flow d={`M${op[0]},${op[1] + 10} C${op[0]},${op[1] + 50} 90,440 90,470`} />
-        <Chip x={20} y={474} w={140} title="РЕАКЦИЯ НА МЕСТЕ" hot />
-        <Chip x={190} y={474} w={140} title="УСТРАНЕНИЕ" />
-        <Chip x={360} y={474} w={140} title="ОТЧЁТ CEO" />
-        <Flow d="M160,485 L186,485" />
-        <Flow d="M330,485 L356,485" />
+        <Chip x={570} y={40} w={170} title="ОПЕРАТОР" sub="ПРОВЕРКА 24/7" />
+        <Chip x={570} y={118} w={170} title="РЕАКЦИЯ НА МЕСТЕ" hot />
+        <Chip x={570} y={184} w={170} title="УСТРАНЕНИЕ" />
+        <Chip x={570} y={250} w={170} title="ОТЧЁТ CEO" />
+        <Flow d={`M${op[0] + 14},${op[1] - 14} C${op[0] + 90},${op[1] - 40} 520,60 566,58`} />
+        <Flow d="M655,76 L655,114" />
+        <Flow d="M655,142 L655,180" />
+        <Flow d="M655,208 L655,246" />
       </>
     );
   } else if (code === "PRO-AI") {
@@ -285,6 +285,79 @@ export function EcoScene({ code, className = "" }: { code: string; className?: s
         <pattern id={`eco-grid-${code}`} width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12 0H0V12" fill="none" stroke={RED} strokeOpacity=".08" strokeWidth=".6" /></pattern>
         <marker id="eco-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" fill="#ff8a80" /></marker>
       </defs>
+      <g stroke="#ff8a80" strokeWidth="1.1" strokeLinejoin="round">{body}</g>
+    </svg>
+  );
+}
+
+// ── Иллюстрации этапов «Как мы начинаем работу» (T63) — та же чертёжная манера ──
+export function StepArt({ n, className = "" }: { n: number; className?: string }) {
+  let body: React.ReactNode = null;
+  if (n === 0) {
+    // Встреча: стол, NDA и общий чек-лист, две стороны
+    const f = proj({ x: 170, y: 70, s: 16 });
+    const a = f([1, 3, 1.4]), b = f([8, 3, 1.4]);
+    body = (
+      <>
+        <Box f={f} x={2} y={1} w={5} d={4} h={1.2} fill={RED} cls="iso-edge" />
+        <polygon points={pts(f, [[2.6, 1.4, 1.21], [4.2, 1.4, 1.21], [4.2, 3.6, 1.21], [2.6, 3.6, 1.21]])} fill="#1a0505" stroke="#fff" strokeWidth="1.2" />
+        {[1.9, 2.5, 3.1].map((y) => <line key={y} {...(() => { const p = f([2.9, y, 1.21]), q = f([3.9, y, 1.21]); return { x1: p[0], y1: p[1], x2: q[0], y2: q[1] }; })()} stroke="#fff" strokeOpacity=".6" />)}
+        <polygon points={pts(f, [[4.7, 1.6, 1.21], [6.4, 1.6, 1.21], [6.4, 4.4, 1.21], [4.7, 4.4, 1.21]])} fill="#1a0505" stroke={RED} strokeWidth="1.2" />
+        {[2.1, 2.9, 3.7].map((y, i) => <polygon key={y} points={pts(f, [[5, y, 1.21], [5.4, y, 1.21], [5.4, y + 0.4, 1.21], [5, y + 0.4, 1.21]])} fill={i < 2 ? "#ff3b30" : "none"} stroke={RED} />)}
+        {[a, b].map((p, i) => <g key={i}><ellipse cx={p[0]} cy={p[1] + 12} rx="9" ry="4.5" fill={RED} opacity=".35" /><circle cx={p[0]} cy={p[1] - 2} r="6" fill="#ffb3ad" /></g>)}
+        <Chip x={18} y={20} title="NDA" />
+        <Chip x={250} y={20} title="ЧЕК-ЛИСТ" />
+        <Chip x={212} y={168} title="КРИТЕРИИ УСПЕХА" hot />
+      </>
+    );
+  } else if (n === 1) {
+    // Пилот: камеры на объекте → удалённое подключение → 14 дней мониторинга → отчёт
+    const f = proj({ x: 110, y: 50, s: 14 });
+    const cal = Array.from({ length: 14 }, (_, i) => ({ x: 2.5 + (i % 7) * 0.9, y: 5.6 + Math.floor(i / 7) * 0.9, on: i < 9 }));
+    body = (
+      <>
+        <polygon points={pts(f, [[0, 0, 0], [5, 0, 0], [5, 4, 0], [0, 4, 0]])} fill="none" stroke={RED} strokeOpacity=".45" strokeDasharray="3 4" />
+        {[[0.6, 0.6], [3.8, 0.6], [0.6, 3]].map(([x, y], i) => <g key={i}><Box f={f} x={x} y={y} w={0.25} d={0.25} h={2.2} fill={RED} cls="iso-edge" /><Box f={f} x={x - 0.25} y={y - 0.25} w={0.8} d={0.5} h={0.45} z={2.2} fill={RED} cls="iso-edge" /></g>)}
+        {cal.map((c, i) => <polygon key={i} points={pts(f, [[c.x, c.y, 0], [c.x + 0.75, c.y, 0], [c.x + 0.75, c.y + 0.75, 0], [c.x, c.y + 0.75, 0]])} fill={c.on ? "#ff3b30" : "none"} fillOpacity={c.on ? 0.55 : 1} stroke={RED} />)}
+        <Chip x={14} y={14} title="КАМЕРЫ НА ОБЪЕКТЕ" />
+        <Chip x={250} y={62} title="УДАЛЁННО" />
+        <Flow d="M150,70 C190,64 220,72 246,74" />
+        <Lbl x={110} y={212}>14 ДНЕЙ МОНИТОРИНГА</Lbl>
+        <Chip x={268} y={168} title="ОТЧЁТ" hot />
+        <Flow d="M296,86 C304,118 304,140 300,164" />
+      </>
+    );
+  } else if (n === 2) {
+    // Масштабирование: пилотный объект → сеть объектов
+    const f = proj({ x: 180, y: 40, s: 13 });
+    const grid = [0, 1, 2].flatMap((r) => [0, 1, 2].map((c) => ({ x: 6 + c * 2.2, y: 1 + r * 2.2 })));
+    const src = f([1.5, 4.2, 1.6]);
+    body = (
+      <>
+        <Box f={f} x={0.6} y={3.4} w={1.8} d={1.6} h={1.6} fill="#ff3b30" cls="iso-edge" />
+        {grid.map((g, i) => { const t = f([g.x + 0.6, g.y + 0.6, 1]); return <g key={i}><path d={`M${src[0]},${src[1]} L${t[0]},${t[1]}`} stroke={RED} strokeOpacity=".3" strokeDasharray="3 4" /><Box f={f} x={g.x} y={g.y} w={1.2} d={1.2} h={1} fill={RED} cls="iso-edge" /></g>; })}
+        <Chip x={18} y={22} title="ПИЛОТ" hot />
+        <Chip x={236} y={170} title="ВСЯ СЕТЬ" />
+      </>
+    );
+  } else {
+    // Интеграция: дашборд CEO с KPI
+    const f = proj({ x: 120, y: 150, s: 15 });
+    const bars = [1.2, 2, 1.6, 2.6, 3.2];
+    body = (
+      <>
+        <Box f={f} x={0} y={0} w={9} d={0.25} h={6} fill={RED} cls="iso-edge" />
+        {bars.map((h, i) => <polygon key={i} points={pts(f, [[0.8 + i * 1.1, -0.01, 0.8], [1.6 + i * 1.1, -0.01, 0.8], [1.6 + i * 1.1, -0.01, 0.8 + h], [0.8 + i * 1.1, -0.01, 0.8 + h]])} fill={i === 4 ? "#ff3b30" : RED} fillOpacity={i === 4 ? 0.9 : 0.35} stroke={RED} />)}
+        {(() => { const c = f([7.4, -0.01, 3.6]); return <g><circle cx={c[0]} cy={c[1]} r="17" fill="none" stroke={RED} strokeOpacity=".35" strokeWidth="5" /><path d={`M${c[0]},${c[1] - 17} A17 17 0 1 1 ${c[0] - 16},${c[1] + 5}`} fill="none" stroke="#ff3b30" strokeWidth="5" /></g>; })()}
+        <Chip x={236} y={24} title="KPI · CEO" hot />
+        <Chip x={18} y={180} title="ДАННЫЕ СЦ" />
+        <Flow d="M112,186 C150,186 150,160 170,150" />
+      </>
+    );
+  }
+  return (
+    <svg viewBox="0 0 360 220" className={className} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs><marker id="eco-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" fill="#ff8a80" /></marker></defs>
       <g stroke="#ff8a80" strokeWidth="1.1" strokeLinejoin="round">{body}</g>
     </svg>
   );

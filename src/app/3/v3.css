@@ -15,30 +15,22 @@ body:has(.v3) > header { display: none; }
 .v3-geo-tip[data-on] { opacity: 1; }
 .v3-geo-tip::after { content: ""; position: absolute; left: 50%; top: 100%; translate: -50% 0; border: 6px solid transparent; border-top-color: #fff; }
 
-/* Экосистема (T61): центр — PRO-TEST во весь рост, по бокам по две карточки, от них к центру «течёт» сигнал */
+/* Экосистема (T63): четыре направления в ряд, все «сливаются» в ситуационный центр во всю ширину ниже */
 .v3-eco-grid { display: grid; gap: 1rem; }
 @media (min-width: 768px) { .v3-eco-grid { grid-template-columns: 1fr 1fr; } .v3-eco-core { grid-column: 1 / -1; } }
 @media (min-width: 1280px) {
-  .v3-eco-grid { grid-template-columns: 1fr 1.35fr 1fr; grid-template-rows: auto auto; column-gap: clamp(2.5rem, 4vw, 5rem); row-gap: 1.25rem; }
-  .v3-eco-core { grid-column: 2; grid-row: 1 / 3; }
-  .v3-eco-1 { grid-column: 1; grid-row: 1; } .v3-eco-3 { grid-column: 1; grid-row: 2; }
-  .v3-eco-2 { grid-column: 3; grid-row: 1; } .v3-eco-4 { grid-column: 3; grid-row: 2; }
+  .v3-eco-grid { grid-template-columns: repeat(4, 1fr); row-gap: 3.5rem; }
   .v3-eco-side { position: relative; }
-  .v3-eco-side::after { content: ""; position: absolute; top: 50%; width: clamp(2.5rem, 4vw, 5rem); height: 2px;
-    background: repeating-linear-gradient(90deg, var(--c-brand) 0 6px, transparent 6px 12px); background-size: 24px 2px; }
-  .v3-eco-1::after, .v3-eco-3::after { left: 100%; } .v3-eco-2::after, .v3-eco-4::after { right: 100%; }
+  .v3-eco-side::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: 3.5rem;
+    background: repeating-linear-gradient(180deg, var(--c-brand) 0 6px, transparent 6px 12px); background-size: 2px 24px; }
 }
-@media (min-width: 1280px) and (prefers-reduced-motion: no-preference) {
-  .v3-eco-1::after, .v3-eco-3::after { animation: v3-flow-r 1s linear infinite; }
-  .v3-eco-2::after, .v3-eco-4::after { animation: v3-flow-l 1s linear infinite; }
-}
-@keyframes v3-flow-r { to { background-position: 24px 0; } }
-@keyframes v3-flow-l { to { background-position: -24px 0; } }
+@media (min-width: 1280px) and (prefers-reduced-motion: no-preference) { .v3-eco-side::after { animation: v3-flow-d 1s linear infinite; } }
+@keyframes v3-flow-d { to { background-position: 0 24px; } }
 .v3-eco-core { border-color: var(--c-brand); }
 .iso-label { stroke: none; }
 .iso-chip { stroke: none; font-family: var(--f-mono); font-size: 10px; font-weight: 700; letter-spacing: .04em; fill: #fff; }
 .v3-eco-panel { display: grid; place-items: center; background-image: linear-gradient(rgb(255 107 98 / .08) 1px, transparent 1px), linear-gradient(90deg, rgb(255 107 98 / .08) 1px, transparent 1px), var(--c-dark); background-size: 12px 12px, 12px 12px, auto; }
-.v3-eco-core .v3-eco-panel { min-height: 26rem; }
+
 
 /* Подвал на /3/ — тоже во всю ширину, с теми же полями, что у страницы */
 body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px, 3.3vw, 64px); }
@@ -63,8 +55,8 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
   /* ── Орбита задач: секция закреплена, карточки появляются по очереди при прокрутке ── */
   .v3-orbit-core { text-align: left; }
   @media (min-width: 1024px) {
-    .v3-orbit-track { height: 200vh; view-timeline-name: --orbit; }
-    .v3-orbit-pin { position: sticky; top: 6rem; height: calc(100vh - 6rem); display: grid; place-items: center; }
+    .v3-orbit-track { height: 300vh; view-timeline-name: --orbit; }
+    .v3-orbit-pin { position: sticky; top: 4rem; height: calc(100vh - 4rem); display: grid; place-items: center; }
     .v3-orbit { position: relative; width: 100%; height: min(54rem, 88%); }
     .v3-orbit-core { text-align: center; position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: clamp(24rem, 26vw, 34rem); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; padding: 3.5rem;
       background: radial-gradient(circle at 50% 35%, #fff 0%, #f0f0f0 75%); box-shadow: 0 0 0 1px var(--c-border), 0 0 0 5rem rgb(0 0 0 / .02), 0 0 0 10rem rgb(0 0 0 / .015); }
@@ -77,9 +69,19 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
   @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
     @supports (animation-timeline: view()) {
       .v3-orbit-card { animation: v3-pop linear both; animation-timeline: --orbit; }
-      .v3-orbit-card:nth-child(1) { animation-range: contain 0% contain 12%; } .v3-orbit-card:nth-child(2) { animation-range: contain 10% contain 22%; }
-      .v3-orbit-card:nth-child(3) { animation-range: contain 20% contain 32%; } .v3-orbit-card:nth-child(4) { animation-range: contain 30% contain 42%; }
-      .v3-orbit-card:nth-child(5) { animation-range: contain 40% contain 52%; } .v3-orbit-card:nth-child(6) { animation-range: contain 50% contain 62%; }
+      .v3-orbit-card:nth-child(1) { animation-range: contain 0% contain 8%; } .v3-orbit-card:nth-child(2) { animation-range: contain 6% contain 14%; }
+      .v3-orbit-card:nth-child(3) { animation-range: contain 12% contain 20%; } .v3-orbit-card:nth-child(4) { animation-range: contain 18% contain 26%; }
+      .v3-orbit-card:nth-child(5) { animation-range: contain 24% contain 32%; } .v3-orbit-card:nth-child(6) { animation-range: contain 30% contain 38%; }
+      /* После появления всех карточек: заголовок и карточки меняются на «исправляем», карточки зеленеют (T63) */
+      .v3-flip-wrap { display: grid; }
+      .v3-flip-wrap > .v3-face-prob, .v3-flip-wrap > .v3-face-fix { grid-area: 1 / 1; margin: 0; border: 0; padding: 0; }
+      .v3-face-prob { animation: v3-out linear both; animation-timeline: --orbit; animation-range: contain 50% contain 60%; }
+      .v3-face-fix { animation: v3-in linear both; animation-timeline: --orbit; animation-range: contain 52% contain 62%; }
+      .v3-orbit-core .v3-flip-wrap > .v3-face-fix { display: block; }
+      .v3-orbit-card.v3-flip-wrap { animation-name: v3-pop, v3-green; animation-timeline: --orbit, --orbit; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(1) { animation-range: contain 0% contain 8%, contain 50% contain 62%; } .v3-orbit-card.v3-flip-wrap:nth-child(2) { animation-range: contain 6% contain 14%, contain 50% contain 62%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(3) { animation-range: contain 12% contain 20%, contain 50% contain 62%; } .v3-orbit-card.v3-flip-wrap:nth-child(4) { animation-range: contain 18% contain 26%, contain 50% contain 62%; }
+      .v3-orbit-card.v3-flip-wrap:nth-child(5) { animation-range: contain 24% contain 32%, contain 50% contain 62%; } .v3-orbit-card.v3-flip-wrap:nth-child(6) { animation-range: contain 30% contain 38%, contain 50% contain 62%; }
     }
   }
   @media (prefers-reduced-motion: reduce) and (min-width: 1024px) {
@@ -89,11 +91,18 @@ body:has(.v3) > footer .max-w-6xl { max-width: none; padding-inline: clamp(16px,
     @media (min-width: 1024px) { .v3-orbit-track { height: auto; } .v3-orbit-pin { position: static; height: auto; padding-block: 6rem; } .v3-orbit { height: 44rem; } }
   }
   @keyframes v3-pop { from { opacity: 0; transform: scale(.88) translateY(1rem); } }
+  @keyframes v3-out { to { opacity: 0; visibility: hidden; } }
+  @keyframes v3-in { from { opacity: 0; visibility: hidden; } }
+  @keyframes v3-green { to { border-color: var(--c-success); background: #eef7f0; } }
+  /* Без прокрутки-анимации (и на телефоне): решение показывается под задачей зелёной строкой */
+  .v3-face-fix { margin-top: .875rem; padding-top: .875rem; border-top: 1px solid var(--c-success); }
+  .v3-orbit-core .v3-face-fix { display: none; }
+  .v3-ok { color: var(--c-success); }
 
   /* ── Этапы: заголовок держится слева, карточки складываются справа ── */
   @media (min-width: 1024px) {
-    .v3-stack > li { position: sticky; top: calc(8rem + var(--i) * 4.5rem); }
-    .v3-sticky { position: sticky; top: 9rem; }
+    .v3-stack > li { position: sticky; top: calc(6rem + var(--i) * 4.5rem); }
+    .v3-sticky { position: sticky; top: 7rem; }
   }
 
   /* Чертёжная графика (iso.tsx) */
