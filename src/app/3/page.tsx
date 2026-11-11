@@ -272,12 +272,13 @@ export default function V3() {
           </div>
           <ol className="v3-stack grid gap-4">
             {home.path.steps.map((s, i) => (
-              <li key={s.title} style={{ "--i": i } as React.CSSProperties} className="ds-tile bg-white p-6 shadow-[0_-14px_30px_-22px_rgb(0_0_0/.3)] sm:p-8">
-                <p className="flex items-baseline justify-between border-b border-[var(--c-border)] pb-4"><Heading size="h4" as="p">{s.title}</Heading><Index n={i + 1} /></p>
-                <div className="mt-5 grid items-center gap-5 sm:grid-cols-[1fr_1.1fr]">
+              <li key={s.title} style={{ "--i": i } as React.CSSProperties} className="ds-tile grid gap-5 bg-white p-5 shadow-[0_-14px_30px_-22px_rgb(0_0_0/.3)] sm:grid-cols-[1fr_1.15fr] sm:p-6">
+                {/* Слева: номер и название сверху, текст снизу; справа — чертёж во всю высоту карточки (T64) */}
+                <div className="flex flex-col justify-between gap-6 sm:py-2">
+                  <div><Index n={i + 1} /><Heading size="h4" as="p" className="mt-3">{s.title}</Heading></div>
                   <Text>{s.text}</Text>
-                  <Surface tone="dark" className="v3-eco-panel"><StepArt n={i} className="h-auto w-full" /></Surface>
                 </div>
+                <Surface tone="dark" className="v3-eco-panel h-full"><StepArt n={i} className="h-auto w-full" /></Surface>
               </li>
             ))}
           </ol>
@@ -424,23 +425,6 @@ export default function V3() {
               );
             })}
           </div>
-        </Wrap>
-      </Section>
-
-      {/* 13. Основатель — красная «пауза»: текст слева, цветное фото справа (из /2) */}
-      <Section tone="red" className="![background:var(--c-brand)]">
-        <Wrap fluid>
-          <figure className="grid items-center gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-8">
-              <Eyebrow className="!text-white">{home.ceo.eyebrow}</Eyebrow>
-              <blockquote className="mt-6 max-w-[52ch] text-xl font-medium leading-relaxed sm:text-2xl 2xl:text-[1.75rem]">«{home.ceo.quote}»</blockquote>
-              <figcaption className="mt-8 border-t border-white/40 pt-5">
-                <Heading size="h3" as="p">{home.ceo.name} — {home.ceo.role}</Heading>
-                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="ds-link ds-small mt-2 inline-block !text-white">{home.ceo.channelLabel} ↗</a>
-              </figcaption>
-            </div>
-            <Image src="/images/team/sergey-malyutenkov-color.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={640} height={640} className="mx-auto aspect-square w-full max-w-sm object-cover lg:col-span-4 lg:ml-auto lg:mr-0 2xl:max-w-md" />
-          </figure>
         </Wrap>
       </Section>
 
