@@ -23,6 +23,14 @@
   "time-to-fix-vs-violation-count": {
    "tg": "skip",
    "max": "skip"
+  },
+  "face-recognition-in-store": {
+   "tg": "off",
+   "max": "off"
+  },
+  "security-guards-vs-situation-center": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
