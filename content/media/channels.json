@@ -31,6 +31,10 @@
   "security-guards-vs-situation-center": {
    "tg": "off",
    "max": "off"
+  },
+  "site-reports-distort-the-picture": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
