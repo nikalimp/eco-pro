@@ -74,3 +74,11 @@ RedirectMatch 404 ^/api/logs/
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
 </IfModule>
+
+# Тестовый адрес eco-pro.nikalimp.ru закрыт от индексации до переезда на pro-nas.pro (12.11.2026: Google уже показывал его страницы).
+# Заголовок вместо noindex в коде: сборка одна и та же, на боевом домене он не сработает. Страницы при этом можно обходить — так поисковик увидит noindex и уберёт их.
+<IfModule mod_headers.c>
+  <If "%{HTTP_HOST} == 'eco-pro.nikalimp.ru'">
+    Header always set X-Robots-Tag "noindex, nofollow"
+  </If>
+</IfModule>
