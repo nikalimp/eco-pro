@@ -35,6 +35,10 @@
   "site-reports-distort-the-picture": {
    "tg": "off",
    "max": "off"
+  },
+  "retail-chain-inspection-checklist": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
