@@ -1,0 +1,4 @@
+date,query,type,engine,run,mentioned,position,sentiment,accurate,competitors,sources,evidence
+2026-11-14,Ситуационный центр для сети магазинов: предотвращение потерь,category,Claude (веб-поиск),1,0,,,,,new-retail.ru; retail.ru; yandex.cloud; habr.com,"WebSearch 14.11.2026, бренда нет в результатах"
+2026-11-14,Удалённый видеомониторинг по чек-листу в рознице,category,Claude (веб-поиск),1,0,,,,,new-retail.ru; cleverence.ru; sostav.ru; saby.ru,"WebSearch 14.11.2026, бренда нет в результатах"
+2026-11-14,ECO-PRO ситуационный центр PRO-TEST,brand,Claude (веб-поиск),1,0,,,,,esg.saveecobot.com; lpnu.ua,"WebSearch 14.11.2026, бренда нет в результатах"
