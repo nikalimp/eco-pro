@@ -87,7 +87,7 @@
 |---|---|
 | `/tpost/s9j3yz7m31-eco-pro-na-forume-novii-reteil-2026` | `/blog/eco-pro-new-retail-forum-2026/` |
 | `/tpost/tp0careij1-vremya-ustraneniya-vmesto-kolichestva-na` | `/blog/time-to-fix-vs-violation-count/` |
-| `/tpost/rgiuuhcz31-situatsionnii-tsentr-pro-test-ot-nablyud` | `/blog/pro-test-situation-center/` |
+| `/tpost/rgiuuhcz31-situatsionnii-tsentr-pro-test-ot-nablyud` | `/blog/situation-center-truth-center/` (до 16.11 — `/blog/pro-test-situation-center/`) |
 | `/tpost/4ljdfc4g71-iskusstvennii-intellekt-i-mashinnoe-zren` | `/blog/ai-computer-vision-loss-prevention/` |
 | `/members/login` | `/account/` |
 | `/policy` | `/privacy-policy/` |
