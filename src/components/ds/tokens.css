@@ -1,4 +1,4 @@
-/* Дизайн-система ECO-PRO v3 (T57). Основа — IBM Carbon: шкала отступов, типошкала, слои серого, рамки, движение.
+/* Дизайн-система ECO-PRO v3 (T57), облегчённая 16.11 (итерация v3, раздел 4: вес 500, светлые фоны, таблетки, +30 % воздуха). Основа — IBM Carbon: шкала отступов, типошкала, слои серого, рамки, движение.
    Свои: фирменный красный #D51317 вместо синего Carbon, Geologica (гайдлайн) вместо IBM Plex Sans, IBM Plex Mono для подписей.
    Токены живут на .ds и темах .ds-* — остальной сайт не меняется. Документация — артефакт «Дизайн-система ECO-PRO v3». */
 
@@ -7,12 +7,12 @@
     /* Отступы Carbon: spacing-01…13 */
     --sp-01: 2px; --sp-02: 4px; --sp-03: 8px; --sp-04: 12px; --sp-05: 16px; --sp-06: 24px; --sp-07: 32px;
     --sp-08: 40px; --sp-09: 48px; --sp-10: 64px; --sp-11: 80px; --sp-12: 96px; --sp-13: 160px;
-    --sp-section: clamp(var(--sp-10), 2rem + 6vw, var(--sp-13));
+    --sp-section: clamp(5rem, 2.5rem + 7.8vw, 13rem); /* +30 % к прежнему ритму (16.11) */
     --sp-gutter: clamp(var(--sp-05), 3.3vw, var(--sp-10)); /* поле страницы во всю ширину */
 
     /* Цвет: тема g10 Carbon + бренд */
     --c-bg: #ffffff;
-    --c-layer: #f4f4f4;            /* layer-01: плитки */
+    --c-layer: #f6f6f6;            /* layer-01: светло-серый фон секций и плиток (16.11) */
     --c-layer-2: #ffffff;          /* layer-02: плитка на плитке */
     --c-layer-hover: #e8e8e8;
     --c-border: #e0e0e0;           /* border-subtle */
@@ -31,9 +31,6 @@
     --c-white-hover: #e8e8e8;      /* наведение на белую кнопку */
     --c-icon-box: #393939;         /* тёмный квадрат под иконкой, тёмная метка */
     --c-tracker-ok: #5a5a5a; --c-tracker-warn: #f1a1a3;
-    --c-brick: #a3282a;
-    --c-deep: radial-gradient(120% 140% at 0% 0%, #b3191c 0%, #7d1214 45%, #2a0506 100%);
-    --c-dark: radial-gradient(90% 120% at 70% 30%, #3a0b0c 0%, #120303 65%);
 
     /* Шрифты */
     --f-sans: "Geologica Variable", ui-sans-serif, system-ui, sans-serif;
@@ -51,41 +48,42 @@
   }
 
   /* Темы для полос: тёмная (g100), красная, кирпичная, тёмно-красная */
-  .ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep {
+  .ds-theme-red {
     --c-layer: rgb(255 255 255 / .06); --c-layer-2: rgb(255 255 255 / .1); --c-layer-hover: rgb(255 255 255 / .12);
     --c-border: rgb(255 255 255 / .22); --c-border-strong: rgb(255 255 255 / .6);
     --c-text: #ffffff; --c-text-2: rgb(255 255 255 / .82); --c-text-3: rgb(255 255 255 / .7);
     --c-focus: #ffffff; color: var(--c-text);
   }
-  .ds-theme-dark { background: var(--c-dark); }
-  .ds-theme-red { background: linear-gradient(100deg, #e11d22 0%, #c3151a 45%, #6e0b0d 100%); }
-  .ds-theme-brick { background: var(--c-brick); }
-  .ds-theme-deep { background: var(--c-deep); }
+  /* 16.11: тёмные, кирпичные и тёмно-красные полосы убраны — клиенту /3/ показался тяжёлым. Темы dark/brick/deep теперь светлые,
+     красная осталась одна — для финального призыва (её одобрил Сергей 30.10). */
+  .ds-theme-red { background: var(--c-brand); }
   /* Светлый островок внутри цветной полосы (белая карточка кейса на кирпичном) — возвращает светлые токены */
   .ds-theme-light { --c-layer: #f4f4f4; --c-layer-2: #fff; --c-layer-hover: #e8e8e8; --c-border: #e0e0e0; --c-border-strong: #8d8d8d;
     --c-text: #161616; --c-text-2: #525252; --c-text-3: #6f6f6f; --c-focus: #d51317; background: #fff; color: var(--c-text); }
-  .ds-theme-layer { background: #f4f4f4; --c-layer: #ffffff; --c-layer-2: #f4f4f4; } /* фон задан явно: var(--c-layer) тут уже переопределён на белый */
+  .ds-theme-layer, .ds-theme-dark, .ds-theme-brick, .ds-theme-deep { background: #f6f6f6; --c-layer: #ffffff; --c-layer-2: #f6f6f6; } /* фон задан явно: var(--c-layer) тут уже переопределён на белый */
 
   /* ── Типошкала (Carbon productive + expressive, на Geologica) ── */
-  .ds-display  { font-size: clamp(2.75rem, 1rem + 4.4vw, 7.5rem); line-height: .95; font-weight: 700; letter-spacing: -0.03em; }
-  .ds-h1       { font-size: clamp(2.25rem, 1.2rem + 2.9vw, 5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; text-wrap: balance; }
-  .ds-h2       { font-size: clamp(1.875rem, 1rem + 2.4vw, 4.5rem); line-height: 1.05; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
-  .ds-h3       { font-size: clamp(1.5rem, 1.1rem + .55vw, 2.125rem); line-height: 1.17; font-weight: 700; letter-spacing: -0.015em; }   /* heading-04-ish */
-  .ds-h4       { font-size: clamp(1.25rem, 1rem + .35vw, 1.625rem); line-height: 1.4; font-weight: 700; letter-spacing: -0.01em; }    /* heading-03 */
-  .ds-h5       { font-size: 1rem; line-height: 1.375; font-weight: 700; }                               /* heading-02 */
+  .ds-display  { font-size: clamp(2.5rem, 1rem + 3.6vw, 5.5rem); line-height: 1.05; font-weight: 500; letter-spacing: -0.015em; }
+  .ds-h1       { font-size: clamp(2.125rem, 1.2rem + 2.4vw, 4.25rem); line-height: 1.08; font-weight: 500; letter-spacing: -0.015em; text-wrap: balance; }
+  .ds-h2       { font-size: clamp(1.75rem, 1rem + 1.9vw, 3.5rem); line-height: 1.1; font-weight: 500; letter-spacing: -0.015em; text-wrap: balance; }
+  .ds-h3       { font-size: clamp(1.5rem, 1.1rem + .55vw, 2.125rem); line-height: 1.2; font-weight: 500; letter-spacing: -0.01em; }   /* heading-04-ish */
+  .ds-h4       { font-size: clamp(1.25rem, 1rem + .35vw, 1.625rem); line-height: 1.35; font-weight: 600; letter-spacing: -0.005em; }    /* heading-03 */
+  .ds-h5       { font-size: 1rem; line-height: 1.375; font-weight: 600; }                               /* heading-02 */
   .ds-lead     { font-size: clamp(1.125rem, .95rem + .4vw, 1.5rem); line-height: 1.55; color: var(--c-text-2); }
-  .ds-body     { font-size: clamp(15px, 13px + .22vw, 18px); line-height: 1.55; color: var(--c-text-2); } /* абзацы — Geologica: моно оставили подписям (T59) */
+  .ds-body     { font-size: clamp(16px, 14.5px + .2vw, 18px); line-height: 1.6; color: var(--c-text-2); } /* абзацы — Geologica: моно оставили подписям (T59) */
   .ds-small    { font-size: clamp(14px, 12.5px + .14vw, 16px); line-height: 1.45; color: var(--c-text-2); }
-  .ds-label    { font-family: var(--f-mono); font-size: clamp(12px, 11px + .1vw, 14px); line-height: 1.35; letter-spacing: .02em; color: var(--c-text-3); } /* label-01 */
-  .ds-num      { font-size: clamp(2.75rem, 1.6rem + 3.6vw, 7rem); line-height: .95; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .ds-label    { font-size: clamp(12px, 11px + .1vw, 14px); line-height: 1.4; color: var(--c-text-3); } /* label-01; моно — только .ds-mono в схемах (16.11) */
+  .ds-mono     { font-family: var(--f-mono); letter-spacing: .02em; }
+  .ds-num      { font-size: clamp(2.5rem, 1.6rem + 2.8vw, 5.5rem); line-height: 1; font-weight: 400; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   .ds-accent   { color: var(--c-brand); }
-  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-accent { color: var(--c-brand-soft); }
+  .ds-theme-red .ds-accent { color: var(--c-brand-soft); }
   .ds-theme-light .ds-accent, .ds-theme-light .ds-index { color: var(--c-brand); }
-  .ds-eyebrow  { font-family: var(--f-mono); font-size: clamp(13px, 11.5px + .14vw, 15px); line-height: 1.4; font-weight: 500; color: var(--c-text-2); }
-  .ds-eyebrow::before { content: "[ "; } .ds-eyebrow::after { content: " ]"; }
-  .ds-index    { font-family: var(--f-mono); font-size: 14px; font-weight: 500; color: var(--c-brand); }
+  .ds-eyebrow  { font-size: 13px; line-height: 1.4; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--c-text-2); }
+  .ds-eyebrow::before { content: "[ "; color: var(--c-brand); } .ds-eyebrow::after { content: " ]"; color: var(--c-brand); }
+  .ds-theme-red .ds-eyebrow::before, .ds-theme-red .ds-eyebrow::after { color: inherit; }
+  .ds-index    { font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--c-brand); }
   .ds-index::before { content: "["; } .ds-index::after { content: "]"; }
-  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-index { color: var(--c-brand-soft); }
+  .ds-theme-red .ds-index { color: var(--c-brand-soft); }
 
   /* ── Сетка ── */
   .ds-wrap { max-width: 82rem; margin-inline: auto; padding-inline: var(--sp-05); }
@@ -95,26 +93,26 @@
   .ds-section { padding-block: var(--sp-section); }
 
   /* ── Кнопка: красная плашка + белый модуль «+», как у референса; состояния Carbon ── */
-  .ds-btn { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--sp-06); font-family: var(--f-sans); font-weight: 700; line-height: 1.1; white-space: nowrap;
+  .ds-btn { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--sp-05); border-radius: 999px; font-family: var(--f-sans); font-weight: 500; line-height: 1.1; white-space: nowrap;
     transition: background var(--dur-fast) var(--ease-productive), color var(--dur-fast) var(--ease-productive); outline: none; }
   .ds-btn:focus-visible { box-shadow: 0 0 0 2px var(--c-bg), 0 0 0 4px var(--c-focus); }
-  .ds-btn-mod { flex: none; display: grid; place-items: center; } /* без вращения «+» по наведению (решение Ника 07.11) */
+  .ds-btn-mod { flex: none; display: grid; place-items: center; border-radius: 999px; } /* «таблетка» с круглым модулем, как кнопки v1 (16.11) */ /* без вращения «+» по наведению (решение Ника 07.11) */
   .ds-btn:disabled, .ds-btn[aria-disabled=true] { opacity: .45; pointer-events: none; }
 
   /* ── Плитка (Carbon tile) ── */
-  .ds-tile { background: var(--c-layer); border: 1px solid var(--c-border); }
+  .ds-tile { background: #fff; border: 1px solid var(--c-border); } /* белые карточки, тонкая рамка (16.11); без скруглений — правки 14.10 */
   .ds-tile-click { transition: border-color var(--dur-fast) var(--ease-productive), background var(--dur-fast) var(--ease-productive); outline: none; }
-  .ds-tile-click:hover { border-color: var(--c-brand); }
+  .ds-tile-click:hover { border-color: var(--c-brand); box-shadow: 0 18px 40px -28px rgb(0 0 0 / .35); }
   .ds-tile-click:focus-visible { box-shadow: 0 0 0 2px var(--c-focus); }
-  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-tile-click:hover { border-color: var(--c-border-strong); background: var(--c-layer-hover); }
+  .ds-theme-red .ds-tile-click:hover { border-color: var(--c-border-strong); background: var(--c-layer-hover); }
 
   /* ── Метка (Carbon tag, прямоугольная) ── */
-  .ds-tag { display: inline-flex; align-items: center; gap: var(--sp-02); font-size: 13px; line-height: 1.15; font-weight: 700; padding: 6px 8px; }
+  .ds-tag { display: inline-flex; align-items: center; gap: var(--sp-02); font-size: 13px; line-height: 1.15; font-weight: 500; padding: 6px 12px; border-radius: 999px; }
 
   /* Ссылка в тексте */
   .ds-link { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: color var(--dur-fast) var(--ease-productive); }
   .ds-link:hover { color: var(--c-brand); }
-  :is(.ds-theme-dark, .ds-theme-red, .ds-theme-brick, .ds-theme-deep) .ds-link:hover { color: var(--c-brand-soft); }
+  .ds-theme-red .ds-link:hover { color: var(--c-brand-soft); }
 
   /* ── Данные (по образцу Tremor: ProgressCircle, Tracker, BarList) ── */
   .ds-ring { --v: 100; position: relative; display: grid; place-items: center; text-align: center; border-radius: 50%; aspect-ratio: 1;

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-// Схема «Место в контуре PRO-TEST»: 7 шагов цикла, шаги направления — чёрные, шаг 6 — роль руководителя.
+// Схема «Место в контуре ситуационного центра»: 7 шагов цикла, шаги направления — чёрные, шаг 6 — роль руководителя.
 // Вёрстка кодом (SVG на десктопе, список на мобильных), анимация — CSS, при reduced-motion статична.
 export const contourSteps = [
   "Сбор данных",
@@ -38,7 +38,7 @@ function Label({ n, x, y, on, role }: { n: number; x: number; y: number; on: boo
 export function ContourScheme({ code, active }: { code: string; active: number[] }) {
   const isOn = (n: number) => active.includes(n);
   return (
-    <figure data-reveal className="contour mt-10" aria-label={`Схема: место ${code} в контуре PRO-TEST`}>
+    <figure data-reveal className="contour mt-10" aria-label={`Схема: место ${code} в контуре ситуационного центра`}>
       {/* Десктоп */}
       <svg viewBox={`0 0 ${W} 300`} className="hidden w-full md:block" role="img" aria-label={`${code} закрывает шаги: ${active.map((n) => contourSteps[n - 1]).join(", ")}. Решение принимает руководитель.`}>
         <path d={loop} fill="none" stroke="var(--border)" strokeWidth="2" />

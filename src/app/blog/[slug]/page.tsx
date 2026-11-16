@@ -4,7 +4,6 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { formatDate, getPost, getPosts } from "@/lib/posts";
 import { site } from "@/content/site";
-import { Container, Section } from "@/components/container";
 import { Crumbs } from "@/components/crumbs";
 import Image from "next/image";
 import { CtaBlock } from "@/components/blocks";
@@ -36,20 +35,24 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   return (
     <>
       <JsonLd data={graph(articleSchema(p), breadcrumbs([{ name: "Главная", path: "/" }, { name: "Блог", path: "/blog/" }, { name: p.title, path: `/blog/${p.slug}/` }]))} />
-      <Section className="pt-12">
-        <Container className="max-w-3xl">
-          <Crumbs items={[{ name: "Главная", path: "/" }, { name: "Блог", path: "/blog/" }, { name: p.title }]} />
-          <h1 className="text-center text-3xl font-semibold leading-tight tracking-tight text-balance sm:text-4xl">{p.title}</h1>
-          <p className="mt-4 text-center text-sm text-muted-foreground">
-            {site.name} · <time dateTime={p.date}>{formatDate(p.date)}</time>
-            {p.updated && p.updated !== p.date && <> · обновлено <time dateTime={p.updated}>{formatDate(p.updated)}</time></>}
-          </p>
-          {p.image && <Image src={p.image} alt={p.imageAlt ?? p.title} width={1000} height={1500} className="mt-8 max-h-[560px] w-full rounded-md object-cover" />}
-          <article className="prose-site mt-10">
+      <article>
+        <header className="page-hero border-b border-[var(--c-border)]">
+          <div className="ds-wrap max-w-4xl page-intro">
+            <Crumbs items={[{ name: "Главная", path: "/" }, { name: "Блог", path: "/blog/" }, { name: p.title }]} />
+            <h1 className="ds-h1 mt-8">{p.title}</h1>
+            <p className="ds-small mt-5">
+              {site.name} · <time dateTime={p.date}>{formatDate(p.date)}</time>
+              {p.updated && p.updated !== p.date && <> · обновлено <time dateTime={p.updated}>{formatDate(p.updated)}</time></>}
+            </p>
+          </div>
+        </header>
+        <div className="ds-wrap max-w-4xl page-section !pt-10">
+          {p.image && <Image src={p.image} alt={p.imageAlt ?? p.title} width={1000} height={1500} className="mb-10 max-h-[560px] w-full object-cover" />}
+          <div className="prose-site max-w-3xl">
             <Markdown remarkPlugins={[remarkGfm]}>{p.body}</Markdown>
-          </article>
-        </Container>
-      </Section>
+          </div>
+        </div>
+      </article>
       <CtaBlock />
     </>
   );

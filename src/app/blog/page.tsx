@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { formatDate, getPosts } from "@/lib/posts";
-import { Container, Section } from "@/components/container";
+import { Container, PageHero, Section } from "@/components/container";
 
 export const metadata: Metadata = {
   title: "Блог о ситуационных центрах и предотвращении потерь",
@@ -13,17 +13,22 @@ export default function Blog() {
   const posts = getPosts();
   return (
     <>
-      <Section className="pt-12">
-        <Container className="max-w-5xl">
-          <h1 className="text-center text-4xl font-black tracking-tight">Блог ECO-PRO</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-lg leading-relaxed text-muted-foreground">Статьи о предотвращении потерь, ситуационных центрах и управлении рисками — с примерами из практики экосистемы PRO.</p>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {posts.length === 0 && <p className="py-6 text-muted-foreground">Статьи скоро появятся.</p>}
+      <PageHero
+        eyebrow="блог"
+        title="Блог ECO-PRO"
+        answer="Статьи о власти и видении CEO, управляемости, ситуационных центрах и предотвращении потерь — с примерами из практики экосистемы PRO."
+      >
+        <p className="ds-small mt-6">Термины, которые мы используем, — в <Link href="/glossary/" className="ds-link">глоссарии</Link>.</p>
+      </PageHero>
+      <Section>
+        <Container>
+          <div data-reveal className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {posts.length === 0 && <p className="ds-body py-6">Статьи скоро появятся.</p>}
             {posts.map((p) => (
-              <Link key={p.slug} href={`/blog/${p.slug}/`} className="spot group block border p-6 transition-colors hover:border-foreground sm:p-8">
-                <p className="text-sm text-muted-foreground"><time dateTime={p.date}>{formatDate(p.date)}</time></p>
-                <h2 className="mt-2 text-xl font-semibold group-hover:text-brand">{p.title}</h2>
-                <p className="mt-2 text-muted-foreground">{p.description}</p>
+              <Link key={p.slug} href={`/blog/${p.slug}/`} className="ds-tile ds-tile-click group flex flex-col p-6 sm:p-8">
+                <p className="ds-small"><time dateTime={p.date}>{formatDate(p.date)}</time></p>
+                <h2 className="ds-h4 mt-3 group-hover:text-[var(--c-brand)]">{p.title}</h2>
+                <p className="ds-small mt-3">{p.description}</p>
               </Link>
             ))}
           </div>

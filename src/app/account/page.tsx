@@ -1,28 +1,39 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
-import { Container, Section } from "@/components/container";
-import { Button } from "@/components/ui/button";
+import { home } from "@/content/home";
+import { Container, PageHero, Section } from "@/components/container";
+import { HeroDashboard } from "@/components/hero-dashboard";
+import { Button } from "@/components/ds";
 
+// Личный кабинет: заглушка «в разработке» + демо дашборда на демо-данных (решения Ника 16.11, идея 4).
+// Экран повторяет личный кабинет клиента со слайда 25 презентации; фамилии обезличены.
 export const metadata: Metadata = {
-  title: "Личный кабинет клиента",
-  description: "Личный кабинет ECO-PRO с онлайн-дашбордами по объектам клиента — в разработке. Данные по объектам действующим клиентам предоставляет менеджер.",
+  title: "Личный кабинет клиента — демо дашборда",
+  description: "Личный кабинет ECO-PRO с онлайн-дашбордами по объектам клиента — в разработке. Демо экрана: индекс управляемости CEO, исполнение регламентов, время реакции, карта нарушений.",
   alternates: { canonical: "/account/" },
   robots: { index: false, follow: true },
 };
 
 export default function Cabinet() {
   return (
-    <Section className="pt-10">
-      <Container className="max-w-3xl text-center">
-        <p className="mt-8 text-sm font-medium uppercase tracking-[0.14em] text-brand">в разработке</p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight">Личный кабинет</h1>
-        <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-          Личный кабинет с онлайн-дашбордами по объектам — в разработке. Действующим клиентам данные по объектам предоставляет менеджер: напишите на{" "}
-          <a href={`mailto:${site.contacts.email}`} className="text-foreground underline underline-offset-4">{site.contacts.email}</a> или позвоните{" "}
-          <a href={`tel:${site.contacts.phone}`} className="text-foreground underline underline-offset-4">{site.contacts.phoneDisplay}</a>.
-        </p>
-        <Button asChild size="lg" className="mt-8"><a href={site.cta.href}>{site.cta.label}</a></Button>
-      </Container>
-    </Section>
+    <>
+      <PageHero
+        eyebrow="личный кабинет · в разработке"
+        title="Личный кабинет"
+        answer={<>Онлайн-кабинет для клиентов на сайте — в разработке. Действующим клиентам данные по объектам предоставляет менеджер: напишите на{" "}
+          <a href={`mailto:${site.contacts.email}`} className="ds-link text-[var(--c-text)]">{site.contacts.email}</a> или позвоните{" "}
+          <a href={`tel:${site.contacts.phone}`} className="ds-link text-[var(--c-text)]">{site.contacts.phoneDisplay}</a>.</>}
+      >
+        <Button asChild size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
+      </PageHero>
+      <Section className="bg-card">
+        <Container>
+          <p className="ds-eyebrow">демо</p>
+          <h2 className="ds-h2 mt-5 max-w-4xl">Так выглядит экран: {home.dashboard.title.toLowerCase()}</h2>
+          <p className="ds-body mt-5 max-w-2xl">{home.architecture.dashboards}</p>
+          <HeroDashboard className="mt-12" />
+        </Container>
+      </Section>
+    </>
   );
 }

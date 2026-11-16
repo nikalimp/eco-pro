@@ -8,7 +8,7 @@ import { graph, itemList } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Направления экосистемы PRO: СЦ, ИИ, аналитика",
   description:
-    "Пять направлений экосистемы ECO-PRO: ситуационный центр PRO-TEST, ИИ PRO-AI, платформы PRO-INC, аналитика PRO-DATA и системы безопасности PRO-TECHNO.",
+    "Пять направлений экосистемы ECO-PRO: ситуационный центр (Центр Правды), ИИ PRO-AI, платформы PRO-INC, аналитика PRO-DATA и системы безопасности PRO-TECHNO.",
   alternates: { canonical: "/services/" },
 };
 
@@ -22,7 +22,7 @@ export default function Directions() {
             as="h1"
             className="mt-6"
             title="Направления экосистемы PRO"
-            text="Экосистема PRO — пять направлений: ситуационный центр PRO-TEST, ИИ PRO-AI, платформы PRO-INC, аналитика PRO-DATA и системы безопасности PRO-TECHNO. Их объединяет ситуационный центр, а конфигурацию собираем под задачу заказчика."
+            text="Экосистема PRO — пять направлений: ситуационный центр (Центр Правды), ИИ PRO-AI, платформы PRO-INC, аналитика PRO-DATA и системы безопасности PRO-TECHNO. Их объединяет ситуационный центр, а конфигурацию собираем под задачу заказчика."
           />
           <div data-reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {directions.map((d) => <DirectionCard key={d.slug} d={d} />)}

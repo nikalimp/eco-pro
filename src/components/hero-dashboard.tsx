@@ -1,99 +1,166 @@
-"use client";
-import { useEffect, useState } from "react";
 import { home } from "@/content/home";
 import { cn } from "@/lib/utils";
 
-// Макет окна ситуационного центра на первом экране. Цифры и события — иллюстрация интерфейса.
-// Без JavaScript показывается статичный экран с итоговыми значениями; с JavaScript — «живой» дашборд:
-// счётчики, обновляющийся график и бегущая лента событий.
+// Дашборд «как в личном кабинете» — по скриншоту ЛК клиента (презентация «СЦ для СЕО 3», слайд 25), итерация v3 (16.11).
+// Вёрстка HTML и SVG, без картинки: цифры и подписи читают поисковики и нейросети. Данные — демо (home.dashboard).
+// Цвет динамики — как на экране ЛК: снижение красным, рост зелёным.
+// variant="full" — весь экран ЛК; "compact" — KPI, шкала индекса и столбцы (для телефона).
 
-const parse = (v: string) => {
-  const m = v.match(/^([\d.,]+)(.*)$/);
-  return m ? { n: parseFloat(m[1].replace(",", ".")), dec: (m[1].split(/[.,]/)[1] || "").length, sep: m[1].includes(",") ? "," : ".", rest: m[2] } : null;
-};
+const d = home.dashboard;
+const pct = (v: number) => `${v}%`;
 
-function Counter({ value, run }: { value: string; run: boolean }) {
-  const p = parse(value);
-  const [shown, setShown] = useState(value);
-  useEffect(() => {
-    if (!p || !run) return;
-    let raf = 0;
-    const t0 = performance.now();
-    const dur = 1600;
-    const tick = (t: number) => {
-      const k = Math.min(1, (t - t0) / dur);
-      const e = 1 - Math.pow(1 - k, 3);
-      setShown((p.n * e).toFixed(p.dec).replace(".", p.sep) + p.rest);
-      if (k < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [run]);
-  return <>{shown}</>;
+function Gauge({ value, mark }: { value: number; mark: number }) {
+  // Полукруг: 0% слева, 100% справа
+  const r = 80, cx = 100, cy = 96, len = Math.PI * r;
+  const at = (p: number) => {
+    const a = Math.PI * (1 - p / 100);
+    return [cx + r * Math.cos(a), cy - r * Math.sin(a)];
+  };
+  const [mx, my] = at(mark);
+  const [ix, iy] = [cx + (r - 22) * Math.cos(Math.PI * (1 - mark / 100)), cy - (r - 22) * Math.sin(Math.PI * (1 - mark / 100))];
+  return (
+    <svg viewBox="0 0 200 116" className="h-auto w-full max-w-[15rem]" role="img" aria-label={`${d.index.label}: ${value}%, отметка ${mark}%`}>
+      <path d={`M${cx - r},${cy} A${r},${r} 0 0 1 ${cx + r},${cy}`} fill="none" stroke="var(--c-border)" strokeWidth="22" />
+      <path d={`M${cx - r},${cy} A${r},${r} 0 0 1 ${cx + r},${cy}`} fill="none" stroke="var(--c-success)" strokeWidth="22" strokeDasharray={`${(len * value) / 100} ${len}`} />
+      <line x1={ix} y1={iy} x2={mx + (mx - cx) * 0.14} y2={my + (my - cy) * 0.14} stroke="var(--c-icon-box)" strokeWidth="2.5" />
+      <text x={mx + 6} y={my - 10} className="lk-svg-small">{mark}%</text>
+      <text x={cx} y={cy - 8} textAnchor="middle" className="lk-svg-big">{value}%</text>
+      <text x={cx - r} y={cy + 16} textAnchor="middle" className="lk-svg-small">0%</text>
+      <text x={cx + r} y={cy + 16} textAnchor="middle" className="lk-svg-small">100%</text>
+    </svg>
+  );
 }
 
-// Детерминированная «живая» последовательность для графика
-const nextBar = (i: number) => 26 + ((i * 37 + (i % 3) * 19) % 64);
-
-export function HeroDashboard() {
-  const d = home.dashboard;
-  const [live, setLive] = useState(false);
-  const [bars, setBars] = useState(d.bars);
-  const [alert, setAlert] = useState(0);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const start = setTimeout(() => setLive(true), 350);
-    let step = d.bars.length;
-    const b = setInterval(() => setBars((prev) => [...prev.slice(1), nextBar(step++)]), 2200);
-    const a = setInterval(() => setAlert((x) => (x + 1) % d.alerts.length), 3600);
-    return () => { clearTimeout(start); clearInterval(b); clearInterval(a); };
-  }, [d.alerts.length, d.bars.length]);
-
+function Columns() {
+  const max = Math.max(...d.resolution.items.map((i) => i.value));
   return (
-    <div className="hero-dash-stage">
-      {/* Уголки видоискателя — только вокруг дашборда: идея наблюдения и контроля «Центра Правды» */}
-      <span className="vf-c vf-tl" aria-hidden="true" /><span className="vf-c vf-tr" aria-hidden="true" /><span className="vf-c vf-bl" aria-hidden="true" /><span className="vf-c vf-br" aria-hidden="true" />
-      <div className="hero-dash dash-beam">
-        <figure className="relative overflow-hidden border border-foreground bg-card text-left text-foreground shadow-[0_40px_80px_-30px_rgb(0_0_0/0.35)]" aria-label="Пример экрана ситуационного центра PRO-TEST">
-          <div className="flex h-10 items-center justify-between bg-ink px-4 text-[11px] text-white">
-            <span className="hidden gap-1.5 sm:flex" aria-hidden="true"><i className="size-2 rounded-full bg-white/30" /><i className="size-2 rounded-full bg-white/30" /><i className="size-2 rounded-full bg-white/30" /></span>
-            <span className="truncate">{d.title}</span>
-            <span className="flex items-center gap-1.5"><i className="live-dot size-1.5 rounded-full bg-positive" aria-hidden="true" />{d.status}</span>
-          </div>
-          <div className="space-y-3 p-3 sm:p-5">
-            {/* На телефоне — три показателя и лента событий, график скрыт (компактный живой мониторинг) */}
-            <dl className="grid grid-cols-3 gap-px overflow-hidden bg-border sm:grid-cols-5">
-              {d.metrics.map((m, i) => (
-                <div key={m.label} className="dash-cell bg-background p-2.5 max-sm:[&:nth-child(n+4)]:hidden sm:p-4" style={{ "--i": i } as React.CSSProperties}>
-                  <dd className="flex flex-wrap items-baseline gap-x-1.5 text-lg font-bold tracking-tight tabular-nums sm:text-2xl">
-                    <Counter value={m.value} run={live} />
-                    <span className={cn("text-xs sm:text-lg", m.good ? "text-positive" : "text-brand")}>{m.delta}</span>
-                  </dd>
-                  <dt className="mt-1 text-[11px] leading-tight text-muted-foreground">{m.label}</dt>
-                </div>
-              ))}
-            </dl>
-            <div className="relative hidden overflow-hidden border bg-background p-3 sm:block">
-              <p className="mb-2 flex justify-between text-[11px] text-muted-foreground"><span>{d.chartLabel}</span><span className="text-brand">● LIVE</span></p>
-              <div className="dash-bars flex h-16 items-end gap-1.5" aria-hidden="true">
-                {bars.map((h, i) => (
-                  <span key={i} className="dash-bar flex-1 bg-foreground" style={{ height: `${h}%`, opacity: 0.2 + h / 140, "--i": i } as React.CSSProperties} />
-                ))}
-              </div>
-              <span className="dash-scan" aria-hidden="true" />
-            </div>
-            <div className="relative h-11 overflow-hidden border border-foreground bg-background" aria-live="off">
-              {d.alerts.map((a, i) => (
-                <p key={a} className={cn("dash-alert absolute inset-0 flex items-center gap-2.5 px-3 text-[11px] font-medium sm:text-xs", i === alert ? "is-on" : i === (alert + d.alerts.length - 1) % d.alerts.length ? "is-out" : "")} aria-hidden={i !== alert}>
-                  <i className="live-dot size-1.5 shrink-0 rounded-full bg-brand" aria-hidden="true" /><span className="truncate">{a}</span>
-                </p>
-              ))}
-            </div>
-          </div>
-        </figure>
-      </div>
+    <div className="grid grid-cols-4 items-end gap-3" role="img" aria-label={`${d.resolution.title}: ${d.resolution.items.map((i) => `${i.label} ${i.value}%`).join(", ")}`}>
+      {d.resolution.items.map((i) => (
+        <div key={i.label} className="flex flex-col items-center text-center">
+          <span className="lk-small mb-1 text-[var(--c-text)]">{pct(i.value)}</span>
+          <span className="block w-full bg-[var(--c-border-strong)]" style={{ height: `${Math.max(6, (i.value / max) * 72)}px` }} />
+          <span className="lk-small mt-2 leading-tight">{i.label}</span>
+        </div>
+      ))}
     </div>
+  );
+}
+
+function Trend() {
+  const t = d.trend, W = 760, H = 220, pad = 36;
+  const x = (i: number) => pad + (i * (W - pad * 2)) / (t.fact.length - 1);
+  const y = (v: number) => H - pad - (v / 100) * (H - pad * 2);
+  const line = t.fact.map((v, i) => `${x(i)},${y(v)}`).join(" ");
+  return (
+    <svg viewBox={`0 0 ${W} ${H + 18}`} className="h-auto w-full" role="img" aria-label={`${t.title}: ${t.months.map((m, i) => `${m} ${t.fact[i]}%`).join(", ")}`}>
+      <line x1={pad} y1={y(100) + 6} x2={W - pad} y2={y(100) + 6} stroke="var(--c-border-strong)" strokeDasharray="2 4" strokeWidth="1.5" />
+      <polyline points={line} fill="none" stroke="var(--c-brand)" strokeWidth="2.5" />
+      {t.fact.map((v, i) => (
+        <g key={i}>
+          <circle cx={x(i)} cy={y(v)} r="3.5" fill="var(--c-brand)" />
+          <text x={x(i)} y={y(v) + 18} textAnchor="middle" className="lk-svg-trend">{v}%</text>
+          <text x={x(i)} y={H + 12} textAnchor="middle" className="lk-svg-trend">{t.months[i]}</text>
+        </g>
+      ))}
+      <g transform={`translate(${W / 2 - 60} 8)`}>
+        <line x1="0" y1="0" x2="18" y2="0" stroke="var(--c-border-strong)" strokeDasharray="2 3" strokeWidth="1.5" /><text x="22" y="4" className="lk-svg-trend">Цель</text>
+        <line x1="62" y1="0" x2="80" y2="0" stroke="var(--c-brand)" strokeWidth="2.5" /><text x="84" y="4" className="lk-svg-trend">Факт</text>
+      </g>
+    </svg>
+  );
+}
+
+const Card = ({ title, className, children }: { title?: string; className?: string; children: React.ReactNode }) => (
+  <div className={cn("lk-card", className)}>
+    {title && <p className="lk-title">{title}</p>}
+    {children}
+  </div>
+);
+
+export function HeroDashboard({ variant = "full", className }: { variant?: "full" | "compact"; className?: string }) {
+  const h = d.heatmap;
+  const maxHeat = Math.max(...h.rows.flatMap((r) => r.values));
+  return (
+    <figure className={cn("lk", className)} aria-label={`${d.title}. ${d.note}`}>
+      <div className="lk-bar">
+        <span className="lk-brand">{d.brand}</span>
+        <span className="lk-head">{d.title}</span>
+        <span className="lk-dots" aria-hidden="true"><i /><i /><i /></span>
+      </div>
+
+      <div className="lk-grid">
+        <Card className="lk-kpis">
+          <dl className="grid grid-cols-3 gap-4">
+            {d.kpi.map((k) => (
+              <div key={k.label} className="flex flex-col">
+                <dt className="lk-small mb-3 min-h-[2.6em] font-medium text-[var(--c-text)]">{k.label}</dt>
+                <dd>
+                  <span className="lk-kpi">{k.value}</span>
+                  {k.delta && <span className="lk-small mt-1 block text-[var(--c-success)]">{k.delta}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Card>
+        <Card title={d.index.label} className="lk-gauge flex flex-col items-center"><Gauge value={d.index.value} mark={d.index.mark} /></Card>
+        <Card title={d.resolution.title} className="lk-cols"><Columns /></Card>
+
+        {variant === "full" && (
+          <>
+            <Card title={h.title} className="lk-heat">
+              <div className="overflow-x-auto">
+                <table className="lk-table">
+                  <thead><tr><th scope="col">Регион</th>{h.months.map((m) => <th key={m} scope="col">{m}</th>)}<th scope="col">Всего</th></tr></thead>
+                  <tbody>
+                    {h.rows.map((r) => (
+                      <tr key={r.region}>
+                        <th scope="row">{r.region}</th>
+                        {r.values.map((v, i) => <td key={i} className="lk-heat-cell" style={{ "--a": (v / maxHeat).toFixed(2) } as React.CSSProperties}>{v}</td>)}
+                        <td className="font-semibold">{r.total}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot><tr><th scope="row">Всего</th>{h.totals.map((t, i) => <td key={i}>{t}</td>)}<td>{h.total}</td></tr></tfoot>
+                </table>
+              </div>
+            </Card>
+            <Card title={d.trend.title} className="lk-trend"><Trend /></Card>
+
+            <Card title={d.top.title} className="lk-top">
+              <table className="lk-table lk-table-left">
+                <thead><tr><th scope="col">Нарушение</th><th scope="col">Кол-во случаев</th><th scope="col">Динамика</th></tr></thead>
+                <tbody>
+                  {d.top.items.map((t) => (
+                    <tr key={t.name}>
+                      <th scope="row">{t.name}</th>
+                      <td><span className="lk-hbar"><i style={{ width: `${(t.value / d.top.items[0].value) * 100}%` }} /><b>{t.value}</b></span></td>
+                      <td className={t.delta.startsWith("−") ? "text-[var(--c-brand)]" : t.delta === "0%" ? "" : "text-[var(--c-success)]"}>{t.delta}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot><tr><th scope="row">Всего</th><td>{d.top.total}</td><td>{d.top.totalDelta}</td></tr></tfoot>
+              </table>
+            </Card>
+            <Card title={d.stores.title} className="lk-stores">
+              <div className="overflow-x-auto">
+                <table className="lk-table lk-table-left">
+                  <thead><tr>{d.stores.head.map((c) => <th key={c} scope="col">{c}</th>)}</tr></thead>
+                  <tbody>
+                    {d.stores.rows.map((r) => (
+                      <tr key={r[1]}>
+                        {r.map((c, i) => (
+                          <td key={i} className={i === 4 ? (c.startsWith("−") ? "text-[var(--c-brand)]" : c === "0%" ? "" : "text-[var(--c-success)]") : undefined}>{c}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </>
+        )}
+      </div>
+      <figcaption className="lk-note">{d.note}</figcaption>
+    </figure>
   );
 }

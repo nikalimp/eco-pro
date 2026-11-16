@@ -3,10 +3,10 @@ import { ChartNoAxesCombined, Cctv, ClipboardCheck, Radar, ScanEye } from "lucid
 import { directions } from "@/content/directions";
 import { cn } from "@/lib/utils";
 
-// Граф экосистемы: PRO-TEST в центре, четыре модуля по углам, от каждого к центру «течёт» сигнал.
+// Граф экосистемы: ситуационный центр (Центр Правды) в центре, четыре модуля по углам, от каждого к центру «течёт» сигнал.
 // Описание модуля — по наведению или фокусу (Tab), на CSS. На телефоне — список с описаниями.
 const icons: Record<string, React.ComponentType<{ className?: string }>> = {
-  "PRO-TEST": Radar,
+  "Центр Правды": Radar,
   "PRO-AI": ScanEye,
   "PRO-INC": ClipboardCheck,
   "PRO-DATA": ChartNoAxesCombined,
@@ -91,7 +91,7 @@ export function EcosystemGraph() {
 }
 
 // Направления списком с описаниями на всех экранах (правки Сергея 30.10: формулировки карточек «цепляют лучше»).
-// PRO-TEST — центр экосистемы, во всю ширину сверху.
+// Ситуационный центр (Центр Правды) — центр экосистемы, во всю ширину сверху.
 export function EcosystemList() {
   return (
     <ul data-reveal className="grid gap-4 md:grid-cols-2">
