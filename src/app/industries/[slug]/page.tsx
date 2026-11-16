@@ -4,11 +4,11 @@ import { industries, industryBySlug } from "@/content/industries";
 import { directionBySlug } from "@/content/directions";
 import { casesByIndustry } from "@/content/cases";
 import { site } from "@/content/site";
-import { Container, Section, SectionHead } from "@/components/container";
+import { Container, PageHero, Section, SectionHead } from "@/components/container";
 import { Crumbs } from "@/components/crumbs";
 import { CaseGrid, CtaBlock, DirectionCard } from "@/components/blocks";
 import { FaqList } from "@/components/faq";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ds";
 import { JsonLd } from "@/components/json-ld";
 import { breadcrumbs, faqSchema, graph, industrySchema } from "@/lib/schema";
 
@@ -40,22 +40,16 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
     <>
       <JsonLd data={graph(industrySchema(i), breadcrumbs(crumbs), faqSchema(i.faq))} />
 
-      <Section className="pt-10">
-        <Container className="page-intro text-center">
-          <Crumbs items={[crumbs[0], crumbs[1], { name: i.title }]} />
-          <p className="mt-8 text-lg font-medium text-brand">{i.label}</p>
-          <h1 className="mx-auto mt-2 max-w-4xl text-4xl font-black leading-tight tracking-tight text-balance sm:text-5xl">{i.h1}</h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">{i.answer}</p>
-          <Button asChild size="lg" className="mt-8"><a href={site.cta.href}>{site.cta.label}</a></Button>
-        </Container>
-      </Section>
+      <PageHero crumbs={<Crumbs items={[crumbs[0], crumbs[1], { name: i.title }]} />} eyebrow={i.label} title={i.h1} answer={i.answer}>
+        <Button asChild size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
+      </PageHero>
 
       <Section className="bg-card">
         <Container>
           <SectionHead eyebrow="задачи" title={<>Что контролируем</>} />
           <ul data-reveal className="grid gap-4 sm:grid-cols-2">
             {i.tasks.map((t) => (
-              <li key={t} className="spot flex gap-3 border bg-background p-5 text-lg"><span className="mt-2.5 size-2 shrink-0 rounded-full bg-brand" aria-hidden="true" />{t}</li>
+              <li key={t} className="ds-tile ds-body flex gap-3 p-5 !text-[var(--c-text)]"><span className="mt-2.5 size-2 shrink-0 rounded-full bg-[var(--c-brand)]" aria-hidden="true" />{t}</li>
             ))}
           </ul>
         </Container>

@@ -70,7 +70,7 @@ export function IllFactory({ className }: P) {
   );
 }
 
-// Пилот за 2 недели: календарь с отмеченными днями, график и галочка результата
+// Пилот: календарь с отмеченными днями, график и галочка результата
 export function IllPilot({ className }: P) {
   const days = Array.from({ length: 14 }, (_, i) => i);
   return (

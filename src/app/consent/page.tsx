@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 export default function Consent() {
   const email = site.legal.privacyEmail;
   return (
-    <Section className="pt-10">
+    <Section className="!pt-14">
       <Container className="max-w-3xl">
-        <h1 className="text-center text-3xl font-bold tracking-tight text-balance">Согласие на обработку персональных данных</h1>
-        <div className="prose-site mt-8">
+        <h1 className="ds-h1">Согласие на обработку персональных данных</h1>
+        <div className="prose-site mt-10">
           <p>
             Отправляя форму на сайте {site.url}, я свободно, своей волей и в своём интересе даю согласие {site.legalName} (ИНН {site.legal.inn}, ОГРН {site.legal.ogrn}, адрес: {site.contacts.address.city},{" "}
             {site.contacts.address.street}) на обработку моих персональных данных на условиях ниже.

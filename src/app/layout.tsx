@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/geologica/wght.css"; // Geologica — основной шрифт по гайдлайну, локально
 import "./globals.css";
+import "@/components/ds/tokens.css";
+import "@/components/site.css";
 import { site } from "@/content/site";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -39,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {site.metrikaId > 0 && <script dangerouslySetInnerHTML={{ __html: metrikaScript(site.metrikaId) }} />}
         <JsonLd data={graph(websiteSchema, orgSchema, personSchema)} />
       </head>
-      <body className="flex min-h-screen flex-col">
+      <body className="ds flex min-h-screen flex-col">
         {site.metrikaId > 0 && (
           <noscript><div><img src={`https://mc.yandex.ru/watch/${site.metrikaId}`} style={{ position: "absolute", left: "-9999px" }} alt="" /></div></noscript>
         )}

@@ -5,11 +5,11 @@ import { directionBySlug, directions } from "@/content/directions";
 import { industryBySlug } from "@/content/industries";
 import { casesByDirection } from "@/content/cases";
 import { site } from "@/content/site";
-import { Container, Section, SectionHead } from "@/components/container";
+import { Container, PageHero, Section, SectionHead } from "@/components/container";
 import { Crumbs } from "@/components/crumbs";
 import { CaseGrid, CtaBlock, DirectionCard, FeatureGrid, IndustryCard } from "@/components/blocks";
 import { FaqList } from "@/components/faq";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ds";
 import { ContourScheme } from "@/components/contour-scheme";
 import { DocCard, DocLightboxes } from "@/components/doc-gallery";
 import { licenses, partners } from "@/content/documents";
@@ -46,17 +46,10 @@ export default async function DirectionPage({ params }: { params: Promise<{ slug
     <>
       <JsonLd data={graph(directionSchema(d), breadcrumbs(crumbs), faqSchema(d.faq))} />
 
-      <Section className="pt-10">
-        <Container className="page-intro text-center">
-          <Crumbs items={[crumbs[0], crumbs[1], { name: d.code }]} />
-          <p className="mt-8 text-lg font-medium text-brand">{d.code}</p>
-          <h1 className="mx-auto mt-2 max-w-4xl text-4xl font-black leading-tight tracking-tight text-balance sm:text-5xl">{d.h1}</h1>
-          <p className="mt-4 text-xl font-medium">{d.tagline}</p>
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">{d.answer}</p>
-          {d.note && <p className="mx-auto mt-4 max-w-3xl text-[15px] text-muted-foreground">{d.note}</p>}
-          <Button asChild size="lg" className="mt-8"><a href={site.cta.href}>{site.cta.label}</a></Button>
-        </Container>
-      </Section>
+      <PageHero crumbs={<Crumbs items={[crumbs[0], crumbs[1], { name: d.code }]} />} eyebrow={d.code} title={d.h1} lead={d.tagline} answer={d.answer}>
+        {d.note && <p className="ds-small mt-4 max-w-3xl">{d.note}</p>}
+        <Button asChild size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
+      </PageHero>
 
       <Section className="bg-card">
         <Container>
@@ -67,14 +60,14 @@ export default async function DirectionPage({ params }: { params: Promise<{ slug
 
       <Section>
         <Container>
-          <SectionHead eyebrow="место в контуре PRO-TEST" title={d.code === "PRO-TEST" ? <>Полный контур ситуационного центра</> : <>Роль {d.code} в работе ситуационного центра</>} text={d.roleInContour} className="mb-0" />
+          <SectionHead eyebrow="место в контуре ситуационного центра" title={d.slug === "situation-center" ? <>Полный контур ситуационного центра</> : <>Роль {d.code} в работе ситуационного центра</>} text={d.roleInContour} className="mb-0" />
           <ContourScheme code={d.code} active={d.contour} />
           {d.video && (
-            <video data-reveal className="mx-auto mt-12 aspect-video w-full max-w-4xl rounded-md bg-black" controls muted playsInline preload="none" poster="/images/video-poster.webp" aria-label={`Видео: ${d.code} — ${d.title}`}>
+            <video data-reveal className="mt-12 aspect-video w-full max-w-4xl bg-black" controls muted playsInline preload="none" poster="/images/video-poster.webp" aria-label={`Видео: ${d.code} — ${d.title}`}>
               <source src={d.video} type="video/mp4" />
             </video>
           )}
-          {d.extraImage && <Image data-reveal src={d.extraImage.src} alt={d.extraImage.alt} width={d.extraImage.width} height={d.extraImage.height} className="mx-auto mt-12 w-full max-w-md rounded-md" />}
+          {d.extraImage && <Image data-reveal src={d.extraImage.src} alt={d.extraImage.alt} width={d.extraImage.width} height={d.extraImage.height} className="mt-12 w-full max-w-md" />}
         </Container>
       </Section>
 
@@ -92,9 +85,9 @@ export default async function DirectionPage({ params }: { params: Promise<{ slug
           <Container>
             <SectionHead eyebrow="лицензии и допуски" title="Работаем по лицензии МЧС и с допусками СРО" text="Проектирование, монтаж и обслуживание выполняет ООО «Император Техно» — компания экосистемы ECO-PRO." />
             <div data-reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{licenses.map((x) => <DocCard key={x.id} d={x} />)}</div>
-            <p className="mt-10 text-center text-sm font-medium uppercase tracking-[0.12em] text-muted-foreground">Партнёр производителей</p>
-            <p className="mx-auto mt-3 max-w-3xl text-center text-lg">{partners.map((x) => x.title.split(" — ")[0]).filter((v, i, a) => a.indexOf(v) === i).join(" · ")}</p>
-            <div className="mt-8 text-center"><Link href="/documents/" className="font-medium underline underline-offset-4 hover:text-brand">Все сертификаты и рекомендательные письма</Link></div>
+            <p className="ds-eyebrow mt-12">Партнёр производителей</p>
+            <p className="ds-lead mt-3 max-w-3xl !text-[var(--c-text)]">{partners.map((x) => x.title.split(" — ")[0]).filter((v, i, a) => a.indexOf(v) === i).join(" · ")}</p>
+            <div className="mt-8"><Link href="/documents/" className="ds-link font-medium">Все сертификаты и рекомендательные письма</Link></div>
           </Container>
           <DocLightboxes docs={licenses} />
         </Section>
@@ -102,7 +95,7 @@ export default async function DirectionPage({ params }: { params: Promise<{ slug
 
       <Section>
         <Container className="max-w-4xl">
-          <SectionHead title={<>Частые вопросы о {d.code}</>} />
+          <SectionHead title={<>Частые вопросы: {d.title.toLowerCase()}</>} />
           <FaqList items={d.faq} />
         </Container>
       </Section>
@@ -119,7 +112,7 @@ export default async function DirectionPage({ params }: { params: Promise<{ slug
       {inds.length > 0 && (
         <Section>
           <Container>
-            <SectionHead eyebrow="отрасли" title={<>Где {d.code} работает</>} />
+            <SectionHead eyebrow="отрасли" title={<>Отрасли, где работает направление</>} />
             <div data-reveal className="grid gap-4 md:grid-cols-3">
               {inds.map((i) => <IndustryCard key={i.slug} i={i} />)}
             </div>

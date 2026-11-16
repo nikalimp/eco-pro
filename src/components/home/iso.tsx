@@ -47,7 +47,7 @@ export function HeroPlan({ className = "" }: { className?: string }) {
   const sc = { x: 500, y: 64 };          // экран ситуационного центра
   const ceo = { x: 300, y: 64 };          // руководитель
   return (
-    <svg viewBox="0 0 720 560" className={className} role="img" aria-label="Чертёж магазина: план поднят над основанием, три камеры видят зал, кассы и склад. У касс событие — сигнал уходит в ситуационный центр PRO-TEST, оттуда отчёт руководителю">
+    <svg viewBox="0 0 720 560" className={className} role="img" aria-label="Чертёж магазина: план поднят над основанием, три камеры видят зал, кассы и склад. У касс событие — сигнал уходит в ситуационный центр, оттуда отчёт руководителю">
       <defs>
         <pattern id="bp-fine" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12 0H0V12" fill="none" stroke="#ff6b62" strokeOpacity=".07" strokeWidth=".6" /></pattern>
         <pattern id="bp-major" width="60" height="60" patternUnits="userSpaceOnUse"><rect width="60" height="60" fill="url(#bp-fine)" /><path d="M60 0H0V60" fill="none" stroke="#ff6b62" strokeOpacity=".16" strokeWidth=".8" /></pattern>
@@ -120,7 +120,7 @@ export function HeroPlan({ className = "" }: { className?: string }) {
         <rect width="236" height="64" fill="#1a0505" stroke="#ff8a80" strokeWidth="1.4" />
         <rect x="0" y="0" width="236" height="16" fill="#ff3b30" fillOpacity=".25" />
         <text x="8" y="12" className="iso-label">ЛИСТ 02 · СИТУАЦИОННЫЙ ЦЕНТР</text>
-        <text x="8" y="36" className="iso-label iso-label-strong">PRO-TEST · 24/7</text>
+        <text x="8" y="36" className="iso-label iso-label-strong">ЦЕНТР ПРАВДЫ · 24/7</text>
         <text x="8" y="53" className="iso-label">ОПЕРАТОР ПРОВЕРИЛ → РЕАКЦИЯ</text>
       </g>
       <line x1={sc.x - 70} y1={sc.y} x2={ceo.x + 62} y2={ceo.y} stroke="#ff8a80" strokeWidth="1.2" strokeDasharray="5 6" className="iso-flow" markerEnd="url(#bp-arrow)" />
@@ -162,7 +162,7 @@ function Chip({ x, y, w, title, sub, hot }: { x: number; y: number; w?: number; 
 const Flow = ({ d }: { d: string }) => <path d={d} fill="none" stroke="#ff8a80" strokeWidth="1.3" strokeDasharray="4 6" className="iso-flow" markerEnd="url(#eco-arrow)" />;
 
 export function EcoScene({ code, className = "" }: { code: string; className?: string }) {
-  const core = code === "PRO-TEST";
+  const core = code === "Центр Правды";
   const W = core ? 760 : 360, H = core ? 320 : 220;
   let body: React.ReactNode = null;
   if (core) {
@@ -322,7 +322,7 @@ export function StepArt({ n, className = "" }: { n: number; className?: string }
         <Chip x={14} y={14} title="КАМЕРЫ НА ОБЪЕКТЕ" />
         <Chip x={250} y={62} title="УДАЛЁННО" />
         <Flow d="M150,70 C190,64 220,72 246,74" />
-        <Lbl x={110} y={212}>14 ДНЕЙ МОНИТОРИНГА</Lbl>
+        <Lbl x={110} y={212}>60 ДНЕЙ ПИЛОТА</Lbl>
         <Chip x={268} y={168} title="ОТЧЁТ" hot />
         <Flow d="M296,86 C304,118 304,140 300,164" />
       </>

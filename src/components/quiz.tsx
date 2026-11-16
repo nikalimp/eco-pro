@@ -27,7 +27,7 @@ export function Quiz() {
 
   if (state === "sent")
     return (
-      <div role="status" className="mx-auto max-w-2xl rounded-xl border border-black p-8 text-center">
+      <div role="status" className="ds-tile max-w-2xl p-8">
         <p className="text-2xl font-bold">Спасибо! Заявка отправлена</p>
         <p className="mt-3 text-muted-foreground">{q.final.hint.replace("Спасибо за ответы! ", "")}</p>
       </div>
@@ -38,7 +38,7 @@ export function Quiz() {
       ref={formRef}
       action={site.leadEndpoint}
       method="post"
-      className={cn("mx-auto max-w-4xl", js && "js")}
+      className={cn("max-w-5xl", js && "js")}
       onSubmit={async (e) => {
         e.preventDefault();
         setState("sending");
@@ -58,15 +58,15 @@ export function Quiz() {
           <div className="ml-4 h-1 flex-1 rounded-full bg-border"><div className="h-full rounded-full bg-brand transition-all" style={{ width: `${((step + 1) / total) * 100}%` }} /></div>
         </div>
       )}
-      <div className="grid gap-6 rounded-xl border border-black bg-background p-6 sm:p-8 lg:grid-cols-[1fr_260px]">
+      <div className="ds-tile grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_260px]">
         <div className="space-y-10">
           {q.steps.map((s, i) => (
             <fieldset key={s.name} className="quiz-step" data-active={!js || i === step ? "" : undefined}>
-              <legend className="text-xl font-bold leading-snug">{s.q}</legend>
+              <legend className="ds-h4">{s.q}</legend>
               <p className="mt-2 text-sm text-muted-foreground">{s.hint}</p>
               <div className={cn("mt-5 grid gap-2", s.type === "scale" ? "grid-cols-5" : "sm:grid-cols-2")}>
                 {s.options.map((o) => (
-                  <label key={o} className="flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 text-[15px] transition-colors hover:border-black has-[:checked]:border-brand has-[:checked]:bg-brand-bg">
+                  <label key={o} className="flex cursor-pointer items-center gap-3 rounded-full border px-4 py-3 text-[15px] transition-colors hover:border-[var(--c-brand)] has-[:checked]:border-brand has-[:checked]:bg-brand-bg">
                     <input type={s.type === "checkbox" ? "checkbox" : "radio"} name={s.name} value={o} className="size-4 shrink-0 accent-[var(--brand)]" />
                     <span>{o}</span>
                   </label>
@@ -75,7 +75,7 @@ export function Quiz() {
             </fieldset>
           ))}
           <fieldset className="quiz-step space-y-4" data-active={!js || step === q.steps.length ? "" : undefined}>
-            <legend className="text-xl font-bold leading-snug">{q.final.q}</legend>
+            <legend className="ds-h4">{q.final.q}</legend>
             <p className="text-sm text-muted-foreground">{q.final.hint}</p>
             <ContactFields />
           </fieldset>

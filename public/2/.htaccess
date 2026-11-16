@@ -1,5 +1,10 @@
 # Apache (REG.RU, Beget, Timeweb shared): HTTPS, адреса со слешем, 301 со старого сайта на Tilda
 Options -Indexes
+
+# Архивная версия /2/ — закрыта от индексации (решение Ника 16.11)
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
 RewriteEngine On
 
 # HTTP → HTTPS делает nginx хостинга (ispmanager: настройки сайта → «Перенаправлять HTTP-запросы в HTTPS»).

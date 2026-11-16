@@ -13,10 +13,10 @@ export default function Privacy() {
   const email = site.legal.privacyEmail;
   const a = site.contacts.address;
   return (
-    <Section className="pt-10">
+    <Section className="!pt-14">
       <Container className="max-w-3xl">
-        <h1 className="text-center text-3xl font-bold tracking-tight text-balance">Политика обработки персональных данных</h1>
-        <div className="prose-site mt-8">
+        <h1 className="ds-h1">Политика обработки персональных данных</h1>
+        <div className="prose-site mt-10">
           <h2>1. Кто обрабатывает данные</h2>
           <p>
             Оператор персональных данных — {site.legalName}, ИНН {site.legal.inn}, КПП {site.legal.kpp}, ОГРН {site.legal.ogrn}, адрес: {a.city}, {a.street} (далее — Оператор). Политика действует для сайта {site.url} и

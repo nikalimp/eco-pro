@@ -17,7 +17,7 @@ export default function Documents() {
   return (
     <>
       <JsonLd data={graph(itemList("Лицензии, допуски и рекомендации ECO-PRO", allDocs.map((d) => ({ name: `${d.title}${d.meta ? ` (${d.meta})` : ""}`, path: `/documents/#doc-${d.id}` }))))} />
-      <Section id="dokumenty" className="pt-10 pb-8 sm:pb-10">
+      <Section id="dokumenty" className="!pb-8">
         <Container>
           <SectionHead
             as="h1"
@@ -26,7 +26,7 @@ export default function Documents() {
             title="Лицензии, допуски и рекомендации"
             text={`Монтаж и обслуживание систем безопасности в экосистеме ECO-PRO выполняет ${docsCompany.name} — ${docsCompany.role}. У компании лицензия МЧС на работы с системами пожарной безопасности, допуски СРО на строительство и проектирование и рекомендательные письма от Магнита, Stockmann, сетей «Домовой» и Green.`}
           />
-          <p className="mt-4 text-center text-sm text-muted-foreground">{docsCompany.name} · ИНН {docsCompany.inn} · ОГРН {docsCompany.ogrn}</p>
+          <p className="ds-small -mt-6">{docsCompany.name} · ИНН {docsCompany.inn} · ОГРН {docsCompany.ogrn}</p>
         </Container>
       </Section>
 
@@ -48,8 +48,8 @@ export default function Documents() {
         <Container>
           <SectionHead eyebrow="производители" title="Сертифицированный партнёр производителей" text="Статусы партнёра и сертификаты установщика ведущих производителей видеонаблюдения, СКУД и оборудования." />
           <div data-reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{partners.map((d) => <DocCard key={d.id} d={d} compact />)}</div>
-          <p className="mt-8 text-center text-muted-foreground">
-            Подробнее о проектировании, монтаже и обслуживании — на странице <Link href="/services/security-systems/" className="font-medium text-foreground underline underline-offset-4 hover:text-brand">PRO-TECHNO</Link>.
+          <p className="ds-body mt-8">
+            Подробнее о проектировании, монтаже и обслуживании — на странице <Link href="/services/security-systems/" className="ds-link font-medium text-[var(--c-text)]">PRO-TECHNO</Link>.
           </p>
         </Container>
       </Section>

@@ -28,7 +28,7 @@ export function llmsTxt() {
 
 > ${home.answer}
 
-Другие названия: ${site.alternateName.join(", ")}. Основана в ${site.foundingYear} году. 1000+ реализованных проектов, 25+ лет в отрасли. Работаем по всей России, удалённое подключение к объектам. Главное действие — встреча: ${site.url}/#vstrecha
+Другие названия: ${site.alternateName.join(", ")}. Основана в ${site.foundingYear} году. 20 лет опыта удалённого видеомониторинга, 600 объектов в РФ, 3 ситуационных центра, 200+ операторов-аналитиков, все 8 федеральных округов. Пилот ситуационного центра — 60 дней на 1–10 объектах. Главное действие — встреча: ${site.url}/#vstrecha
 
 ## Направления
 ${directions.map((d) => `- [${d.code} — ${d.title}](${site.url}/services/${d.slug}/): ${d.short}`).join("\n")}
@@ -45,6 +45,7 @@ ${posts.length ? `\n## Статьи\n${posts.map((p) => `- [${p.title}](${site.u
 
 ## О компании
 - [Главная: экосистема, география, команда, путь к результату, FAQ](${site.url}/)
+- [Глоссарий: воровство власти, Центр Правды, индекс управляемости CEO, эффект наблюдателя](${site.url}/glossary/)
 - Подробная версия для LLM: ${site.url}/llms-full.txt
 
 ## Контакты
@@ -55,7 +56,7 @@ ${contacts()}
 export function llmsFullTxt() {
   const dirBlocks = directions.map(
     (d) =>
-      `## ${d.h1}\nURL: ${site.url}/services/${d.slug}/\n\n${d.answer}\n\nЧто входит:\n${d.features.map((f) => `- ${f.title}: ${f.text}`).join("\n")}\n\nМесто в контуре PRO-TEST: ${d.roleInContour}\n${d.note ? `\n${d.note}\n` : ""}\nВопросы:\n${d.faq.map((f) => `- ${f.q} ${f.a}`).join("\n")}`,
+      `## ${d.h1}\nURL: ${site.url}/services/${d.slug}/\n\n${d.answer}\n\nЧто входит:\n${d.features.map((f) => `- ${f.title}: ${f.text}`).join("\n")}\n\nМесто в контуре ситуационного центра: ${d.roleInContour}\n${d.note ? `\n${d.note}\n` : ""}\nВопросы:\n${d.faq.map((f) => `- ${f.q} ${f.a}`).join("\n")}`,
   );
   const indBlocks = industries.map(
     (i) => `## ${i.h1}\nURL: ${site.url}/industries/${i.slug}/\n\n${i.answer}\n\nЗадачи:\n${i.tasks.map((t) => `- ${t}`).join("\n")}\n\nВопросы:\n${i.faq.map((f) => `- ${f.q} ${f.a}`).join("\n")}`,

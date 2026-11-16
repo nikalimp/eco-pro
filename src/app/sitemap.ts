@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...industries.map((i) => ({ url: `${site.url}/industries/${i.slug}/`, priority: 0.8 })),
     { url: `${site.url}/cases/`, priority: 0.8 },
     { url: `${site.url}/documents/`, priority: 0.6 },
+    { url: `${site.url}/glossary/`, priority: 0.6 },
     ...cases.map((c) => ({ url: `${site.url}/cases/${c.id}/`, priority: 0.7 })),
     ...(posts.length ? [{ url: `${site.url}/blog/`, lastModified: posts[0].updated ?? posts[0].date, priority: 0.7 }] : []),
     ...posts.map((p) => ({ url: `${site.url}/blog/${p.slug}/`, lastModified: p.updated ?? p.date, priority: 0.7 })),

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Container, Section } from "@/components/container";
-import { Button } from "@/components/ui/button";
+import { PageHero } from "@/components/container";
+import { Button } from "@/components/ds";
 
 export const metadata: Metadata = {
   title: "Страница не найдена",
@@ -11,12 +11,11 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <Section>
-      <Container className="max-w-xl text-center">
-        <p className="text-sm font-medium text-brand">404</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">Страница не найдена</h1>
-        <Button asChild className="mt-6"><Link href="/">На главную</Link></Button>
-      </Container>
-    </Section>
+    <PageHero eyebrow="404" title="Страница не найдена" answer="Возможно, адрес изменился. Начните с главной или загляните в блог.">
+      <div className="mt-9 flex flex-wrap gap-3">
+        <Button asChild><Link href="/">На главную</Link></Button>
+        <Button asChild variant="secondary"><Link href="/blog/">Блог</Link></Button>
+      </div>
+    </PageHero>
   );
 }
