@@ -39,6 +39,10 @@
   "retail-chain-inspection-checklist": {
    "tg": "off",
    "max": "off"
+  },
+  "signs-of-quiet-sabotage": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
