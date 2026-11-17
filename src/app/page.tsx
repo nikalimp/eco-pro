@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
-import { ArrowRight, Equal, Plus, UserRound, BarChart3, Check, ClipboardList, Cpu, Factory, Gauge, Radar, ShieldAlert, ShoppingBag, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, BrainCircuit, Combine, Equal, Library, Lightbulb, Network, Plus, ShieldCheck, UserRound, BarChart3, Check, ClipboardList, Cpu, Factory, Gauge, Radar, ShieldAlert, ShoppingBag, UtensilsCrossed } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { site } from "@/content/site";
 import { directions } from "@/content/directions";
@@ -9,14 +9,16 @@ import { industries } from "@/content/industries";
 import { cases } from "@/content/cases";
 import { coverMap } from "@/content/cover-map";
 import { letters } from "@/content/documents";
-import { getPosts, formatDate } from "@/lib/posts";
+import { getPosts } from "@/lib/posts";
+import { PostCard } from "@/components/post-card";
+import { CameraFrame } from "@/components/home/camera-frame";
 import { HeroDashboard } from "@/components/hero-dashboard";
 import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
 import { IndexTest } from "@/components/index-test";
 import { JsonLd } from "@/components/json-ld";
 import { CountUp } from "@/components/count-up";
-import { Accent, Button, DsRoot, Heading, IconBox, Index, List, Section, SectionHeader, Tag, Text, Tile, Wrap } from "@/components/ds";
+import { Accent, Button, DsRoot, Heading, IconBox, List, Section, SectionHeader, Tag, Text, Tile, Wrap } from "@/components/ds";
 import { QuizModal, quizHref } from "@/components/quiz-modal";
 import { CaseSlider } from "@/components/home/case-slider";
 import { GeoTip } from "@/components/home/geo-tip";
@@ -29,12 +31,13 @@ import "@/components/home/home.css";
 
 const problemIcons = [ShieldAlert, ClipboardList, Cpu, BarChart3, Radar, Gauge];
 const indIcons = [ShoppingBag, UtensilsCrossed, Factory];
+// Иконки принципов «Как работает PRO» вместо номеров (правки Ника 18.11)
+const principleIcons = [Network, Combine, ShieldCheck, Lightbulb, BrainCircuit, Library];
 
 export default function Home() {
   const h = home.hero;
-  const posts = getPosts().slice(0, 4);
+  const posts = getPosts().slice(0, 3);
   const covered = coverMap.regions.filter((r) => r.name).length;
-  const core = directions[0];
   // Слайды — все кейсы с критериями для CEO (правки Ника 17.11)
   const ceoCases = cases.filter((c) => c.ceo?.length);
 
@@ -42,15 +45,17 @@ export default function Home() {
     <DsRoot className="v3">
       <JsonLd data={graph(faqSchema(homeFaq))} />
 
-      {/* 1. Первый экран (правки Ника 17.11, раунд 4): по центру, без чертежа, высота по содержимому; H1 — в 2 строки на десктопе */}
+      {/* 1. Первый экран: по центру, в рамке видоискателя камеры с REC и временем (правки Ника 18.11) */}
       <section className="flex flex-col">
-        <div className="ds-wrap w-full min-w-0 py-16 lg:py-24">
-          <div className="flex flex-col items-center text-center">
+        <div className="ds-wrap w-full min-w-0 pt-8 lg:pt-12">
+          <CameraFrame>
+          <div className="flex flex-col items-center px-4 py-20 text-center sm:px-12 lg:py-24">
             <Tag tone="gray" className="w-fit bg-white"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
-            <Heading size="h1" as="h1" className="mt-7 !text-[clamp(2.5rem,1.4rem+3.6vw,5rem)] !leading-[1.04]">{h.h1.start}<Accent>{h.h1.accent}</Accent>{h.h1.end}</Heading>
+            <Heading size="h1" as="h1" className="mt-7 max-w-[22ch] !text-[clamp(2.25rem,1.3rem+3.4vw,4.75rem)] !font-semibold !leading-[1.04]">{h.h1.start}<Accent>{h.h1.accent}</Accent>{h.h1.end}</Heading>
             <Text size="lead" className="mt-6 max-w-[48ch]">{h.subtitle}</Text>
             <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
           </div>
+          </CameraFrame>
         </div>
         {/* min-w-0: бегущая строка не растягивает обёртку шире экрана на телефоне */}
         <div className="ds-wrap w-full min-w-0">
@@ -70,12 +75,12 @@ export default function Home() {
           <div className="v3-orbit">
             <div className="v3-orbit-core mb-10 lg:mb-0">
               <div className="v3-flip-wrap">
-                {/* Заголовок крупнее, без подзаголовка; при смене — «решаем» (правки Ника 17.11) */}
+                {/* Без подзаголовка; «проблемы» сменяются на «Решаются в Центре Правды» (правки Ника 18.11) */}
                 <div className="v3-face-prob">
-                  <Heading size="h2" as="h2">Какие <Accent>задачи</Accent> нам ставят</Heading>
+                  <Heading size="h2" as="h2">Нерешаемые <Accent>проблемы</Accent> корпораций</Heading>
                 </div>
                 <div className="v3-face-fix">
-                  <Heading size="h2" as="p">И всё это мы <span className="v3-ok">решаем</span></Heading>
+                  <Heading size="h2" as="p"><span className="v3-ok">Решаются</span> в Центре Правды</Heading>
                 </div>
               </div>
             </div>
@@ -100,61 +105,89 @@ export default function Home() {
         </Wrap>
       </section>
 
-      {/* 6. Экосистема: пять направлений и Центр Правды, без чертежей (правки Ника 17.11). Смысл «Новой архитектуры власти CEO» (слайды 10, 23) — в карточке ядра */}
-      <Section tone="layer" id="napravleniya" className="v3-eco">
+      {/* 6. Экосистема (правки Ника 18.11): одна большая карточка Центра Правды во всю ширину, внутри — 4 направления */}
+      <Section tone="layer" id="napravleniya">
         <Wrap>
-          <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} text={home.ecosystem.text} />
-          <div className="v3-eco-grid mt-14">
-            {directions.slice(1, 5).map((d) => (
-              <Tile key={d.slug} asChild className="v3-eco-card v3-eco-side group flex flex-col">
-                <Link href={`/services/${d.slug}/`}>
-                  <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    {/* Стрелка ↗ справа сверху — высотой с метку (правки Ника, раунд 5) */}
-                    <p className="flex items-center justify-between gap-4"><Tag className="w-fit">{d.code}</Tag><svg viewBox="0 0 27 27" className="size-[1.6875rem] shrink-0 fill-none stroke-current text-[var(--c-text)] transition-[color,translate] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--c-brand)]" strokeWidth="1.75" aria-hidden="true"><path d="M2 25 25 2M7 2h18v18" /></svg></p>
-                    <Heading size="h4" as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
-                    <Text size="small" className="mt-2">{d.short}</Text>
-                  </div>
-                </Link>
-              </Tile>
-            ))}
-            {/* Ядро: по центру на красном фоне, без чертежа и кнопки (правки Ника 17.11) */}
-            <Tile asChild className="v3-eco-card v3-eco-core group !border-[var(--c-brand)] !bg-[var(--c-brand)] text-white">
-              <Link href={`/services/${core.slug}/`} className="flex flex-col items-center px-6 py-10 text-center sm:py-14">
-                <p className="flex items-center gap-3"><Tag tone="white">{core.code}</Tag><span className="ds-label !text-white/80">ядро экосистемы</span></p>
-                <Heading size="h3" as="h3" className="mt-5 !text-white">{core.title}</Heading>
-                <p className="ds-body mx-auto mt-4 max-w-[56ch] !text-white/90">{home.architecture.glasses}. {home.architecture.knowledge.split(". ")[0]}.</p>
-                <span className="mt-8 inline-flex items-center gap-2 bg-white px-4 py-2 text-[15px] font-medium text-[var(--c-brand)]">Подробнее<ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></span>
-              </Link>
-            </Tile>
+          <div className="ds-tile p-6 sm:p-10 lg:p-14">
+            <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} text={home.ecosystem.text} />
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {directions.slice(1, 5).map((d) => (
+                <Tile key={d.slug} asChild className="group flex flex-col !bg-[var(--c-layer)] hover:!border-[var(--c-brand)]">
+                  <Link href={`/services/${d.slug}/`}>
+                    <div className="flex flex-1 flex-col p-5 sm:p-6">
+                      {/* Стрелка ↗ справа сверху — высотой с метку (правки Ника, раунд 5) */}
+                      <p className="flex items-center justify-between gap-4"><Tag className="w-fit">{d.code}</Tag><svg viewBox="0 0 27 27" className="size-[1.6875rem] shrink-0 fill-none stroke-current text-[var(--c-text)] transition-[color,translate] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--c-brand)]" strokeWidth="1.75" aria-hidden="true"><path d="M2 25 25 2M7 2h18v18" /></svg></p>
+                      <Heading size="h4" as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
+                      <Text size="small" className="mt-2">{d.short}</Text>
+                    </div>
+                  </Link>
+                </Tile>
+              ))}
+            </div>
           </div>
         </Wrap>
       </Section>
 
-      {/* 7. Вы — ключевой элемент экосистемы (правки Сергея 30.10) + «Как работает PRO». Серый фон продолжает секцию «Экосистема» (правки Ника 17.11) */}
-      <Section tone="layer" id="ekosistema" className="!pt-0">
+      {/* 7. Вы — ключевой элемент экосистемы (правки Сергея 30.10): две пересекающиеся окружности — наша экспертиза и ваша, в пересечении результат. Белый фон (правки Ника 18.11) */}
+      <Section id="ekosistema">
         <Wrap>
           <SectionHeader title={home.expertise.title} text={home.expertise.text} />
-          {/* Наша экспертиза + ваша экспертиза = новые знания (правки Ника 17.11) */}
-          <div className="mt-12 grid items-center gap-3 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:gap-4">
-            {home.expertise.columns.map((c, i) => (
-              <Fragment key={c.label}>
-                {i > 0 && <span className="v3-op" aria-hidden="true">{i === 1 ? <Plus /> : <Equal />}</span>}
-                <Tile className={i === 2 ? "h-full border-[var(--c-brand)] p-8" : "h-full p-8"}>
-                  <p className="ds-label">{c.label}</p>
-                  <Heading size="h3" as="h3" className="mt-3">{c.title}</Heading>
-                  <List items={c.items} className="mt-5" />
-                </Tile>
-              </Fragment>
-            ))}
-          </div>
-          <Heading size="h4" as="h3" className="mt-16">{home.about.principlesTitle}</Heading>
-          <ul className="mt-6 grid gap-x-10 gap-y-6 border-t border-[var(--c-border)] pt-6 sm:grid-cols-2 lg:grid-cols-3">
-            {home.about.principles.map((pr, i) => (
-              <li key={pr.title} className="flex gap-4">
-                <Index n={i + 1} />
-                <div><p className="ds-h5">{pr.title}</p><p className="ds-small mt-1">{pr.text}</p></div>
-              </li>
-            ))}
+          {(() => {
+            const [ours, yours, result] = home.expertise.columns;
+            const side = (c: typeof ours) => (
+              <>
+                <p className="ds-label">{c.label}</p>
+                <Heading size="h4" as="h3" className="mt-2">{c.title}</Heading>
+                <ul className="ds-small mt-4 space-y-1.5">{c.items.map((x) => <li key={x}>{x}</li>)}</ul>
+              </>
+            );
+            return (
+              <>
+                <div className="venn mt-14 hidden lg:block">
+                  <svg viewBox="0 0 1000 620" className="venn-bg" aria-hidden="true">
+                    <defs><clipPath id="venn-l"><circle cx="340" cy="310" r="306" /></clipPath></defs>
+                    <circle cx="340" cy="310" r="306" className="venn-c" />
+                    <circle cx="660" cy="310" r="306" className="venn-c" />
+                    <circle cx="660" cy="310" r="306" clipPath="url(#venn-l)" className="venn-x" />
+                    <circle cx="340" cy="310" r="306" className="venn-o" />
+                  </svg>
+                  <div className="venn-t venn-l">{side(ours)}</div>
+                  <div className="venn-t venn-r">{side(yours)}</div>
+                  <div className="venn-t venn-m">
+                    <p className="ds-label !text-white/80">{result.label}</p>
+                    <Heading size="h5" as="h3" className="mt-2 !text-white">{result.title}</Heading>
+                    <ul className="mt-3 space-y-1 text-[13px] leading-snug text-white/90">{result.items.map((x) => <li key={x}>{x}</li>)}</ul>
+                  </div>
+                </div>
+                {/* Телефон и планшет: карточки со знаками «+» и «=» */}
+                <div className="mt-12 grid gap-3 lg:hidden">
+                  {[ours, yours, result].map((c, i) => (
+                    <Fragment key={c.label}>
+                      {i > 0 && <span className="v3-op" aria-hidden="true">{i === 1 ? <Plus /> : <Equal />}</span>}
+                      <Tile className={i === 2 ? "border-[var(--c-brand)] p-6" : "p-6"}>
+                        <p className="ds-label">{c.label}</p>
+                        <Heading size="h4" as="h3" className="mt-2">{c.title}</Heading>
+                        <List items={c.items} className="mt-4" />
+                      </Tile>
+                    </Fragment>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
+          {/* Как работает PRO: 3 колонки, всё по центру, иконки вместо номеров (правки Ника 18.11) */}
+          <Heading size="h3" as="h3" className="mt-24 text-center">{home.about.principlesTitle}</Heading>
+          <ul className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+            {home.about.principles.map((pr, i) => {
+              const Icon = principleIcons[i];
+              return (
+                <li key={pr.title} className="flex flex-col items-center text-center">
+                  <IconBox tone="red" className="rounded-full"><Icon /></IconBox>
+                  <p className="ds-h5 mt-4">{pr.title}</p>
+                  <p className="ds-small mt-1 max-w-[34ch]">{pr.text}</p>
+                </li>
+              );
+            })}
           </ul>
         </Wrap>
       </Section>
@@ -190,8 +223,7 @@ export default function Home() {
           <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {home.path.steps.filter((_, i) => i !== 1).map((st, i) => (
               <li key={st.title} className="ds-tile flex flex-col p-6 sm:p-7">
-                <Index n={i + 1} />
-                <Heading size="h4" as="h3" className="mt-6">{st.title}</Heading>
+                <Heading size="h4" as="h3"><span className="text-[var(--c-brand)]">{i + 1}.</span> {st.title}</Heading>
                 <Text size="small" className="mt-3">{st.text}</Text>
               </li>
             ))}
@@ -270,7 +302,7 @@ export default function Home() {
               return (
                 <Tile key={ind.slug} asChild className="group flex flex-col p-6 sm:p-8">
                   <Link href={`/industries/${ind.slug}/`}>
-                    <p className="flex items-start justify-between"><IconBox className="rounded-full"><Icon /></IconBox><Index n={i + 1} /></p>
+                    <IconBox className="rounded-full"><Icon /></IconBox>
                     <Heading size="h4" as="h3" className="mt-8">{ind.title}</Heading>
                     <Text size="small" className="mt-3">{ind.short}</Text>
                     <List items={ind.tasks} className="mt-6 flex-1 border-t border-[var(--c-border)] pt-6" />
@@ -281,7 +313,7 @@ export default function Home() {
             })}
           </div>
           {/* Призыв к брифингу внизу «Отраслей» (правки Ника, раунд 4) */}
-          <div className="mt-10 flex justify-center"><Button asChild><a href={quizHref}>Пройти брифинг</a></Button></div>
+          <div className="mt-10 flex justify-center"><Button asChild><a href={quizHref}>Заполнить брифинг</a></Button></div>
         </Wrap>
       </Section>
 
@@ -352,17 +384,9 @@ export default function Home() {
         <Section tone="layer">
           <Wrap>
             <SectionHeader eyebrow="блог" title={<><Accent>Делимся экспертизой</Accent> в управляемости и контроле</>} />
-            <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {posts.map((pp) => (
-                <Tile key={pp.slug} asChild className="group flex flex-col p-6">
-                  <Link href={`/blog/${pp.slug}/`}>
-                    <Tag tone="gray" className="w-fit"><time dateTime={pp.date}>{formatDate(pp.date)}</time></Tag>
-                    <Heading size="h4" as="h3" className="mt-6 group-hover:text-[var(--c-brand)]">{pp.title}</Heading>
-                    <Text size="small" className="mt-3 flex-1">{pp.description}</Text>
-                    <span className="mt-6 inline-flex items-center gap-2 text-[15px] font-medium group-hover:text-[var(--c-brand)]">Читать статью<ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></span>
-                  </Link>
-                </Tile>
-              ))}
+            {/* 3 колонки с обложками (правки Ника 18.11) */}
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {posts.map((pp) => <PostCard key={pp.slug} p={pp} />)}
             </div>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               <Button asChild><Link href="/blog/">Все статьи</Link></Button>
@@ -386,7 +410,7 @@ export default function Home() {
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Button asChild variant="inverse" size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button>
             {/* Призыв к брифингу для тех, кто пока не готов к встрече (правки Ника 17.11) */}
-            <a href={quizHref} className="ds-btn min-h-14 border border-white/60 px-6 text-base text-white hover:bg-white/10">Сначала пройти брифинг</a>
+            <a href={quizHref} className="ds-btn min-h-14 border border-white/60 px-6 text-base text-white hover:bg-white/10">Сначала заполнить брифинг</a>
           </div>
         </Wrap>
       </Section>
