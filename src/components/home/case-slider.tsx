@@ -15,6 +15,8 @@ export function CaseSlider({ items }: { items: Case[] }) {
     if (!el) return;
     const on = () => {
       const kids = [...el.children] as HTMLElement[];
+      // В конце ленты активна последняя карточка: на десктопе видно две, и до последней прокрутка не доходит
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 2) return setI(kids.length - 1);
       const x = el.scrollLeft + kids[0].offsetLeft;
       setI(kids.reduce((best, c, n) => (Math.abs(c.offsetLeft - x) < Math.abs(kids[best].offsetLeft - x) ? n : best), 0));
     };
@@ -25,7 +27,9 @@ export function CaseSlider({ items }: { items: Case[] }) {
   const go = (n: number) => {
     const el = track.current;
     if (!el) return;
-    const k = (n + items.length) % items.length;
+    // Из конца ленты «вперёд» возвращает к первой карточке
+    const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+    const k = atEnd && n > i ? 0 : (n + items.length) % items.length;
     const kids = el.children as HTMLCollectionOf<HTMLElement>;
     el.scrollTo({ left: kids[k].offsetLeft - kids[0].offsetLeft, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
@@ -35,7 +39,7 @@ export function CaseSlider({ items }: { items: Case[] }) {
       <div ref={track} className="cs-track" tabIndex={0}>
         {items.map((c, n) => (
           <article key={c.id} className="cs-slide ds-tile" aria-roledescription="слайд" aria-label={`${n + 1} из ${items.length}: ${c.title}`}>
-            <div className="grid gap-10 p-6 sm:p-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:p-12">
+            <div className="flex h-full flex-col gap-10 p-6 sm:p-10">
               <div className="flex flex-col">
                 <p className="ds-label">{c.tag}</p>
                 <h3 className="ds-h3 mt-4">{c.title}</h3>
