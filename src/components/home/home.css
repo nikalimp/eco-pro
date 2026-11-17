@@ -192,15 +192,3 @@
 .cam-dot { width: .625rem; height: .625rem; border-radius: 999px; background: var(--c-brand); }
 @media (prefers-reduced-motion: no-preference) { .cam-rec { animation: cam-blink 1.2s step-end infinite; } }
 @keyframes cam-blink { 50% { opacity: 0; } }
-
-/* ── «Вы — ключевой элемент экосистемы»: две пересекающиеся окружности (правки Ника 18.11) ── */
-.venn { position: relative; max-width: 66rem; margin-inline: auto; aspect-ratio: 1000 / 620; }
-.venn-bg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.venn-c { fill: var(--c-layer); stroke: none; }
-.venn-o { fill: none; stroke: var(--c-border-strong); stroke-width: 1.5; }
-.venn-x { fill: var(--c-brand); }
-.venn-bg circle:nth-of-type(2) { stroke: var(--c-border-strong); stroke-width: 1.5; }
-.venn-t { position: absolute; top: 50%; translate: 0 -50%; text-align: center; }
-.venn-l { left: 7%; width: 24%; }
-.venn-r { right: 7%; width: 24%; }
-.venn-m { left: 42%; width: 16%; color: #fff; }

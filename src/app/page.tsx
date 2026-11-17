@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment } from "react";
-import { ArrowRight, BrainCircuit, Combine, Equal, Library, Lightbulb, Network, Plus, ShieldCheck, UserRound, BarChart3, Check, ClipboardList, Cpu, Factory, Gauge, Radar, ShieldAlert, ShoppingBag, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, BrainCircuit, Combine, Library, Lightbulb, Network, ShieldCheck, UserRound, BarChart3, Check, ClipboardList, Cpu, Factory, Gauge, Radar, ShieldAlert, ShoppingBag, UtensilsCrossed } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { site } from "@/content/site";
 import { directions } from "@/content/directions";
@@ -49,23 +48,23 @@ export default function Home() {
       <section className="flex flex-col">
         <div className="ds-wrap w-full min-w-0 pt-8 lg:pt-12">
           <CameraFrame>
-          <div className="flex flex-col items-center px-4 py-20 text-center sm:px-12 lg:py-24">
+          <div className="flex flex-col items-center px-4 pb-10 pt-20 text-center sm:px-12 lg:pb-12 lg:pt-24">
             <Tag tone="gray" className="w-fit bg-white"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
             <Heading size="h1" as="h1" className="mt-7 max-w-[22ch] !text-[clamp(2.25rem,1.3rem+3.4vw,4.75rem)] !font-semibold !leading-[1.04]">{h.h1.start}<Accent>{h.h1.accent}</Accent>{h.h1.end}</Heading>
-            <Text size="lead" className="mt-6 max-w-[48ch]">{h.subtitle}</Text>
+            <Text size="lead" className="mt-6 max-w-[52ch]">{h.subtitle}</Text>
             <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
           </div>
-          </CameraFrame>
-        </div>
-        {/* min-w-0: бегущая строка не растягивает обёртку шире экрана на телефоне */}
-        <div className="ds-wrap w-full min-w-0">
-          <div className="marquee overflow-hidden py-6" aria-label={home.clientsTitle}>
-            <div className="marquee-track flex w-max items-center gap-16">
-              {[...clientLogos, ...clientLogos].map((l, i) => (
-                <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="v3-logo h-9 w-auto max-w-[140px] object-contain" />
-              ))}
+          {/* Логотипы клиентов — внутри рамки видоискателя (правки Ника 18.11); min-w-0 — строка не шире экрана на телефоне */}
+          <div className="min-w-0 px-6 pb-8 sm:px-14 lg:pb-10">
+            <div className="marquee overflow-hidden py-4" aria-label={home.clientsTitle}>
+              <div className="marquee-track flex w-max items-center gap-16">
+                {[...clientLogos, ...clientLogos].map((l, i) => (
+                  <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="v3-logo h-9 w-auto max-w-[140px] object-contain" />
+                ))}
+              </div>
             </div>
           </div>
+          </CameraFrame>
         </div>
       </section>
 
@@ -115,8 +114,8 @@ export default function Home() {
                 <Tile key={d.slug} asChild className="group flex flex-col !bg-[var(--c-layer)] hover:!border-[var(--c-brand)]">
                   <Link href={`/services/${d.slug}/`}>
                     <div className="flex flex-1 flex-col p-5 sm:p-6">
-                      {/* Стрелка ↗ справа сверху — высотой с метку (правки Ника, раунд 5) */}
-                      <p className="flex items-center justify-between gap-4"><Tag className="w-fit">{d.code}</Tag><svg viewBox="0 0 27 27" className="size-[1.6875rem] shrink-0 fill-none stroke-current text-[var(--c-text)] transition-[color,translate] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--c-brand)]" strokeWidth="1.75" aria-hidden="true"><path d="M2 25 25 2M7 2h18v18" /></svg></p>
+                      {/* Стрелка ↗ на квадратной плашке размером с метку (правки Ника 18.11) */}
+                      <p className="flex items-center justify-between gap-4"><Tag className="w-fit">{d.code}</Tag><span className="grid size-[1.6875rem] shrink-0 place-items-center border border-[var(--c-border-strong)] bg-white transition-colors group-hover:border-[var(--c-brand)] group-hover:bg-[var(--c-brand)] group-hover:text-white" aria-hidden="true"><svg viewBox="0 0 12 12" className="size-2.5 fill-none stroke-current" strokeWidth="1.6"><path d="M1 11 11 1M3.5 1H11v7.5" /></svg></span></p>
                       <Heading size="h4" as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
                       <Text size="small" className="mt-2">{d.short}</Text>
                     </div>
@@ -124,60 +123,20 @@ export default function Home() {
                 </Tile>
               ))}
             </div>
+            <div className="mt-10 flex justify-center"><Button asChild><Link href={`/services/${directions[0].slug}/`}>Узнать подробнее</Link></Button></div>
           </div>
         </Wrap>
       </Section>
 
-      {/* 7. Вы — ключевой элемент экосистемы (правки Сергея 30.10): две пересекающиеся окружности — наша экспертиза и ваша, в пересечении результат. Белый фон (правки Ника 18.11) */}
-      <Section id="ekosistema">
+      {/* 9. Дашборд как в личном кабинете (слайд 25) */}
+      <Section>
         <Wrap>
-          <SectionHeader title={home.expertise.title} text={home.expertise.text} />
-          {(() => {
-            const [ours, yours, result] = home.expertise.columns;
-            const side = (c: typeof ours) => (
-              <>
-                <p className="ds-label">{c.label}</p>
-                <Heading size="h4" as="h3" className="mt-2">{c.title}</Heading>
-                <ul className="ds-small mt-4 space-y-1.5">{c.items.map((x) => <li key={x}>{x}</li>)}</ul>
-              </>
-            );
-            return (
-              <>
-                <div className="venn mt-14 hidden lg:block">
-                  <svg viewBox="0 0 1000 620" className="venn-bg" aria-hidden="true">
-                    <defs><clipPath id="venn-l"><circle cx="340" cy="310" r="306" /></clipPath></defs>
-                    <circle cx="340" cy="310" r="306" className="venn-c" />
-                    <circle cx="660" cy="310" r="306" className="venn-c" />
-                    <circle cx="660" cy="310" r="306" clipPath="url(#venn-l)" className="venn-x" />
-                    <circle cx="340" cy="310" r="306" className="venn-o" />
-                  </svg>
-                  <div className="venn-t venn-l">{side(ours)}</div>
-                  <div className="venn-t venn-r">{side(yours)}</div>
-                  <div className="venn-t venn-m">
-                    <p className="ds-label !text-white/80">{result.label}</p>
-                    <Heading size="h5" as="h3" className="mt-2 !text-white">{result.title}</Heading>
-                    <ul className="mt-3 space-y-1 text-[13px] leading-snug text-white/90">{result.items.map((x) => <li key={x}>{x}</li>)}</ul>
-                  </div>
-                </div>
-                {/* Телефон и планшет: карточки со знаками «+» и «=» */}
-                <div className="mt-12 grid gap-3 lg:hidden">
-                  {[ours, yours, result].map((c, i) => (
-                    <Fragment key={c.label}>
-                      {i > 0 && <span className="v3-op" aria-hidden="true">{i === 1 ? <Plus /> : <Equal />}</span>}
-                      <Tile className={i === 2 ? "border-[var(--c-brand)] p-6" : "p-6"}>
-                        <p className="ds-label">{c.label}</p>
-                        <Heading size="h4" as="h3" className="mt-2">{c.title}</Heading>
-                        <List items={c.items} className="mt-4" />
-                      </Tile>
-                    </Fragment>
-                  ))}
-                </div>
-              </>
-            );
-          })()}
-          {/* Как работает PRO: 3 колонки, всё по центру, иконки вместо номеров (правки Ника 18.11) */}
-          <Heading size="h3" as="h3" className="mt-24 text-center">{home.about.principlesTitle}</Heading>
-          <ul className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionHeader eyebrow={home.audience.client.title} title={<>Онлайн-дашборды: <Accent>индекс управляемости</Accent> вашей сети</>} text={home.architecture.dashboards} />
+          <HeroDashboard className="mt-12 hidden md:block" />
+          <HeroDashboard variant="compact" className="mt-10 md:hidden" />
+          {/* ТОП-6 преимуществ (бывшее «Как работает PRO»): под дашбордом, 3 колонки по центру, иконки (правки Ника 18.11). Секция «Вы — ключевой элемент экосистемы» убрана */}
+          <div className="mt-24"><SectionHeader title={home.about.principlesTitle} /></div>
+          <ul className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {home.about.principles.map((pr, i) => {
               const Icon = principleIcons[i];
               return (
@@ -189,15 +148,6 @@ export default function Home() {
               );
             })}
           </ul>
-        </Wrap>
-      </Section>
-
-      {/* 9. Дашборд как в личном кабинете (слайд 25) */}
-      <Section>
-        <Wrap>
-          <SectionHeader eyebrow={home.audience.client.title} title={<>Онлайн-дашборды: <Accent>индекс управляемости</Accent> вашей сети</>} text={home.architecture.dashboards} />
-          <HeroDashboard className="mt-12 hidden md:block" />
-          <HeroDashboard variant="compact" className="mt-10 md:hidden" />
         </Wrap>
       </Section>
 
