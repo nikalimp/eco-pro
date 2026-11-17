@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 
-// Схема «Место в контуре ситуационного центра»: 7 шагов цикла, шаги направления — чёрные, шаг 6 — роль руководителя.
-// Вёрстка кодом (SVG на десктопе, список на мобильных), анимация — CSS, при reduced-motion статична.
+// Круговая схема «Место в контуре ситуационного центра» в чертёжной манере (правки Ника 17.11): тонкие линии,
+// шкала по кругу, моноширинные подписи. Стоит справа в первом экране страницы направления.
+// 7 шагов цикла: шаги направления — красные, шаг 6 — роль руководителя (пунктир). На телефоне — список.
 export const contourSteps = [
   "Сбор данных",
   "Уведомление",
@@ -12,85 +13,73 @@ export const contourSteps = [
   "Сбор данных об исполнении",
 ];
 
-const W = 1200;
-const PW = 236; // ширина «таблетки»
-const PH = 64;
-const X = [150, 450, 750, 1050];
-const Y1 = 64;
-const Y2 = 236;
-// Позиции шагов: верхний ряд 1→4 слева направо, нижний 5→7 справа налево
-const pos: Record<number, [number, number]> = { 1: [X[0], Y1], 2: [X[1], Y1], 3: [X[2], Y1], 4: [X[3], Y1], 5: [X[3], Y2], 6: [X[2], Y2], 7: [X[1], Y2] };
-const loop = `M${X[0]},${Y1} H${X[3]} C${X[3] + 150},${Y1} ${X[3] + 150},${Y2} ${X[3]},${Y2} H${X[0]} C${X[0] - 150},${Y2} ${X[0] - 150},${Y1} ${X[0]},${Y1} Z`;
+const W = 720, H = 600, CX = 360, CY = 300, R = 196;
+const lines = (n: number) => (n === 7 ? ["СБОР ДАННЫХ", "ОБ ИСПОЛНЕНИИ"] : n === 6 ? ["ПРИНЯТИЕ", "РЕШЕНИЯ"] : [contourSteps[n - 1].toUpperCase()]);
 
-function Label({ n, x, y, on, role }: { n: number; x: number; y: number; on: boolean; role: boolean }) {
-  const words = contourSteps[n - 1];
-  const lines = n === 7 ? ["Сбор данных", "об исполнении"] : n === 6 ? ["Принятие", "решения"] : [words];
-  const fill = on ? "var(--background)" : role ? "var(--brand)" : "var(--foreground)";
-  return (
-    <text x={x + 14} y={y} textAnchor="middle" fontSize="19" fontWeight={on ? 600 : 500} fill={fill} dominantBaseline="middle">
-      {lines.map((l, i) => (
-        <tspan key={l} x={x + 14} dy={lines.length === 1 ? 0 : i === 0 ? -11 : 22}>{l}</tspan>
-      ))}
-    </text>
-  );
-}
-
-export function ContourScheme({ code, active }: { code: string; active: number[] }) {
+export function ContourScheme({ code, active, className }: { code: string; active: number[]; className?: string }) {
   const isOn = (n: number) => active.includes(n);
+  const at = (n: number, r: number) => {
+    const a = (-90 + ((n - 1) * 360) / 7) * (Math.PI / 180);
+    return [CX + r * Math.cos(a), CY + r * Math.sin(a), Math.cos(a), Math.sin(a)] as const;
+  };
   return (
-    <figure data-reveal className="contour mt-10" aria-label={`Схема: место ${code} в контуре ситуационного центра`}>
-      {/* Десктоп */}
-      <svg viewBox={`0 0 ${W} 300`} className="hidden w-full md:block" role="img" aria-label={`${code} закрывает шаги: ${active.map((n) => contourSteps[n - 1]).join(", ")}. Решение принимает руководитель.`}>
-        <path d={loop} fill="none" stroke="var(--border)" strokeWidth="2" />
-        <path d={loop} fill="none" className="contour-flow" stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" pathLength={1000} />
-        <text x="22" y={(Y1 + Y2) / 2} fontSize="13" letterSpacing="2.5" fill="var(--muted-foreground)" dominantBaseline="middle" transform={`rotate(-90 22 ${(Y1 + Y2) / 2})`} textAnchor="middle">НЕПРЕРЫВНЫЙ ЦИКЛ</text>
-        <text x={pos[6][0]} y={Y2 - PH / 2 - 18} textAnchor="middle" fontSize="14" fontWeight="700" letterSpacing="2.5" fill="var(--brand)">ВАША РОЛЬ</text>
-        {Object.entries(pos).map(([k, [x, y]]) => {
-          const n = Number(k);
-          const on = isOn(n);
-          const role = n === 6;
+    <figure className={cn("contour w-full", className)} aria-label={`Схема: место ${code} в контуре ситуационного центра`}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="hidden h-auto w-full md:block" role="img" aria-label={`${code} закрывает шаги: ${active.map((n) => contourSteps[n - 1]).join(", ")}. Решение принимает руководитель.`}>
+        {/* шкала по кругу, как на чертеже */}
+        <g stroke="var(--c-border-strong)" strokeWidth="1">
+          {Array.from({ length: 72 }, (_, i) => {
+            const a = (i * 5 * Math.PI) / 180, r1 = R + 14, r2 = R + (i % 6 === 0 ? 24 : 19);
+            return <line key={i} x1={CX + r1 * Math.cos(a)} y1={CY + r1 * Math.sin(a)} x2={CX + r2 * Math.cos(a)} y2={CY + r2 * Math.sin(a)} strokeOpacity={i % 6 === 0 ? 0.9 : 0.45} />;
+          })}
+        </g>
+        <circle cx={CX} cy={CY} r={R} fill="none" stroke="var(--c-border-strong)" strokeWidth="1.2" />
+        <circle cx={CX} cy={CY} r={R - 70} fill="none" stroke="var(--c-border)" strokeDasharray="3 5" />
+        <line x1={CX - R - 30} y1={CY} x2={CX + R + 30} y2={CY} stroke="var(--c-border)" strokeDasharray="2 6" />
+        <line x1={CX} y1={CY - R - 30} x2={CX} y2={CY + R + 30} stroke="var(--c-border)" strokeDasharray="2 6" />
+        {/* бегущая точка — сигнал идёт по циклу */}
+        <g className="contour-orbit"><circle cx={CX} cy={CY - R} r="5" fill="var(--c-brand)" /></g>
+
+        <text x={CX} y={CY - 14} textAnchor="middle" className="contour-code">{code}</text>
+        <text x={CX} y={CY + 18} textAnchor="middle" className="contour-mono">НЕПРЕРЫВНЫЙ ЦИКЛ</text>
+        <text x={CX} y={CY + 36} textAnchor="middle" className="contour-mono">СИТУАЦИОННОГО ЦЕНТРА</text>
+
+        {contourSteps.map((_, i) => {
+          const n = i + 1, on = isOn(n), role = n === 6;
+          const [x, y] = at(n, R);
+          const [lx, ly, cos, sin] = at(n, R + 46);
+          const anchor = cos > 0.25 ? "start" : cos < -0.25 ? "end" : "middle";
+          const ls = role ? [...lines(n), "ВАША РОЛЬ"] : lines(n);
+          const y0 = ly + (sin < -0.5 ? -(ls.length - 1) * 16 : sin > 0.5 ? 10 : 4 - ((ls.length - 1) * 16) / 2);
           return (
-            <g key={n} className={cn("contour-node", on && "is-on")} style={{ "--i": n } as React.CSSProperties}>
-              <rect
-                x={x - PW / 2}
-                y={y - PH / 2}
-                width={PW}
-                height={PH}
-                rx={PH / 2}
-                fill={on ? "var(--foreground)" : "var(--background)"}
-                stroke={role ? "var(--brand)" : on ? "var(--foreground)" : "var(--border)"}
-                strokeWidth={role ? 2 : 1.5}
-                strokeDasharray={role ? "6 5" : undefined}
-                className={role ? "contour-role" : undefined}
-              />
-              <text x={x - PW / 2 + 30} y={y} fontSize="16" fill={on ? "color-mix(in oklch, var(--background) 55%, transparent)" : role ? "var(--brand)" : "var(--muted-foreground)"} dominantBaseline="middle">{n}</text>
-              <Label n={n} x={x} y={y} on={on} role={role} />
+            <g key={n}>
+              <circle cx={x} cy={y} r="22" fill={on ? "var(--c-brand)" : "#fff"} stroke={role ? "var(--c-brand)" : on ? "var(--c-brand)" : "var(--c-border-strong)"} strokeWidth={role ? 1.6 : 1.2} strokeDasharray={role ? "4 4" : undefined} className={role ? "contour-role" : undefined} />
+              <text x={x} y={y + 5} textAnchor="middle" className="contour-num" fill={on ? "#fff" : role ? "var(--c-brand)" : "var(--c-text-2)"}>{String(n).padStart(2, "0")}</text>
+              <text x={lx} y={y0} textAnchor={anchor} className={cn("contour-label", on && "is-on", role && "is-role")}>
+                {ls.map((l, k) => <tspan key={l} x={lx} dy={k === 0 ? 0 : 16} className={k === 2 ? "contour-you" : undefined}>{l}</tspan>)}
+              </text>
             </g>
           );
         })}
       </svg>
 
-      {/* Мобильные */}
+      {/* Телефон */}
       <ol className="space-y-2 md:hidden">
         {contourSteps.map((s, i) => {
-          const n = i + 1;
-          const on = isOn(n);
-          const role = n === 6;
+          const n = i + 1, on = isOn(n), role = n === 6;
           return (
-            <li key={s} data-reveal style={{ "--i": i } as React.CSSProperties} className={cn("relative flex items-center gap-3 rounded-full border px-5 py-3 text-[15px] font-medium", on && "border-foreground bg-foreground text-background", role && "border-2 border-dashed border-brand text-brand")}>
-              <span className={cn("text-sm", on ? "text-background/55" : "text-muted-foreground", role && "text-brand")}>{n}</span>
+            <li key={s} className={cn("flex items-center gap-3 border border-[var(--c-border)] bg-white px-4 py-3 text-[15px] font-medium", on && "border-[var(--c-brand)] bg-[var(--c-brand)] text-white", role && "border-dashed border-[var(--c-brand)] text-[var(--c-brand)]")}>
+              <span className={cn("font-mono text-xs", on ? "text-white/70" : "text-[var(--c-text-2)]", role && "text-[var(--c-brand)]")}>{String(n).padStart(2, "0")}</span>
               {s}
-              {role && <span className="ml-auto text-[11px] font-bold tracking-[0.12em]">ВАША РОЛЬ</span>}
+              {role && <span className="ml-auto font-mono text-[11px] tracking-[0.12em]">ВАША РОЛЬ</span>}
             </li>
           );
         })}
-        <li className="pl-5 text-xs uppercase tracking-[0.16em] text-muted-foreground">↻ непрерывный цикл</li>
       </ol>
 
-      <figcaption className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 rounded-full bg-foreground" aria-hidden="true" />Закрывает {code}</span>
-        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 rounded-full border border-dashed border-brand" aria-hidden="true" />Решение руководителя</span>
-        <span className="flex items-center gap-2"><i className="inline-block h-3 w-6 rounded-full border" aria-hidden="true" />Другие модули экосистемы</span>
+      <figcaption className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-[var(--c-text-2)]">
+        <span className="flex items-center gap-2"><i className="inline-block size-3 rounded-full bg-[var(--c-brand)]" aria-hidden="true" />Закрывает {code}</span>
+        <span className="flex items-center gap-2"><i className="inline-block size-3 rounded-full border border-dashed border-[var(--c-brand)]" aria-hidden="true" />Решение руководителя</span>
+        <span className="flex items-center gap-2"><i className="inline-block size-3 rounded-full border border-[var(--c-border-strong)]" aria-hidden="true" />Другие направления</span>
       </figcaption>
     </figure>
   );

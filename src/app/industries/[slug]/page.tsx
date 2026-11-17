@@ -5,12 +5,11 @@ import { directionBySlug } from "@/content/directions";
 import { casesByIndustry } from "@/content/cases";
 import { site } from "@/content/site";
 import { Container, PageHero, Section, SectionHead } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
 import { CaseGrid, CtaBlock, DirectionCard } from "@/components/blocks";
 import { FaqList } from "@/components/faq";
 import { Button } from "@/components/ds";
 import { JsonLd } from "@/components/json-ld";
-import { breadcrumbs, faqSchema, graph, industrySchema } from "@/lib/schema";
+import { faqSchema, graph, industrySchema } from "@/lib/schema";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -32,15 +31,14 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
   const i = industryBySlug((await params).slug);
   if (!i) notFound();
   const path = `/industries/${i.slug}/`;
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Отрасли", path: "/industries/" }, { name: i.title, path }];
   const cs = casesByIndustry(i.slug);
   const ds = i.directions.map(directionBySlug).filter((x) => x !== undefined);
 
   return (
     <>
-      <JsonLd data={graph(industrySchema(i), breadcrumbs(crumbs), faqSchema(i.faq))} />
+      <JsonLd data={graph(industrySchema(i), faqSchema(i.faq))} />
 
-      <PageHero crumbs={<Crumbs items={[crumbs[0], crumbs[1], { name: i.title }]} />} eyebrow={i.label} title={i.h1} answer={i.answer}>
+      <PageHero eyebrow={i.label} title={i.h1} answer={i.answer}>
         <Button asChild size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
       </PageHero>
 

@@ -1,4 +1,5 @@
 // llms.txt и llms-full.txt (https://llmstxt.org) — генерируются из того же контента, что и страницы.
+import { glossary } from "@/content/glossary";
 import { site } from "@/content/site";
 import { directions } from "@/content/directions";
 import { industries } from "@/content/industries";
@@ -46,6 +47,7 @@ ${posts.length ? `\n## Статьи\n${posts.map((p) => `- [${p.title}](${site.u
 ## О компании
 - [Главная: экосистема, география, команда, путь к результату, FAQ](${site.url}/)
 - [Глоссарий: воровство власти, Центр Правды, индекс управляемости CEO, эффект наблюдателя](${site.url}/glossary/)
+${glossary.terms.map((t) => `  - [${t.term}](${site.url}/glossary/${t.id}/)`).join("\n")}
 - Подробная версия для LLM: ${site.url}/llms-full.txt
 
 ## Контакты

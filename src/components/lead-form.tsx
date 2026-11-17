@@ -25,7 +25,7 @@ export function ContactFields({ dark = false }: { dark?: boolean }) {
         <span className="mb-1.5 block text-sm font-medium">Email*</span>
         <input name="email" type="email" required autoComplete="email" className={input} />
       </label>
-      <label className={cn("flex items-start gap-3 text-sm", dark ? "text-white/70" : "text-muted-foreground")}>
+      <label className={cn("lf-consent flex items-start gap-3 text-sm", dark ? "text-white/80" : "text-muted-foreground")}>
         <input name="consent" type="checkbox" value="yes" required className="mt-0.5 size-5 shrink-0 accent-[var(--brand)]" />
         <span>
           Даю <a href="/consent/" target="_blank" className="underline underline-offset-2">согласие на обработку персональных данных</a> в соответствии с{" "}
@@ -43,7 +43,8 @@ export async function sendLead(form: HTMLFormElement) {
   if (!res.ok) throw new Error(String(res.status));
 }
 
-export function LeadForm({ source = "Записаться на встречу", dark = false, submitLabel = "Отправить заявку" }: { source?: string; dark?: boolean; submitLabel?: string }) {
+// layout="row" — горизонтальная форма: поля и кнопка в одну строку, согласие ниже (лид-магнит на главной, правки Ника 17.11)
+export function LeadForm({ source = "Записаться на встречу", dark = false, submitLabel = "Отправить заявку", layout = "stack", buttonClassName }: { source?: string; dark?: boolean; submitLabel?: string; layout?: "stack" | "row"; buttonClassName?: string }) {
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   // Возврат с обработчика без JavaScript: /?sent=1
   useEffect(() => {
@@ -62,7 +63,7 @@ export function LeadForm({ source = "Записаться на встречу",
     <form
       action={site.leadEndpoint}
       method="post"
-      className="space-y-4"
+      className={layout === "row" ? "grid items-end gap-4 lg:grid-cols-[1fr_1fr_1fr_auto] [&>.lf-consent]:order-last lg:[&>.lf-consent]:col-span-4 [&>p]:order-last lg:[&>p]:col-span-4" : "space-y-4"}
       onSubmit={async (e) => {
         e.preventDefault();
         setState("sending");
@@ -77,13 +78,13 @@ export function LeadForm({ source = "Записаться на встречу",
     >
       <input type="hidden" name="source" value={source} />
       <ContactFields dark={dark} />
-      <Button type="submit" size="lg" className="w-full" disabled={state === "sending"}>{state === "sending" ? "Отправляем…" : submitLabel}</Button>
+      <Button type="submit" size="lg" className={cn("w-full", layout === "row" && "lg:w-auto lg:px-8", buttonClassName)} disabled={state === "sending"}>{state === "sending" ? "Отправляем…" : submitLabel}</Button>
       {state === "error" && (
-        <p role="alert" className="text-sm text-brand">
+        <p role="alert" className={cn("text-sm", dark ? "text-white" : "text-brand")}>
           Не получилось отправить. Позвоните <a href={`tel:${site.contacts.phone}`} className="underline">{site.contacts.phoneDisplay}</a> или напишите на <a href={`mailto:${site.contacts.email}`} className="underline">{site.contacts.email}</a>.
         </p>
       )}
-      <p className={cn("text-xs", dark ? "text-white/50" : "text-muted-foreground")}>*обязательные поля</p>
+      <p className={cn("text-xs", dark ? "text-white/70" : "text-muted-foreground")}>*обязательные поля</p>
     </form>
   );
 }

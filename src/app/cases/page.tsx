@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { cases, caseGroups, type CaseGroup } from "@/content/cases";
 import { Container, Section, SectionHead } from "@/components/container";
-import { CaseGrid, CtaBlock } from "@/components/blocks";
+import { CtaBlock } from "@/components/blocks";
+import { CaseTabs } from "@/components/case-tabs";
 import { JsonLd } from "@/components/json-ld";
 import { graph, itemList } from "@/lib/schema";
 
@@ -27,21 +28,14 @@ export default function Cases() {
             title="Кейсы внедрения"
             text="Как ситуационный центр превращает сигналы камер и отчёты в действия и деньги. Ситуационный центр вскрыл теневую схему в логистике и сэкономил клиенту 28 млн ₽ в год, а в сети из 420 магазинов вернул исполнение стандартов с 32% до 91%."
           />
-          <nav aria-label="Группы кейсов" className="mt-8 flex flex-wrap justify-center gap-2">
-            {order.map((g) => (
-              <a key={g} href={`#${g}`} className="rounded-full border px-4 py-2 text-sm font-medium hover:border-foreground">{caseGroups[g].title}</a>
-            ))}
-          </nav>
         </Container>
       </Section>
-      {order.map((g, n) => (
-        <Section key={g} id={g} className={n % 2 === 0 ? "bg-card" : undefined}>
-          <Container>
-            <SectionHead title={caseGroups[g].title} text={caseGroups[g].text} />
-            <CaseGrid items={cases.filter((c) => c.group === g)} />
-          </Container>
-        </Section>
-      ))}
+      {/* Все кейсы одной сеткой, категории — табами (правки Ника 17.11) */}
+      <Section className="!pt-0">
+        <Container>
+          <CaseTabs items={order.flatMap((g) => cases.filter((c) => c.group === g))} groups={order.map((g) => ({ id: g, ...caseGroups[g] }))} />
+        </Container>
+      </Section>
       <CtaBlock />
     </>
   );

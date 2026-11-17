@@ -6,7 +6,6 @@ import { industryBySlug } from "@/content/industries";
 import { casesByDirection } from "@/content/cases";
 import { site } from "@/content/site";
 import { Container, PageHero, Section, SectionHead } from "@/components/container";
-import { Crumbs } from "@/components/crumbs";
 import { CaseGrid, CtaBlock, DirectionCard, FeatureGrid, IndustryCard } from "@/components/blocks";
 import { FaqList } from "@/components/faq";
 import { Button } from "@/components/ds";
@@ -15,7 +14,7 @@ import { DocCard, DocLightboxes } from "@/components/doc-gallery";
 import { licenses, partners } from "@/content/documents";
 import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
-import { breadcrumbs, directionSchema, faqSchema, graph } from "@/lib/schema";
+import { directionSchema, faqSchema, graph } from "@/lib/schema";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -36,38 +35,31 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function DirectionPage({ params }: { params: Promise<{ slug: string }> }) {
   const d = directionBySlug((await params).slug);
   if (!d) notFound();
-  const path = `/services/${d.slug}/`;
-  const crumbs = [{ name: "Главная", path: "/" }, { name: "Направления", path: "/services/" }, { name: d.code, path }];
   const cs = casesByDirection(d.slug).slice(0, 6);
   const inds = d.industries.map(industryBySlug).filter((x) => x !== undefined);
   const rel = d.related.map((s) => directions.find((x) => x.slug === s)).filter((x) => x !== undefined);
 
   return (
     <>
-      <JsonLd data={graph(directionSchema(d), breadcrumbs(crumbs), faqSchema(d.faq))} />
+      <JsonLd data={graph(directionSchema(d), faqSchema(d.faq))} />
 
-      <PageHero crumbs={<Crumbs items={[crumbs[0], crumbs[1], { name: d.code }]} />} eyebrow={d.code} title={d.h1} lead={d.tagline} answer={d.answer}>
+      {/* Хлебных крошек нет: страница направления доступна из меню (правки Ника 17.11). Круговая схема контура — справа в первом экране */}
+      <PageHero eyebrow={d.code} title={d.h1} lead={d.tagline} answer={d.answer} aside={<ContourScheme code={d.code} active={d.contour} />}>
         {d.note && <p className="ds-small mt-4 max-w-3xl">{d.note}</p>}
         <Button asChild size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
       </PageHero>
 
       <Section className="bg-card">
         <Container>
-          <SectionHead eyebrow="что делаем" title={<>Что входит в {d.code}</>} />
+          {/* Смысл бывшего заголовка «Место в контуре» — подводкой к составу направления */}
+          <SectionHead eyebrow="что делаем" title={<>Что входит в {d.code}</>} text={d.roleInContour} />
           <FeatureGrid items={d.features} />
-        </Container>
-      </Section>
-
-      <Section>
-        <Container>
-          <SectionHead eyebrow="место в контуре ситуационного центра" title={d.slug === "situation-center" ? <>Полный контур ситуационного центра</> : <>Роль {d.code} в работе ситуационного центра</>} text={d.roleInContour} className="mb-0" />
-          <ContourScheme code={d.code} active={d.contour} />
           {d.video && (
-            <video data-reveal className="mt-12 aspect-video w-full max-w-4xl bg-black" controls muted playsInline preload="none" poster="/images/video-poster.webp" aria-label={`Видео: ${d.code} — ${d.title}`}>
+            <video data-reveal className="mx-auto mt-12 aspect-video w-full max-w-4xl bg-black" controls muted playsInline preload="none" poster="/images/video-poster.webp" aria-label={`Видео: ${d.code} — ${d.title}`}>
               <source src={d.video} type="video/mp4" />
             </video>
           )}
-          {d.extraImage && <Image data-reveal src={d.extraImage.src} alt={d.extraImage.alt} width={d.extraImage.width} height={d.extraImage.height} className="mt-12 w-full max-w-md" />}
+          {d.extraImage && <Image data-reveal src={d.extraImage.src} alt={d.extraImage.alt} width={d.extraImage.width} height={d.extraImage.height} className="mx-auto mt-12 w-full max-w-md" />}
         </Container>
       </Section>
 
