@@ -66,7 +66,7 @@ export function Quiz() {
               <p className="mt-2 text-sm text-muted-foreground">{s.hint}</p>
               <div className={cn("mt-5 grid gap-2", s.type === "scale" ? "grid-cols-5" : "sm:grid-cols-2")}>
                 {s.options.map((o) => (
-                  <label key={o} className="flex cursor-pointer items-center gap-3 rounded-full border px-4 py-3 text-[15px] transition-colors hover:border-[var(--c-brand)] has-[:checked]:border-brand has-[:checked]:bg-brand-bg">
+                  <label key={o} className="flex cursor-pointer items-center gap-3 border px-4 py-3 text-[15px] transition-colors hover:border-[var(--c-brand)] has-[:checked]:border-brand has-[:checked]:bg-brand-bg">
                     <input type={s.type === "checkbox" ? "checkbox" : "radio"} name={s.name} value={o} className="size-4 shrink-0 accent-[var(--brand)]" />
                     <span>{o}</span>
                   </label>
@@ -83,11 +83,11 @@ export function Quiz() {
             <p role="alert" className="text-sm text-brand">Не получилось отправить. Позвоните {site.contacts.phoneDisplay} или напишите на {site.contacts.email}.</p>
           )}
           <div className="flex flex-wrap gap-3">
-            {js && step > 0 && <Button type="button" variant="outline" onClick={() => setStep(step - 1)}>Назад</Button>}
+            {js && step > 0 && <Button type="button" variant="outline" className="rounded-none" onClick={() => setStep(step - 1)}>Назад</Button>}
             {js && step < q.steps.length ? (
-              <Button type="button" onClick={() => answered() && setStep(step + 1)}>Далее</Button>
+              <Button type="button" className="rounded-none" onClick={() => answered() && setStep(step + 1)}>Далее</Button>
             ) : (
-              <Button type="submit" disabled={state === "sending"}>{state === "sending" ? "Отправляем…" : "Узнать результат"}</Button>
+              <Button type="submit" className="rounded-none" disabled={state === "sending"}>{state === "sending" ? "Отправляем…" : "Узнать результат"}</Button>
             )}
           </div>
         </div>

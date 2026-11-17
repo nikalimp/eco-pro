@@ -145,7 +145,7 @@ export default function Home() {
       {/* 7. Вы — ключевой элемент экосистемы (правки Сергея 30.10) + «Как работает PRO». Серый фон продолжает секцию «Экосистема» (правки Ника 17.11) */}
       <Section tone="layer" id="ekosistema" className="!pt-0">
         <Wrap>
-          <SectionHeader eyebrow={home.expertise.eyebrow} title={home.expertise.title} text={home.expertise.text} />
+          <SectionHeader title={home.expertise.title} text={home.expertise.text} />
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {home.expertise.columns.map((c, i) => (
               <Tile key={c.label} className={i === 2 ? "border-[var(--c-brand)] p-8" : "p-8"}>
@@ -173,11 +173,10 @@ export default function Home() {
           <SectionHeader eyebrow={home.audience.client.title} title={<>Онлайн-дашборды: <Accent>индекс управляемости</Accent> вашей сети</>} text={home.architecture.dashboards} />
           <HeroDashboard className="mt-12 hidden md:block" />
           <HeroDashboard variant="compact" className="mt-10 md:hidden" />
-          <div className="mt-10 flex justify-center"><Button asChild variant="secondary" icon="↗"><Link href="/account/">Демо личного кабинета</Link></Button></div>
         </Wrap>
       </Section>
 
-      {/* 10. Кейсы для CEO — слайды во всю ширину экрана (правки Ника 17.11; слайды 11–13, 19–21) */}
+      {/* 10. Кейсы для CEO — слайды-карточки (правки Ника 17.11; слайды 11–13, 19–21) */}
       <Section tone="layer" id="keisy">
         <Wrap><SectionHeader eyebrow={home.ceoCases.eyebrow} title={home.ceoCases.title} /></Wrap>
         <div className="mt-12"><CaseSlider items={ceoCases} /></div>
@@ -192,22 +191,26 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      {/* 13. План внедрения (слайд 29): пять этапов во всю ширину экрана, у каждого чертёж (правки Ника 17.11) */}
+      {/* 13. План внедрения (слайд 29): этапы в одну колонку, внутри карточки — текст и чертёж в две колонки; на десктопе карточки складываются стопкой (правки Ника 17.11) */}
       <Section tone="layer">
-        <Wrap><SectionHeader eyebrow={home.pilot.eyebrow} title={<>Пилот ситуационного центра за 60 дней <Accent>покажет, кто влияет на процессы</Accent> в вашей компании</>} /></Wrap>
-        <ol className="v3-steps mt-12">
-          {home.path.steps.map((st, i) => (
-            <li key={st.title} className="ds-tile flex flex-col p-5">
-              <div className="iso-light"><StepArt n={[0, 1, 4, 2, 3][i]} className="h-auto w-full" /></div>
-              <Index n={i + 1} className="mt-6" />
-              <Heading size="h4" as="h3" className="mt-3">{st.title}</Heading>
-              <Text size="small" className="mt-2">{st.text}</Text>
-            </li>
-          ))}
-        </ol>
+        <Wrap>
+          <SectionHeader eyebrow={home.pilot.eyebrow} title={<>Пилот ситуационного центра за 60 дней <Accent>покажет, кто влияет на процессы</Accent> в вашей компании</>} />
+          <ol className="v3-stack mt-12 grid gap-4">
+            {home.path.steps.map((st, i) => (
+              <li key={st.title} style={{ "--i": i } as React.CSSProperties} className="ds-tile grid items-center gap-6 p-6 sm:p-8 md:grid-cols-2 md:gap-10">
+                <div>
+                  <Index n={i + 1} />
+                  <Heading size="h3" as="h3" className="mt-4">{st.title}</Heading>
+                  <Text className="mt-3">{st.text}</Text>
+                </div>
+                <div className="iso-light"><StepArt n={[0, 1, 4, 2, 3][i]} className="h-auto w-full" /></div>
+              </li>
+            ))}
+          </ol>
+        </Wrap>
       </Section>
 
-      {/* 13б. Лид-магнит: заявка на пилот (слайд 30) — акцентный фон, цифры экспертной экосистемы (слайды 27–28), горизонтальная форма (правки Ника 17.11) */}
+      {/* 13б. Лид-магнит: заявка на пилот (слайд 30) — акцентный фон, горизонтальная форма, под ней цифры экспертной экосистемы (слайды 27–28) (правки Ника 17.11) */}
       <Section id="pilot" className="scroll-mt-20">
         <Wrap>
           <div className="bg-[var(--c-brand)] p-6 text-white sm:p-10 lg:p-14">
@@ -216,7 +219,8 @@ export default function Home() {
               <Heading size="h2" as="h2" className="mt-4 !text-white">{home.pilot.title}</Heading>
               <p className="ds-body mx-auto mt-4 max-w-2xl !text-white/85">{home.pilot.text}</p>
             </div>
-            <dl className="mt-10 grid grid-cols-2 gap-px border-y border-white/25 lg:grid-cols-4">
+            <div className="mt-10"><LeadForm dark layout="row" source="Пилот за 60 дней (главная)" submitLabel={home.pilot.submit} buttonClassName="!bg-white !text-[var(--c-brand)] hover:!bg-white/90" /></div>
+            <dl className="mt-10 grid grid-cols-2 gap-px border-t border-white/25 lg:grid-cols-4">
               {home.expertEco.cards.map((c) => (
                 <div key={c.label} className="flex flex-col-reverse justify-end px-2 py-6 text-center">
                   <dt className="ds-small mt-2 !text-white/85">{c.text}</dt>
@@ -224,7 +228,6 @@ export default function Home() {
                 </div>
               ))}
             </dl>
-            <div className="mt-10"><LeadForm dark layout="row" source="Пилот за 60 дней (главная)" submitLabel={home.pilot.submit} buttonClassName="!bg-white !text-[var(--c-brand)] hover:!bg-white/90" /></div>
           </div>
         </Wrap>
       </Section>
@@ -232,19 +235,17 @@ export default function Home() {
       {/* 12. География (слайд 28) */}
       <Section tone="layer" className="v3-geo" id="geografiya">
         <Wrap>
-          <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.6fr]">
-            <div>
-              <SectionHeader align="left" eyebrow={home.geo.eyebrow} title={home.geo.title} text={home.geo.text} />
-              <dl className="mt-10 grid grid-cols-3 gap-px border border-[var(--c-border)] bg-[var(--c-border)]">
-                {home.geo.stats.map((st) => (
-                  <div key={st.label} className="flex flex-col-reverse justify-end bg-white p-5">
-                    <dt className="ds-small mt-2">{st.label}</dt>
-                    <dd className="v3-geo-num"><CountUp value={st.value} /></dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="ds-small mt-6">Федеральные округа: {home.geo.districts.join(", ")}.</p>
-            </div>
+          {/* Одна колонка по центру, цифры без подложки (правки Ника 17.11) */}
+          <SectionHeader eyebrow={home.geo.eyebrow} title={home.geo.title} text={home.geo.text} />
+          <dl className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-6 text-center">
+            {home.geo.stats.map((st) => (
+              <div key={st.label} className="flex flex-col-reverse justify-end">
+                <dt className="ds-small mt-2">{st.label}</dt>
+                <dd className="v3-geo-num"><CountUp value={st.value} /></dd>
+              </div>
+            ))}
+          </dl>
+          <div className="mx-auto mt-12 max-w-5xl">
             <div className="geo-map relative">
               <svg viewBox={`0 0 ${coverMap.width} ${coverMap.height}`} className="h-auto w-full" role="group" aria-label={`Карта России: ${covered} регионов с проектами ECO-PRO`}>
                 {coverMap.regions.map((r, i) =>
@@ -258,6 +259,7 @@ export default function Home() {
               <GeoTip />
             </div>
           </div>
+          <p className="ds-small mx-auto mt-8 max-w-3xl text-center">Федеральные округа: {home.geo.districts.join(", ")}.</p>
         </Wrap>
       </Section>
 
@@ -273,12 +275,12 @@ export default function Home() {
               </Tile>
             ))}
           </div>
-          <div className="mt-4 flex flex-col items-start justify-between gap-4 border border-[var(--c-brand)] bg-[var(--c-layer)] p-6 sm:flex-row sm:items-center sm:p-8">
+          <div className="mt-4 flex flex-col items-start justify-between gap-4 bg-[var(--c-brand)] p-6 text-white sm:flex-row sm:items-center sm:p-8">
             <div>
-              <Heading size="h5" as="h3">{home.audience.client.title}</Heading>
-              <Text size="small" className="mt-1">{home.audience.client.text}</Text>
+              <Heading size="h5" as="h3" className="!text-white">{home.audience.client.title}</Heading>
+              <Text size="small" className="mt-1 !text-white/85">{home.audience.client.text}</Text>
             </div>
-            <Button asChild variant="secondary" className="shrink-0"><Link href={home.audience.client.href}>{home.audience.client.cta}</Link></Button>
+            <Button asChild variant="inverse" className="shrink-0"><Link href={home.audience.client.href}>{home.audience.client.cta}</Link></Button>
           </div>
         </Wrap>
       </Section>

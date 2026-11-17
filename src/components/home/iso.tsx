@@ -40,12 +40,12 @@ const cams: { at: [number, number]; cone: [number, number][]; label: string; dx:
 
 // Зоны чертежа для интерактива первого экрана (hero-plan.tsx): камеры → событие → ситуационный центр → руководитель
 export type PlanZone = "cams" | "event" | "sc" | "ceo";
-export function HeroPlan({ className = "", bare = false, active, onZone }: { className?: string; bare?: boolean; active?: PlanZone; onZone?: (z: PlanZone) => void }) {
+export function HeroPlan({ className = "", bare = false, active, onZone }: { className?: string; bare?: boolean; active?: PlanZone | null; onZone?: (z: PlanZone | null) => void }) {
   // Зона: при наведении подсвечивается, остальные приглушаются
   const zone = (z: PlanZone) => ({
     "data-zone": z,
     className: active && active !== z ? "hp-zone is-dim" : active === z ? "hp-zone is-on" : "hp-zone",
-    ...(onZone ? { onMouseEnter: () => onZone(z), onClick: () => onZone(z) } : {}),
+    ...(onZone ? { onMouseEnter: () => onZone(z), onMouseLeave: () => onZone(null), onClick: () => onZone(z) } : {}),
   });
   const lift = 2.6;
   const f = proj({ x: 318, y: 214, s: 24 });
