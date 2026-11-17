@@ -43,7 +43,6 @@ export function Footer() {
               <li key={n.href}><Link href={n.href} className={link}>{n.label}</Link></li>
             ))}
             <li><Link href="/glossary/" className={link}>Глоссарий</Link></li>
-            <li><Link href="/#faq" className={link}>Вопросы и ответы</Link></li>
             <li><Link href="/documents/" className={link}>Лицензии и рекомендации</Link></li>
             <li><Link href="/account/" className={link}>Личный кабинет</Link></li>
           </ul>

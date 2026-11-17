@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BarChart3, Check, ClipboardList, Cpu, Factory, Gauge, Radar, ShieldAlert, ShoppingBag, UtensilsCrossed } from "lucide-react";
+import { Fragment } from "react";
+import { ArrowRight, UserRound, BarChart3, Check, ClipboardList, Cpu, Factory, Gauge, Radar, ShieldAlert, ShoppingBag, UtensilsCrossed } from "lucide-react";
 import { clientLogos, home, homeFaq } from "@/content/home";
 import { site } from "@/content/site";
 import { directions } from "@/content/directions";
@@ -12,13 +13,12 @@ import { getPosts, formatDate } from "@/lib/posts";
 import { HeroDashboard } from "@/components/hero-dashboard";
 import { LeadForm } from "@/components/lead-form";
 import { FaqList } from "@/components/faq";
-import { Quiz } from "@/components/quiz";
 import { IndexTest } from "@/components/index-test";
 import { JsonLd } from "@/components/json-ld";
 import { CountUp } from "@/components/count-up";
 import { Accent, Button, DsRoot, Heading, IconBox, Index, List, Section, SectionHeader, Tag, Text, Tile, Wrap } from "@/components/ds";
-import { EcoScene, StepArt } from "@/components/home/iso";
-import { HeroPlanInteractive } from "@/components/home/hero-plan";
+import { HeroPlan } from "@/components/home/iso";
+import { QuizModal, quizHref } from "@/components/quiz-modal";
 import { CaseSlider } from "@/components/home/case-slider";
 import { GeoTip } from "@/components/home/geo-tip";
 import { faqSchema, graph } from "@/lib/schema";
@@ -43,22 +43,19 @@ export default function Home() {
     <DsRoot className="v3">
       <JsonLd data={graph(faqSchema(homeFaq))} />
 
-      {/* 1. Первый экран: чертёж без фона и интерактивный, бегущая строка логотипов внизу без подписи (правки Ника 17.11) */}
+      {/* 1. Первый экран (правки Ника 17.11): новый оффер, облегчённый чертёж во всю правую колонку, на телефоне — по центру */}
       <section className="flex flex-col lg:min-h-[calc(100svh-6.25rem)]">
-        <div className="ds-wrap grid flex-1 items-center gap-10 py-12 lg:grid-cols-[1.05fr_1fr] lg:py-14">
-          <div className="flex flex-col justify-center">
+        <div className="ds-wrap grid w-full min-w-0 flex-1 items-center gap-10 py-12 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:py-14">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <Tag tone="gray" className="w-fit bg-white"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
-            <Heading size="display" className="kt mt-8">
-              <span className="kt-line"><span className="kt-w">{h.h1Line1}</span></span>
-              <br />
-              <span className="kt-line kt-line-2"><span className="kt-w"><span className="kt-br kt-l ds-accent">[</span><span className="kt-mid ds-accent">{h.h1Bracket}</span><span className="kt-br kt-r ds-accent">]</span></span></span>
-            </Heading>
-            <Text size="lead" className="mt-7 max-w-[36ch]">{h.subtitle}</Text>
+            <Heading size="h1" as="h1" className="mt-7">{h.h1.start}<Accent>{h.h1.accent}</Accent>{h.h1.end}</Heading>
+            <Text size="lead" className="mt-6 max-w-[38ch]">{h.subtitle}</Text>
             <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
           </div>
-          <HeroPlanInteractive />
+          <div className="iso-bare w-full"><HeroPlan className="h-auto w-full" /></div>
         </div>
-        <div className="ds-wrap">
+        {/* min-w-0: бегущая строка не растягивает обёртку шире экрана на телефоне */}
+        <div className="ds-wrap w-full min-w-0">
           <div className="marquee overflow-hidden border-t border-[var(--c-border)] py-6" aria-label={home.clientsTitle}>
             <div className="marquee-track flex w-max items-center gap-16">
               {[...clientLogos, ...clientLogos].map((l, i) => (
@@ -75,13 +72,12 @@ export default function Home() {
           <div className="v3-orbit">
             <div className="v3-orbit-core mb-10 lg:mb-0">
               <div className="v3-flip-wrap">
+                {/* Заголовок крупнее, без подзаголовка; при смене — «решаем» (правки Ника 17.11) */}
                 <div className="v3-face-prob">
-                  <Heading size="h3" as="h2">С какими <Accent>задачами</Accent> к нам приходят</Heading>
-                  <Text className="mt-4">{home.about.text}</Text>
+                  <Heading size="h2" as="h2">С какими <Accent>задачами</Accent> к нам приходят</Heading>
                 </div>
                 <div className="v3-face-fix">
-                  <Heading size="h3" as="p">И всё это мы <span className="v3-ok">исправляем</span></Heading>
-                  <Text className="mt-4">Каждую задачу закрывает своё направление экосистемы, а ситуационный центр доводит работу до результата.</Text>
+                  <Heading size="h2" as="p">И всё это мы <span className="v3-ok">решаем</span></Heading>
                 </div>
               </div>
             </div>
@@ -91,7 +87,7 @@ export default function Home() {
                 return (
                   <Tile key={pr.title} className="v3-orbit-card v3-flip-wrap p-4">
                     <div className="v3-face-prob">
-                      <p className="flex items-center gap-3"><IconBox size="sm" className="rounded-full"><Icon /></IconBox><span className="ds-h5">{pr.title}</span></p>
+                      <p className="flex items-center gap-3"><IconBox size="sm" tone="red" className="rounded-full"><Icon /></IconBox><span className="ds-h5">{pr.title}</span></p>
                       <Text size="small" className="mt-3">{pr.text}</Text>
                     </div>
                     <div className="v3-face-fix">
@@ -106,7 +102,7 @@ export default function Home() {
         </Wrap>
       </section>
 
-      {/* 6. Экосистема: пять направлений и Центр Правды. Смыслы снятого блока «Новая архитектура власти CEO» (слайды 10, 23, 26) — в карточке ядра */}
+      {/* 6. Экосистема: пять направлений и Центр Правды, без чертежей (правки Ника 17.11). Смысл «Новой архитектуры власти CEO» (слайды 10, 23) — в карточке ядра */}
       <Section tone="layer" id="napravleniya" className="v3-eco">
         <Wrap>
           <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} text={home.ecosystem.text} />
@@ -119,26 +115,20 @@ export default function Home() {
                     <Heading size="h4" as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
                     <Text size="small" className="mt-2">{d.short}</Text>
                   </div>
-                  <div className="iso-light mx-5 mb-5 mt-auto sm:mx-6 sm:mb-6"><EcoScene code={d.code} className="h-auto w-full" /></div>
                 </Link>
               </Tile>
             ))}
-            <Tile asChild className="v3-eco-card v3-eco-core group">
-              <Link href={`/services/${core.slug}/`} className="grid items-center gap-6 p-5 sm:p-8 lg:grid-cols-[1fr_1.6fr]">
-                <div>
-                  <p className="flex items-center gap-3"><Tag>{core.code}</Tag><Text size="label" as="span">ядро экосистемы</Text></p>
-                  <Heading size="h3" as="h3" className="mt-5 group-hover:text-[var(--c-brand)]">{core.title}</Heading>
-                  <Text className="mt-4 max-w-[52ch]">{home.architecture.glasses}. {home.architecture.knowledge.split(". ")[0]}.</Text>
-                  <ol className="mt-6 grid gap-2 border-l-2 border-[var(--c-brand)] pl-4">
-                    {home.architecture.steps.map((st, i) => <li key={i} className="ds-small"><span className="font-medium text-[var(--c-text)]">{st.who}</span> — {st.what.charAt(0).toLowerCase() + st.what.slice(1)}</li>)}
-                  </ol>
-                  <span className="ds-btn mt-8 min-h-12 w-fit bg-[var(--c-brand)] pl-5 pr-1 text-sm text-white">Подробнее<span className="ds-btn-mod size-10 bg-white text-[22px] text-[var(--c-brand)]" aria-hidden="true">+</span></span>
-                </div>
-                <div className="iso-light"><EcoScene code={core.code} className="h-auto w-full" /></div>
+            {/* Ядро: по центру на красном фоне, без чертежа и кнопки (правки Ника 17.11) */}
+            <Tile asChild className="v3-eco-card v3-eco-core group !border-[var(--c-brand)] !bg-[var(--c-brand)] text-white">
+              <Link href={`/services/${core.slug}/`} className="flex flex-col items-center px-6 py-10 text-center sm:py-14">
+                <p className="flex items-center gap-3"><Tag tone="white">{core.code}</Tag><span className="ds-label !text-white/80">ядро экосистемы</span></p>
+                <Heading size="h3" as="h3" className="mt-5 !text-white">{core.title}</Heading>
+                <p className="ds-body mx-auto mt-4 max-w-[56ch] !text-white/90">{home.architecture.glasses}. {home.architecture.knowledge.split(". ")[0]}.</p>
               </Link>
             </Tile>
           </div>
-
+          {/* Призыв к брифингу: подобрать направления под задачу (правки Ника 17.11) */}
+          <div className="mt-10 flex justify-center"><Button asChild variant="secondary"><a href={quizHref}>Подобрать направления под задачу</a></Button></div>
         </Wrap>
       </Section>
 
@@ -146,13 +136,17 @@ export default function Home() {
       <Section tone="layer" id="ekosistema" className="!pt-0">
         <Wrap>
           <SectionHeader title={home.expertise.title} text={home.expertise.text} />
-          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          {/* Наша экспертиза + ваша экспертиза = новые знания (правки Ника 17.11) */}
+          <div className="mt-12 grid items-center gap-3 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:gap-4">
             {home.expertise.columns.map((c, i) => (
-              <Tile key={c.label} className={i === 2 ? "border-[var(--c-brand)] p-8" : "p-8"}>
-                <p className="ds-label">{c.label}</p>
-                <Heading size="h3" as="h3" className="mt-3">{c.title}</Heading>
-                <List items={c.items} className="mt-5" />
-              </Tile>
+              <Fragment key={c.label}>
+                {i > 0 && <span className="v3-op" aria-hidden="true">{i === 1 ? "+" : "="}</span>}
+                <Tile className={i === 2 ? "h-full border-[var(--c-brand)] p-8" : "h-full p-8"}>
+                  <p className="ds-label">{c.label}</p>
+                  <Heading size="h3" as="h3" className="mt-3">{c.title}</Heading>
+                  <List items={c.items} className="mt-5" />
+                </Tile>
+              </Fragment>
             ))}
           </div>
           <Heading size="h4" as="h3" className="mt-16">{home.about.principlesTitle}</Heading>
@@ -191,26 +185,23 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      {/* 13. План внедрения (слайд 29): этапы в одну колонку, внутри карточки — текст и чертёж в две колонки; на десктопе карточки складываются стопкой (правки Ника 17.11) */}
+      {/* 13. План внедрения (слайд 29): 4 этапа в 4 колонки, без чертежей; этап «Пилот за 60 дней» не дублируем — о нём заголовок (правки Ника 17.11) */}
       <Section tone="layer">
         <Wrap>
           <SectionHeader eyebrow={home.pilot.eyebrow} title={<>Пилот ситуационного центра за 60 дней <Accent>покажет, кто влияет на процессы</Accent> в вашей компании</>} />
-          <ol className="v3-stack mt-12 grid gap-4">
-            {home.path.steps.map((st, i) => (
-              <li key={st.title} style={{ "--i": i } as React.CSSProperties} className="ds-tile grid items-center gap-6 p-6 sm:p-8 md:grid-cols-2 md:gap-10">
-                <div>
-                  <Index n={i + 1} />
-                  <Heading size="h3" as="h3" className="mt-4">{st.title}</Heading>
-                  <Text className="mt-3">{st.text}</Text>
-                </div>
-                <div className="iso-light"><StepArt n={[0, 1, 4, 2, 3][i]} className="h-auto w-full" /></div>
+          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {home.path.steps.filter((_, i) => i !== 1).map((st, i) => (
+              <li key={st.title} className="ds-tile flex flex-col p-6 sm:p-7">
+                <Index n={i + 1} />
+                <Heading size="h4" as="h3" className="mt-6">{st.title}</Heading>
+                <Text size="small" className="mt-3">{st.text}</Text>
               </li>
             ))}
           </ol>
         </Wrap>
       </Section>
 
-      {/* 13б. Лид-магнит: заявка на пилот (слайд 30) — акцентный фон, горизонтальная форма, под ней цифры экспертной экосистемы (слайды 27–28) (правки Ника 17.11) */}
+      {/* 13б. Лид-магнит: заявка на пилот (слайд 30) — акцентный фон, горизонтальная форма (правки Ника 17.11) */}
       <Section id="pilot" className="scroll-mt-20">
         <Wrap>
           <div className="bg-[var(--c-brand)] p-6 text-white sm:p-10 lg:p-14">
@@ -220,14 +211,6 @@ export default function Home() {
               <p className="ds-body mx-auto mt-4 max-w-2xl !text-white/85">{home.pilot.text}</p>
             </div>
             <div className="mt-10"><LeadForm dark layout="row" source="Пилот за 60 дней (главная)" submitLabel={home.pilot.submit} buttonClassName="!bg-white !text-[var(--c-brand)] hover:!bg-white/90" /></div>
-            <dl className="mt-10 grid grid-cols-2 gap-px border-t border-white/25 lg:grid-cols-4">
-              {home.expertEco.cards.map((c) => (
-                <div key={c.label} className="flex flex-col-reverse justify-end px-2 py-6 text-center">
-                  <dt className="ds-small mt-2 !text-white/85">{c.text}</dt>
-                  <dd className="v3-geo-num"><CountUp value={c.value} /></dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </Wrap>
       </Section>
@@ -235,9 +218,9 @@ export default function Home() {
       {/* 12. География (слайд 28) */}
       <Section tone="layer" className="v3-geo" id="geografiya">
         <Wrap>
-          {/* Одна колонка по центру, цифры без подложки (правки Ника 17.11) */}
+          {/* Одна колонка по центру, цифры без подложки; сюда перенесены цифры экспертной экосистемы — 5 цифр в порядке Ника (правки 17.11) */}
           <SectionHeader eyebrow={home.geo.eyebrow} title={home.geo.title} text={home.geo.text} />
-          <dl className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-6 text-center">
+          <dl className="mx-auto mt-10 grid grid-cols-2 gap-x-6 gap-y-8 text-center sm:grid-cols-3 lg:grid-cols-5">
             {home.geo.stats.map((st) => (
               <div key={st.label} className="flex flex-col-reverse justify-end">
                 <dt className="ds-small mt-2">{st.label}</dt>
@@ -259,7 +242,6 @@ export default function Home() {
               <GeoTip />
             </div>
           </div>
-          <p className="ds-small mx-auto mt-8 max-w-3xl text-center">Федеральные округа: {home.geo.districts.join(", ")}.</p>
         </Wrap>
       </Section>
 
@@ -280,21 +262,18 @@ export default function Home() {
               <Heading size="h5" as="h3" className="!text-white">{home.audience.client.title}</Heading>
               <Text size="small" className="mt-1 !text-white/85">{home.audience.client.text}</Text>
             </div>
-            <Button asChild variant="inverse" className="shrink-0"><Link href={home.audience.client.href}>{home.audience.client.cta}</Link></Button>
+            <Button asChild variant="inverse" icon={<UserRound className="size-5" />} className="shrink-0"><Link href={home.audience.client.href}>{home.audience.client.cta}</Link></Button>
+          </div>
+          {/* Призыв к брифингу: ответить на вопросы под свою роль (правки Ника 17.11) */}
+          <div className="mt-10 flex flex-col items-center gap-4 text-center">
+            <p className="ds-body max-w-2xl">{home.quiz.text}</p>
+            <Button asChild><a href={quizHref}>Пройти брифинг</a></Button>
           </div>
         </Wrap>
       </Section>
 
-      {/* 14б. Брифинг-квиз «Стратегия интеграции» (оставляем вместе с тестом индекса — решение 16.11) */}
-      <Section tone="layer" id="brifing">
-        <Wrap>
-          <SectionHeader eyebrow={home.quiz.eyebrow} title={home.quiz.title} text={home.quiz.text} />
-          <div className="mt-12"><Quiz /></div>
-        </Wrap>
-      </Section>
-
       {/* 15. Отрасли */}
-      <Section id="otrasli">
+      <Section tone="layer" id="otrasli">
         <Wrap>
           <SectionHeader eyebrow={home.industries.eyebrow} title={home.industries.title} text={home.industries.text} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
@@ -317,7 +296,7 @@ export default function Home() {
       </Section>
 
       {/* 16. Слово основателя — как на pro-nas.pro: цитата по центру, под ней аватар, имя, регалии и канал (правки Ника 17.11) */}
-      <Section tone="layer">
+      <Section>
         <Wrap>
           <figure className="mx-auto max-w-3xl text-center">
             <blockquote className="ds-h4 space-y-6 !leading-relaxed">
@@ -338,7 +317,7 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      <Section>
+      <Section tone="layer">
         <Wrap>
           <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} text={home.team.text} />
           <ul className={`mt-12 grid grid-cols-2 gap-4 ${home.team.people.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
@@ -358,7 +337,7 @@ export default function Home() {
       </Section>
 
       {/* 17. Рекомендательные письма */}
-      <Section tone="layer">
+      <Section>
         <Wrap>
           <SectionHeader eyebrow="рекомендации" title={<>Нас рекомендуют <Accent>клиенты</Accent></>} text="Письма крупных сетей и отраслевых ассоциаций. Лицензии, СРО и партнёрские сертификаты — на странице документов." />
           <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
@@ -380,7 +359,7 @@ export default function Home() {
 
       {/* 18. Блог, FAQ, финальный призыв */}
       {posts.length > 0 && (
-        <Section>
+        <Section tone="layer">
           <Wrap>
             <SectionHeader eyebrow="блог" title={<><Accent>Делимся экспертизой</Accent> в управляемости и контроле</>} />
             <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -389,7 +368,8 @@ export default function Home() {
                   <Link href={`/blog/${pp.slug}/`}>
                     <Tag tone="gray" className="w-fit"><time dateTime={pp.date}>{formatDate(pp.date)}</time></Tag>
                     <Heading size="h4" as="h3" className="mt-6 group-hover:text-[var(--c-brand)]">{pp.title}</Heading>
-                    <Text size="small" className="mt-3">{pp.description}</Text>
+                    <Text size="small" className="mt-3 flex-1">{pp.description}</Text>
+                    <span className="mt-6 inline-flex items-center gap-2 text-[15px] font-medium group-hover:text-[var(--c-brand)]">Читать статью<ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></span>
                   </Link>
                 </Tile>
               ))}
@@ -403,7 +383,7 @@ export default function Home() {
         </Section>
       )}
 
-      <Section tone="layer" id="faq">
+      <Section id="faq">
         <Wrap>
           <SectionHeader eyebrow="вопросы и ответы" title="Часто задаваемые вопросы" />
           <div className="mx-auto mt-12 max-w-4xl"><FaqList items={homeFaq} /></div>
@@ -413,9 +393,14 @@ export default function Home() {
       <Section tone="red" className="!py-16 sm:!py-24">
         <Wrap className="text-center">
           <SectionHeader eyebrow={home.cta.eyebrow} title={home.cta.title} text={home.cta.text} />
-          <Button asChild variant="inverse" size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
+          <div className="mt-9 flex flex-wrap justify-center gap-3">
+            <Button asChild variant="inverse" size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button>
+            {/* Призыв к брифингу для тех, кто пока не готов к встрече (правки Ника 17.11) */}
+            <a href={quizHref} className="ds-btn min-h-14 border border-white/60 px-6 text-base text-white hover:bg-white/10">Сначала пройти брифинг</a>
+          </div>
         </Wrap>
       </Section>
+      <QuizModal />
     </DsRoot>
   );
 }
