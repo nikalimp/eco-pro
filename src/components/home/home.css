@@ -55,10 +55,13 @@
 
   /* ── Орбита задач: секция закреплена, карточки появляются по очереди при прокрутке ── */
   .v3-orbit-core { text-align: left; }
+  /* Текст в круге — по центру и по вертикали; обе «грани» (задачи и решения) центрируются в одной ячейке (правки Ника 17.11) */
+  .v3-orbit-core > .v3-flip-wrap { width: 100%; align-items: center; }
+  .v3-flip-wrap > .v3-face-prob, .v3-flip-wrap > .v3-face-fix { align-self: center; }
   @media (min-width: 1024px) {
     .v3-orbit-track { height: 340vh; view-timeline-name: --orbit; }
     .v3-orbit-pin { position: sticky; top: 4rem; height: calc(100vh - 4rem); display: grid; place-items: center; }
-    .v3-orbit { position: relative; width: 100%; height: min(54rem, 88%); }
+    .v3-orbit { position: relative; width: 100%; height: min(52rem, 84%); }
     .v3-orbit-core { text-align: center; position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: clamp(24rem, 26vw, 34rem); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; padding: 3.5rem;
       background: #fff; box-shadow: 0 0 0 1px var(--c-border), 0 0 0 5rem rgb(0 0 0 / .015), 0 0 0 10rem rgb(0 0 0 / .01); }
     .v3-orbit-card { position: absolute; width: clamp(19rem, 19vw, 27rem); }

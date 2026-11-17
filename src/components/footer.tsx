@@ -5,13 +5,13 @@ import { industries } from "@/content/industries";
 import { Logo } from "./logo";
 
 // Общий подвал (итерация v3, 16.11): светло-серый вместо чёрного — «лёгкость и прозрачность» (раздел 4 документа итерации).
-// Поля — как у страницы во всю ширину (--sp-gutter).
+// Ширина — по контейнеру страницы (.ds-wrap), как шапка (правки Ника 17.11).
 export function Footer() {
   const c = site.contacts;
   const link = "hover:text-[var(--c-brand)]";
   return (
     <footer className="ds border-t border-[var(--c-border)] !bg-[var(--c-layer)] pb-10 pt-16 text-[15px] text-[var(--c-text-2)]">
-      <div className="grid gap-10 px-[var(--sp-gutter)] sm:grid-cols-2 lg:grid-cols-[1.3fr_1.3fr_1fr_1fr_1.2fr]">
+      <div className="ds-wrap grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1.3fr_1fr_1fr_1.2fr]">
         <div>
           <Link href="/"><Logo /></Link>
           <p className="mt-4 max-w-xs">{site.tagline}</p>
@@ -57,7 +57,7 @@ export function Footer() {
           </ul>
         </address>
       </div>
-      <div className="mt-12 flex flex-col gap-2 border-t border-[var(--c-border)] px-[var(--sp-gutter)] pt-6 text-[13px] text-[var(--c-text-3)] lg:flex-row lg:flex-wrap lg:items-center lg:justify-between">
+      <div className="mt-12 flex flex-col gap-2 ds-wrap border-t border-[var(--c-border)] pt-6 text-[13px] text-[var(--c-text-3)] lg:flex-row lg:flex-wrap lg:items-center lg:justify-between">
         <span>©{new Date().getFullYear()} {site.legalName} · ИНН {site.legal.inn} · КПП {site.legal.kpp} · ОГРН {site.legal.ogrn}</span>
         <span className="flex flex-wrap gap-x-5 gap-y-2">
           <Link href="/privacy-policy/" className={link}>Политика конфиденциальности</Link>

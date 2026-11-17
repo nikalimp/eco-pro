@@ -27,7 +27,7 @@ export function Quiz() {
 
   if (state === "sent")
     return (
-      <div role="status" className="ds-tile max-w-2xl p-8">
+      <div role="status" className="ds-tile mx-auto max-w-2xl p-8 text-center">
         <p className="text-2xl font-bold">Спасибо! Заявка отправлена</p>
         <p className="mt-3 text-muted-foreground">{q.final.hint.replace("Спасибо за ответы! ", "")}</p>
       </div>
@@ -38,7 +38,7 @@ export function Quiz() {
       ref={formRef}
       action={site.leadEndpoint}
       method="post"
-      className={cn("max-w-5xl", js && "js")}
+      className={cn("mx-auto max-w-5xl", js && "js")}
       onSubmit={async (e) => {
         e.preventDefault();
         setState("sending");
