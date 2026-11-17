@@ -40,7 +40,7 @@ export function CaseSlider({ items }: { items: Case[] }) {
                 <p className="ds-label">{c.tag}</p>
                 <h3 className="ds-h3 mt-4">{c.title}</h3>
                 <p className="ds-small mt-2">{c.scale}</p>
-                <dl className="mt-auto grid grid-cols-2 gap-6 pt-10">
+                <dl className="mt-auto grid grid-cols-1 gap-6 pt-10 sm:grid-cols-2">
                   {c.metrics.slice(0, 4).map((m, k) => (
                     <div key={m.label} className="flex flex-col-reverse justify-end">
                       <dt className="ds-small mt-1">{m.label}</dt>

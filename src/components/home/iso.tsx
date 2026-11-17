@@ -24,133 +24,82 @@ function Box({ f, x, y, z = 0, w, d, h, fill = "none", cls = "" }: { f: ReturnTy
   );
 }
 
-// ── Первый экран: чертёж магазина с «поднятым планом» (T61) ─────────────────────────────
-// Слои: сетка листа → основание пунктиром с размерами → поднятый план со стенами, стеллажами, кассами, складом →
-// камеры с конусами обзора → событие у касс → сигнал в ситуационный центр → отчёт руководителю. Штамп листа — справа внизу.
+// ── Первый экран: облегчённый чертёж магазина (правки Ника 17.11) ─────────────────────────────
+// Меньше объектов и никаких наложений: план без основания и размеров, два ряда стеллажей, склад, две кассы,
+// две камеры. Событие у кассы → сигнал в ситуационный центр → отчёт руководителю. Подписи не заходят на план.
 const walls: [number, number][] = [[0, 0], [12, 0], [12, 9], [0, 9]];
-const shelves = [1.6, 3.4, 5.2].map((y) => ({ x: 1.4, y, w: 5.2, d: 0.7, h: 0.9 }));
-const racks = [0.7, 2.4].map((y) => ({ x: 8.7, y, w: 2.8, d: 0.6, h: 1.5 }));
-const tills = [{ x: 8.6, y: 6.6, w: 1.1, d: 0.6, h: 0.55 }, { x: 10.3, y: 6.6, w: 1.1, d: 0.6, h: 0.55 }];
-const people: [number, number][] = [[3.2, 2.7], [5.4, 4.4], [2.1, 6.6], [7.6, 5.6], [10.9, 7.9]];
-const cams: { at: [number, number]; cone: [number, number][]; label: string; dx: number; dy: number }[] = [
-  { at: [0.3, 0.3], cone: [[0.3, 0.3], [6.8, 2.1], [2.6, 6.9]], label: "CAM 01 · ЗАЛ", dx: -96, dy: -10 },
-  { at: [11.7, 4.6], cone: [[11.7, 4.6], [7.6, 3.2], [8.1, 8.6]], label: "CAM 02 · КАССЫ", dx: 14, dy: 4 },
-  { at: [11.7, 0.3], cone: [[11.7, 0.3], [8.2, 1.2], [11.2, 4.1]], label: "CAM 03 · СКЛАД", dx: 14, dy: -6 },
+const shelves = [2, 4.4].map((y) => ({ x: 1.6, y, w: 5, d: 0.8, h: 1 }));
+const racks = [{ x: 8.8, y: 1.1, w: 2.6, d: 0.7, h: 1.6 }];
+const tills = [{ x: 8.4, y: 6.6, w: 1.2, d: 0.7, h: 0.6 }, { x: 10.2, y: 6.6, w: 1.2, d: 0.7, h: 0.6 }];
+const cams: { at: [number, number]; cone: [number, number][]; label: string }[] = [
+  { at: [0.3, 0.3], cone: [[0.3, 0.3], [7, 2.2], [2.4, 7.4]], label: "CAM 01 · ЗАЛ" },
+  { at: [11.7, 4.6], cone: [[11.7, 4.6], [7.8, 5.4], [11.2, 8.7]], label: "CAM 02 · КАССЫ" },
 ];
 
-// Зоны чертежа для интерактива первого экрана (hero-plan.tsx): камеры → событие → ситуационный центр → руководитель
-export type PlanZone = "cams" | "event" | "sc" | "ceo";
-export function HeroPlan({ className = "", bare = false, active, onZone }: { className?: string; bare?: boolean; active?: PlanZone | null; onZone?: (z: PlanZone | null) => void }) {
-  // Зона: при наведении подсвечивается, остальные приглушаются
-  const zone = (z: PlanZone) => ({
-    "data-zone": z,
-    className: active && active !== z ? "hp-zone is-dim" : active === z ? "hp-zone is-on" : "hp-zone",
-    ...(onZone ? { onMouseEnter: () => onZone(z), onMouseLeave: () => onZone(null), onClick: () => onZone(z) } : {}),
-  });
-  const lift = 2.6;
-  const f = proj({ x: 318, y: 214, s: 24 });
+export function HeroPlan({ className = "" }: { className?: string }) {
+  const f = proj({ x: 300, y: 214, s: 23 });
   const pt = (x: number, y: number, z: number) => f([x, y, z]);
-  const line = (a: P, b: P) => { const p = f(a), q = f(b); return { x1: p[0], y1: p[1], x2: q[0], y2: q[1] }; };
-  const ev = pt(9.15, 6.9, lift + 0.55); // событие у касс
-  const sc = { x: 500, y: 64 };          // экран ситуационного центра
-  const ceo = { x: 300, y: 64 };          // руководитель
+  const ev = pt(9, 6.95, 0.6);          // событие у кассы
+  const sc = { x: 470, y: 52 };          // ситуационный центр (левый верхний угол карточки)
+  const ceo = { x: 40, y: 52 };          // руководитель
   return (
-    <svg viewBox="0 0 720 560" className={className} role="img" aria-label="Чертёж магазина: план поднят над основанием, три камеры видят зал, кассы и склад. У касс событие — сигнал уходит в ситуационный центр, оттуда отчёт руководителю">
+    <svg viewBox="0 0 720 490" className={className} role="img" aria-label="Чертёж магазина: две камеры видят зал и кассы. У кассы событие — сигнал уходит в ситуационный центр, оттуда отчёт руководителю">
       <defs>
-        <pattern id="bp-fine" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12 0H0V12" fill="none" stroke="#ff6b62" strokeOpacity=".07" strokeWidth=".6" /></pattern>
-        <pattern id="bp-major" width="60" height="60" patternUnits="userSpaceOnUse"><rect width="60" height="60" fill="url(#bp-fine)" /><path d="M60 0H0V60" fill="none" stroke="#ff6b62" strokeOpacity=".16" strokeWidth=".8" /></pattern>
         <marker id="bp-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" fill="#ff8a80" /></marker>
         <radialGradient id="bp-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stopColor="#ff3b30" stopOpacity=".55" /><stop offset="1" stopColor="#ff3b30" stopOpacity="0" /></radialGradient>
       </defs>
-      {!bare && <rect width="720" height="560" fill="url(#bp-major)" />}
-      {/* рамка листа */}
-      {!bare && <rect x="12" y="12" width="696" height="536" fill="none" stroke="#ff6b62" strokeOpacity=".35" />}
-
-      {/* основание: сетка метров, контур, размеры */}
-      <g stroke="#ff6b62" strokeOpacity=".14" strokeWidth=".7">
-        {Array.from({ length: 13 }, (_, i) => <line key={`x${i}`} {...line([i, 0, 0], [i, 9, 0])} />)}
-        {Array.from({ length: 10 }, (_, i) => <line key={`y${i}`} {...line([0, i, 0], [12, i, 0])} />)}
-      </g>
-      <polygon points={pts(f, walls.map(([x, y]) => [x, y, 0]))} fill="none" stroke="#ff6b62" strokeOpacity=".5" strokeDasharray="4 4" />
-      <g stroke="#ff8a80" strokeOpacity=".7" strokeWidth=".8">
-        <line {...line([0, 9.9, 0], [12, 9.9, 0])} />
-        <line {...line([0, 9.4, 0], [0, 10.3, 0])} /><line {...line([12, 9.4, 0], [12, 10.3, 0])} />
-        <line {...line([12.9, 0, 0], [12.9, 9, 0])} />
-        <line {...line([12.4, 0, 0], [13.3, 0, 0])} /><line {...line([12.4, 9, 0], [13.3, 9, 0])} />
-      </g>
-      {(() => { const p = pt(6, 10.5, 0); return <text x={p[0]} y={p[1]} transform={`rotate(30 ${p[0]} ${p[1]})`} textAnchor="middle" className="iso-label">12 000</text>; })()}
-      {(() => { const p = pt(13.5, 4.5, 0); return <text x={p[0]} y={p[1]} transform={`rotate(-30 ${p[0]} ${p[1]})`} textAnchor="middle" className="iso-label">9 000</text>; })()}
-      {/* вертикали проекции */}
-      <g stroke="#ff6b62" strokeOpacity=".4" strokeDasharray="2 5">
-        {walls.map(([x, y], i) => <line key={i} {...line([x, y, 0], [x, y, lift])} />)}
-      </g>
 
       <g className="iso-float">
-        {/* пол и задние стены поднятого плана */}
-        <polygon points={pts(f, walls.map(([x, y]) => [x, y, lift]))} fill="#ff3b30" fillOpacity=".06" stroke="#ff8a80" strokeWidth="1.4" />
-        <polygon points={pts(f, [[0, 0, lift], [12, 0, lift], [12, 0, lift + 0.5], [0, 0, lift + 0.5]])} fill="#ff6b62" fillOpacity=".12" stroke="#ff8a80" strokeWidth="1" />
-        <polygon points={pts(f, [[0, 0, lift], [0, 9, lift], [0, 9, lift + 0.5], [0, 0, lift + 0.5]])} fill="#ff6b62" fillOpacity=".2" stroke="#ff8a80" strokeWidth="1" />
-        {/* перегородка склада и вход */}
-        <polyline points={pts(f, [[8, 0, lift], [8, 3.6, lift], [12, 3.6, lift]])} fill="none" stroke="#ff8a80" strokeWidth="1.2" />
-        <line {...line([3.6, 9, lift], [5.6, 9, lift])} stroke="#1a0505" strokeWidth="3" />
-        {(() => { const p = pt(4.6, 9.6, lift); return <text x={p[0]} y={p[1]} transform={`rotate(30 ${p[0]} ${p[1]})`} textAnchor="middle" className="iso-label">ВХОД</text>; })()}
-        {/* конусы обзора — под мебелью */}
-        <g {...zone("cams")}>{cams.map((c, i) => <polygon key={c.label} points={pts(f, c.cone.map(([x, y]) => [x, y, lift]))} fill="#ff3b30" fillOpacity=".14" stroke="#ff6b62" strokeOpacity=".55" strokeWidth=".8" className="iso-cone" style={{ animationDelay: `${i * 0.8}s` }} />)}</g>
-        {[...shelves, ...racks, ...tills].map((b, i) => <Box key={i} f={f} {...b} z={lift} fill="#ff6b62" cls="iso-edge" />)}
-        {/* покупатели */}
-        {people.map(([x, y], i) => { const p = pt(x, y, lift); return <g key={i}><ellipse cx={p[0]} cy={p[1]} rx="5" ry="2.6" fill="#ff6b62" opacity=".35" /><circle cx={p[0]} cy={p[1] - 7} r="3.2" fill="#ffb3ad" /></g>; })}
-        {/* камеры */}
-        <g {...zone("cams")}>{cams.map((c, i) => { const p = pt(c.at[0], c.at[1], lift + 0.5); return (
-          <g key={c.label}>
-            <circle cx={p[0]} cy={p[1]} r="4.5" fill="#ff3b30" className="iso-pulse" style={{ animationDelay: `${i * 0.8}s` }} />
-            <circle cx={p[0]} cy={p[1]} r="2" fill="#fff" />
-            <line x1={p[0]} y1={p[1]} x2={p[0] + c.dx * 0.55} y2={p[1] + c.dy} stroke="#ff8a80" strokeWidth=".7" />
-            <text x={p[0] + c.dx * 0.55 + (c.dx < 0 ? -4 : 4)} y={p[1] + c.dy + 3} textAnchor={c.dx < 0 ? "end" : "start"} className="iso-label">{c.label}</text>
-          </g>
-        ); })}</g>
-        {(() => { const p = pt(3.4, 7.6, lift); return <text x={p[0]} y={p[1]} className="iso-label">ТОРГОВЫЙ ЗАЛ</text>; })()}
-        {(() => { const p = pt(8.9, 1.95, lift); return <text x={p[0]} y={p[1]} className="iso-label">СКЛАД</text>; })()}
-        {/* событие у касс */}
-        <g {...zone("event")}>
-        <circle cx={ev[0]} cy={ev[1]} r="16" fill="url(#bp-glow)" />
+        {/* пол и две задние стены */}
+        <polygon points={pts(f, walls.map(([x, y]) => [x, y, 0]))} fill="#ff3b30" fillOpacity=".05" stroke="#ff8a80" strokeWidth="1.4" />
+        <polygon points={pts(f, [[0, 0, 0], [12, 0, 0], [12, 0, 0.6], [0, 0, 0.6]])} fill="#ff6b62" fillOpacity=".12" stroke="#ff8a80" strokeWidth="1" />
+        <polygon points={pts(f, [[0, 0, 0], [0, 9, 0], [0, 9, 0.6], [0, 0, 0.6]])} fill="#ff6b62" fillOpacity=".2" stroke="#ff8a80" strokeWidth="1" />
+        {/* перегородка склада */}
+        <polyline points={pts(f, [[8, 0, 0], [8, 3.4, 0], [12, 3.4, 0]])} fill="none" stroke="#ff8a80" strokeWidth="1.2" />
+        {/* зоны обзора камер — под мебелью */}
+        {cams.map((c, i) => <polygon key={c.label} points={pts(f, c.cone.map(([x, y]) => [x, y, 0]))} fill="#ff3b30" fillOpacity=".12" stroke="#ff6b62" strokeOpacity=".5" strokeWidth=".8" className="iso-cone" style={{ animationDelay: `${i * 1.2}s` }} />)}
+        {[...shelves, ...racks, ...tills].map((b, i) => <Box key={i} f={f} {...b} fill="#ff6b62" cls="iso-edge" />)}
+        {/* камеры и подписи снаружи плана */}
+        {cams.map((c, i) => {
+          const p = pt(c.at[0], c.at[1], 0.6);
+          const left = i === 0;
+          const lx = left ? p[0] - 70 : p[0] + 100;
+          return (
+            <g key={c.label}>
+              <circle cx={p[0]} cy={p[1]} r="4.5" fill="#ff3b30" className="iso-pulse" style={{ animationDelay: `${i * 1.2}s` }} />
+              <circle cx={p[0]} cy={p[1]} r="2" fill="#fff" />
+              <line x1={p[0]} y1={p[1]} x2={lx} y2={p[1] - 18} stroke="#ff8a80" strokeWidth=".7" />
+              <text x={left ? lx - 4 : lx + 4} y={p[1] - 15} textAnchor={left ? "end" : "start"} className="iso-label">{c.label}</text>
+            </g>
+          );
+        })}
+        {/* событие у кассы */}
+        <circle cx={ev[0]} cy={ev[1]} r="18" fill="url(#bp-glow)" />
         <circle cx={ev[0]} cy={ev[1]} r="7" fill="none" stroke="#fff" strokeWidth="1.4" className="iso-pulse" />
         <circle cx={ev[0]} cy={ev[1]} r="2.5" fill="#fff" />
-        <g transform={`translate(${ev[0] - 168} ${ev[1] + 22})`}>
+        <line x1={ev[0] - 6} y1={ev[1] + 6} x2={ev[0] - 40} y2={ev[1] + 52} stroke="#ff3b30" strokeWidth=".8" />
+        <g transform={`translate(${ev[0] - 200} ${ev[1] + 52})`}>
           <rect width="160" height="34" fill="#1a0505" stroke="#ff3b30" />
-          <text x="8" y="14" className="iso-label">СОБЫТИЕ · КАССА 1</text>
-          <text x="8" y="27" className="iso-label iso-label-strong !text-[11px]">ВОЗВРАТ БЕЗ ЧЕКА</text>
-        </g>
-        <line x1={ev[0] - 12} y1={ev[1] + 22} x2={ev[0] - 3} y2={ev[1] + 6} stroke="#ff3b30" strokeWidth=".8" />
+          <rect width="4" height="34" fill="#ff3b30" />
+          <text x="12" y="14" className="iso-label">СОБЫТИЕ · КАССА 1</text>
+          <text x="12" y="27" className="iso-label iso-label-strong !text-[11px]">ВОЗВРАТ БЕЗ ЧЕКА</text>
         </g>
       </g>
 
       {/* сигнал: событие → ситуационный центр → руководитель */}
-      <g {...zone("sc")}>
-      <path d={`M${ev[0]},${ev[1] - 8} C${ev[0] + 10},${ev[1] - 120} ${sc.x + 80},${sc.y + 140} ${sc.x + 70},${sc.y + 34}`} fill="none" stroke="#ff8a80" strokeWidth="1.4" strokeDasharray="5 6" className="iso-flow" markerEnd="url(#bp-arrow)" />
-      <g transform={`translate(${sc.x - 70} ${sc.y - 30})`}>
+      <path d={`M${ev[0] + 6},${ev[1] - 10} C${ev[0] + 90},${ev[1] - 90} ${sc.x + 160},${sc.y + 150} ${sc.x + 125},${sc.y + 70}`} fill="none" stroke="#ff8a80" strokeWidth="1.4" strokeDasharray="5 6" className="iso-flow" markerEnd="url(#bp-arrow)" />
+      <g transform={`translate(${sc.x} ${sc.y})`}>
         <rect width="236" height="64" fill="#1a0505" stroke="#ff8a80" strokeWidth="1.4" />
-        <rect x="0" y="0" width="236" height="16" fill="#ff3b30" fillOpacity=".25" />
-        <text x="8" y="12" className="iso-label">ЛИСТ 02 · СИТУАЦИОННЫЙ ЦЕНТР</text>
+        <rect width="236" height="16" fill="#ff3b30" fillOpacity=".25" />
+        <text x="8" y="12" className="iso-label">СИТУАЦИОННЫЙ ЦЕНТР</text>
         <text x="8" y="36" className="iso-label iso-label-strong">ЦЕНТР ПРАВДЫ · 24/7</text>
         <text x="8" y="53" className="iso-label">ОПЕРАТОР ПРОВЕРИЛ → РЕАКЦИЯ</text>
       </g>
-      </g>
-      <g {...zone("ceo")}>
-      <line x1={sc.x - 70} y1={sc.y} x2={ceo.x + 62} y2={ceo.y} stroke="#ff8a80" strokeWidth="1.2" strokeDasharray="5 6" className="iso-flow" markerEnd="url(#bp-arrow)" />
-      <g transform={`translate(${ceo.x - 102} ${ceo.y - 22})`}>
+      <line x1={sc.x - 6} y1={sc.y + 32} x2={ceo.x + 172} y2={ceo.y + 32} stroke="#ff8a80" strokeWidth="1.2" strokeDasharray="5 6" className="iso-flow" markerEnd="url(#bp-arrow)" />
+      <g transform={`translate(${ceo.x} ${ceo.y + 10})`}>
         <rect width="164" height="44" fill="none" stroke="#ff8a80" strokeOpacity=".7" />
         <text x="8" y="17" className="iso-label">РУКОВОДИТЕЛЬ</text>
         <text x="8" y="33" className="iso-label iso-label-strong">ОТЧЁТ И KPI</text>
-      </g>
-      </g>
-
-      {/* штамп листа */}
-      <g transform="translate(468 476)" className="iso-label">
-        <rect width="228" height="60" fill="#1a0505" fillOpacity=".7" stroke="#ff6b62" strokeOpacity=".6" />
-        <line x1="0" y1="20" x2="228" y2="20" stroke="#ff6b62" strokeOpacity=".6" /><line x1="0" y1="40" x2="228" y2="40" stroke="#ff6b62" strokeOpacity=".6" /><line x1="140" y1="20" x2="140" y2="60" stroke="#ff6b62" strokeOpacity=".6" />
-        <text x="8" y="14" className="iso-label iso-label-strong !text-[11px]">ECO-PRO · СХЕМА КОНТРОЛЯ</text>
-        <text x="8" y="34">ОБЪЕКТ: МАГАЗИН</text><text x="148" y="34">ЛИСТ 01</text>
-        <text x="8" y="54">ПЛАН +2 600</text><text x="148" y="54">М 1:200</text>
       </g>
     </svg>
   );
