@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { HeroPlan, type PlanZone } from "./iso";
 
-// Интерактивный чертёж первого экрана (правки Ника 17.11): без фона-сетки, зоны подсвечиваются при наведении и по клику.
-// Пока посетитель не трогает чертёж, шаги переключаются сами. При «уменьшении движения» автопереключения нет.
-// Подписи шагов — в HTML: их читают поисковики, нейросети и экранные читалки.
+// Интерактивный чертёж первого экрана (правки Ника 17.11): без фона-сетки и без табов.
+// При наведении на зону (камеры, событие, ситуационный центр, руководитель) она подсвечивается и у курсора всплывает подсказка.
+// Подписи шагов дублируются списком для экранных читалок, поисковиков и нейросетей.
 const steps: { zone: PlanZone; title: string; text: string }[] = [
   { zone: "cams", title: "Камеры на объекте", text: "Подключаемся к уже установленным камерам и системам, без нового оборудования." },
   { zone: "event", title: "Отклонение", text: "ИИ или оператор замечает нарушение: например, возврат без чека на кассе." },
@@ -13,35 +13,26 @@ const steps: { zone: PlanZone; title: string; text: string }[] = [
 ];
 
 export function HeroPlanInteractive() {
-  const [active, setActive] = useState<PlanZone>("cams");
-  const touched = useRef(false);
-
-  useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const t = setInterval(() => {
-      if (touched.current) return;
-      setActive((z) => steps[(steps.findIndex((s) => s.zone === z) + 1) % steps.length].zone);
-    }, 3200);
-    return () => clearInterval(t);
-  }, []);
-
-  const pick = (z: PlanZone) => { touched.current = true; setActive(z); };
+  const [zone, setZone] = useState<PlanZone | null>(null);
+  const [pos, setPos] = useState({ x: 0, y: 0, flip: false });
+  const step = steps.find((s) => s.zone === zone);
 
   return (
-    <figure className="hp grid w-full justify-items-center" onMouseLeave={() => { touched.current = false; }}>
-      <div className="iso-bare w-full max-w-[40rem]"><HeroPlan bare active={active} onZone={pick} className="h-auto w-full" /></div>
-      <figcaption className="w-full max-w-[40rem]">
-        <ol className="grid grid-cols-4 gap-2 border-t border-[var(--c-border)]">
-          {steps.map((s, i) => (
-            <li key={s.zone}>
-              <button type="button" aria-pressed={active === s.zone} onClick={() => pick(s.zone)} onFocus={() => pick(s.zone)}
-                className={`hp-step w-full pt-3 text-left text-[13px] font-medium leading-tight ${active === s.zone ? "is-on" : ""}`}>
-                <span className="ds-label block">{String(i + 1).padStart(2, "0")}</span>{s.title}
-              </button>
-            </li>
-          ))}
-        </ol>
-        {steps.map((s) => <p key={s.zone} className="ds-small mt-3 min-h-[3em]" hidden={active !== s.zone}>{s.text}</p>)}
+    <figure className="hp relative grid w-full justify-items-center"
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        setPos({ x, y: e.clientY - r.top, flip: x > r.width * 0.6 });
+      }}>
+      <div className="iso-bare w-full max-w-[40rem]"><HeroPlan bare active={zone} onZone={setZone} className="h-auto w-full" /></div>
+      {step && (
+        <div className="hp-tip" role="tooltip" style={{ left: pos.x, top: pos.y, translate: pos.flip ? "calc(-100% - 16px) 16px" : "16px 16px" }}>
+          <p className="text-[15px] font-medium text-[var(--c-text)]">{step.title}</p>
+          <p className="ds-small mt-1">{step.text}</p>
+        </div>
+      )}
+      <figcaption className="sr-only">
+        <ol>{steps.map((s) => <li key={s.zone}>{s.title}: {s.text}</li>)}</ol>
       </figcaption>
     </figure>
   );

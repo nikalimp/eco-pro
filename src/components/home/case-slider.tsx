@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Case } from "@/content/cases";
 
-// Кейсы для CEO — слайды во всю ширину экрана (правки Ника 17.11). Прокрутка с привязкой (scroll-snap):
+// Кейсы для CEO — слайды-карточки шириной в контейнер, соседняя карточка видна у края (правки Ника 17.11). Прокрутка с привязкой (scroll-snap):
 // листается пальцем, колесом и стрелками. Все слайды — в HTML, без JavaScript их можно прокрутить вручную.
 export function CaseSlider({ items }: { items: Case[] }) {
   const track = useRef<HTMLDivElement>(null);
@@ -13,7 +13,11 @@ export function CaseSlider({ items }: { items: Case[] }) {
   useEffect(() => {
     const el = track.current;
     if (!el) return;
-    const on = () => setI(Math.round(el.scrollLeft / el.clientWidth));
+    const on = () => {
+      const kids = [...el.children] as HTMLElement[];
+      const x = el.scrollLeft + kids[0].offsetLeft;
+      setI(kids.reduce((best, c, n) => (Math.abs(c.offsetLeft - x) < Math.abs(kids[best].offsetLeft - x) ? n : best), 0));
+    };
     el.addEventListener("scroll", on, { passive: true });
     return () => el.removeEventListener("scroll", on);
   }, []);
@@ -22,15 +26,16 @@ export function CaseSlider({ items }: { items: Case[] }) {
     const el = track.current;
     if (!el) return;
     const k = (n + items.length) % items.length;
-    el.scrollTo({ left: k * el.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    const kids = el.children as HTMLCollectionOf<HTMLElement>;
+    el.scrollTo({ left: kids[k].offsetLeft - kids[0].offsetLeft, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
 
   return (
     <div className="cs" role="region" aria-roledescription="карусель" aria-label="Кейсы для CEO">
       <div ref={track} className="cs-track" tabIndex={0}>
         {items.map((c, n) => (
-          <article key={c.id} className="cs-slide" aria-roledescription="слайд" aria-label={`${n + 1} из ${items.length}: ${c.title}`}>
-            <div className="ds-wrap grid gap-10 py-10 sm:py-14 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+          <article key={c.id} className="cs-slide ds-tile" aria-roledescription="слайд" aria-label={`${n + 1} из ${items.length}: ${c.title}`}>
+            <div className="grid gap-10 p-6 sm:p-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:p-12">
               <div className="flex flex-col">
                 <p className="ds-label">{c.tag}</p>
                 <h3 className="ds-h3 mt-4">{c.title}</h3>
