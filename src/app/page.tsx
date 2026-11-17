@@ -47,14 +47,14 @@ export default function Home() {
         <div className="ds-wrap w-full min-w-0 py-16 lg:py-24">
           <div className="flex flex-col items-center text-center">
             <Tag tone="gray" className="w-fit bg-white"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
-            <Heading size="h1" as="h1" className="mt-7 max-w-[24ch] lg:max-w-[30ch]">{h.h1.start}<Accent>{h.h1.accent}</Accent>{h.h1.end}</Heading>
+            <Heading size="h1" as="h1" className="mt-7 !text-[clamp(2.5rem,1.4rem+3.6vw,5rem)] !leading-[1.04]">{h.h1.start}<Accent>{h.h1.accent}</Accent>{h.h1.end}</Heading>
             <Text size="lead" className="mt-6 max-w-[48ch]">{h.subtitle}</Text>
             <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
           </div>
         </div>
         {/* min-w-0: бегущая строка не растягивает обёртку шире экрана на телефоне */}
         <div className="ds-wrap w-full min-w-0">
-          <div className="marquee overflow-hidden border-t border-[var(--c-border)] py-6" aria-label={home.clientsTitle}>
+          <div className="marquee overflow-hidden py-6" aria-label={home.clientsTitle}>
             <div className="marquee-track flex w-max items-center gap-16">
               {[...clientLogos, ...clientLogos].map((l, i) => (
                 <Image key={i} src={l.src} alt={i < clientLogos.length ? l.alt : ""} aria-hidden={i >= clientLogos.length || undefined} width={140} height={48} className="v3-logo h-9 w-auto max-w-[140px] object-contain" />
@@ -109,10 +109,10 @@ export default function Home() {
               <Tile key={d.slug} asChild className="v3-eco-card v3-eco-side group flex flex-col">
                 <Link href={`/services/${d.slug}/`}>
                   <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    <Tag className="w-fit">{d.code}</Tag>
+                    {/* Стрелка ↗ справа сверху — высотой с метку (правки Ника, раунд 5) */}
+                    <p className="flex items-center justify-between gap-4"><Tag className="w-fit">{d.code}</Tag><svg viewBox="0 0 27 27" className="size-[1.6875rem] shrink-0 fill-none stroke-current text-[var(--c-text)] transition-[color,translate] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--c-brand)]" strokeWidth="1.75" aria-hidden="true"><path d="M2 25 25 2M7 2h18v18" /></svg></p>
                     <Heading size="h4" as="h3" className="mt-4 group-hover:text-[var(--c-brand)]">{d.title}</Heading>
-                    <Text size="small" className="mt-2 flex-1">{d.short}</Text>
-                    <span className="mt-6 inline-flex w-fit items-center gap-2 border border-[var(--c-border-strong)] px-4 py-2 text-[15px] font-medium transition-colors group-hover:border-[var(--c-brand)] group-hover:text-[var(--c-brand)]">Подробнее<ArrowRight className="size-4" aria-hidden="true" /></span>
+                    <Text size="small" className="mt-2">{d.short}</Text>
                   </div>
                 </Link>
               </Tile>

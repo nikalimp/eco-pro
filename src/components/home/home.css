@@ -159,6 +159,8 @@
 .cs-track::-webkit-scrollbar { display: none; }
 .cs-track:focus-visible .cs-slide { outline: 2px solid var(--c-brand); }
 .cs-slide { flex: 0 0 100%; scroll-snap-align: start; }
+/* На десктопе — две карточки в ряд, по половине контейнера (правки Ника, раунд 5) */
+@media (min-width: 1024px) { .cs-slide { flex-basis: calc((100% - 1rem) / 2); } }
 .cs-btn { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 999px; border: 1px solid var(--c-border-strong); background: #fff;
   transition: border-color var(--dur-fast), color var(--dur-fast); }
 .cs-btn:hover { border-color: var(--c-brand); color: var(--c-brand); }
