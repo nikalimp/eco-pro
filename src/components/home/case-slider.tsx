@@ -51,12 +51,12 @@ export function CaseSlider({ items }: { items: Case[] }) {
               </div>
               <div className="flex flex-col">
                 <table className="w-full text-left">
-                  <thead><tr className="ds-label border-b border-[var(--c-border)]"><th scope="col" className="pb-2 font-normal">Критерии оценки для CEO</th><th scope="col" className="pb-2 font-normal">Что изменилось</th></tr></thead>
+                  <thead><tr className="ds-label border-b border-[var(--c-border)]"><th scope="col" className="pb-2 font-normal">Критерии оценки для CEO</th><th scope="col" className="pb-2 text-right font-normal">Что изменилось</th></tr></thead>
                   <tbody>
                     {c.ceo?.map((m) => (
                       <tr key={m.k} className="border-b border-[var(--c-border)] align-top">
                         <th scope="row" className="ds-h5 w-[40%] py-3 pr-4 font-medium">{m.k}</th>
-                        <td className="ds-body py-3 text-[var(--c-text)]">{m.v}</td>
+                        <td className="ds-body py-3 text-right text-[var(--c-text)]">{m.v}</td>
                       </tr>
                     ))}
                   </tbody>
