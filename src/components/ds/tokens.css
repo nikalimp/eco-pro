@@ -7,7 +7,7 @@
     /* Отступы Carbon: spacing-01…13 */
     --sp-01: 2px; --sp-02: 4px; --sp-03: 8px; --sp-04: 12px; --sp-05: 16px; --sp-06: 24px; --sp-07: 32px;
     --sp-08: 40px; --sp-09: 48px; --sp-10: 64px; --sp-11: 80px; --sp-12: 96px; --sp-13: 160px;
-    --sp-section: clamp(5rem, 2.5rem + 7.8vw, 13rem); /* +30 % к прежнему ритму (16.11) */
+    --sp-section: clamp(4.5rem, 2.5rem + 5vw, 8.5rem); /* +30 % к прежнему ритму (16.11) */
     --sp-gutter: clamp(var(--sp-05), 3.3vw, var(--sp-10)); /* поле страницы во всю ширину */
 
     /* Цвет: тема g10 Carbon + бренд */
@@ -63,18 +63,18 @@
   .ds-theme-layer, .ds-theme-dark, .ds-theme-brick, .ds-theme-deep { background: #f6f6f6; --c-layer: #ffffff; --c-layer-2: #f6f6f6; } /* фон задан явно: var(--c-layer) тут уже переопределён на белый */
 
   /* ── Типошкала (Carbon productive + expressive, на Geologica) ── */
-  .ds-display  { font-size: clamp(2.5rem, 1rem + 3.6vw, 5.5rem); line-height: 1.05; font-weight: 500; letter-spacing: -0.015em; }
-  .ds-h1       { font-size: clamp(2.125rem, 1.2rem + 2.4vw, 4.25rem); line-height: 1.08; font-weight: 500; letter-spacing: -0.015em; text-wrap: balance; }
-  .ds-h2       { font-size: clamp(1.75rem, 1rem + 1.9vw, 3.5rem); line-height: 1.1; font-weight: 500; letter-spacing: -0.015em; text-wrap: balance; }
-  .ds-h3       { font-size: clamp(1.5rem, 1.1rem + .55vw, 2.125rem); line-height: 1.2; font-weight: 500; letter-spacing: -0.01em; }   /* heading-04-ish */
-  .ds-h4       { font-size: clamp(1.25rem, 1rem + .35vw, 1.625rem); line-height: 1.35; font-weight: 600; letter-spacing: -0.005em; }    /* heading-03 */
+  .ds-display  { font-size: clamp(2.375rem, 1.2rem + 2.9vw, 4.5rem); line-height: 1.05; font-weight: 500; letter-spacing: -0.015em; }
+  .ds-h1       { font-size: clamp(2rem, 1.3rem + 1.8vw, 3.25rem); line-height: 1.08; font-weight: 500; letter-spacing: -0.015em; text-wrap: balance; }
+  .ds-h2       { font-size: clamp(1.625rem, 1.1rem + 1.4vw, 2.75rem); line-height: 1.1; font-weight: 500; letter-spacing: -0.015em; text-wrap: balance; }
+  .ds-h3       { font-size: clamp(1.375rem, 1.1rem + .45vw, 1.75rem); line-height: 1.2; font-weight: 500; letter-spacing: -0.01em; }   /* heading-04-ish */
+  .ds-h4       { font-size: clamp(1.125rem, 1rem + .25vw, 1.375rem); line-height: 1.35; font-weight: 600; letter-spacing: -0.005em; }    /* heading-03 */
   .ds-h5       { font-size: 1rem; line-height: 1.375; font-weight: 600; }                               /* heading-02 */
-  .ds-lead     { font-size: clamp(1.125rem, .95rem + .4vw, 1.5rem); line-height: 1.55; color: var(--c-text-2); }
-  .ds-body     { font-size: clamp(16px, 14.5px + .2vw, 18px); line-height: 1.6; color: var(--c-text-2); } /* абзацы — Geologica: моно оставили подписям (T59) */
+  .ds-lead     { font-size: clamp(1.0625rem, .95rem + .3vw, 1.25rem); line-height: 1.55; color: var(--c-text-2); }
+  .ds-body     { font-size: clamp(15px, 14px + .15vw, 17px); line-height: 1.6; color: var(--c-text-2); } /* абзацы — Geologica: моно оставили подписям (T59) */
   .ds-small    { font-size: clamp(14px, 12.5px + .14vw, 16px); line-height: 1.45; color: var(--c-text-2); }
   .ds-label    { font-size: clamp(12px, 11px + .1vw, 14px); line-height: 1.4; color: var(--c-text-3); } /* label-01; моно — только .ds-mono в схемах (16.11) */
   .ds-mono     { font-family: var(--f-mono); letter-spacing: .02em; }
-  .ds-num      { font-size: clamp(2.5rem, 1.6rem + 2.8vw, 5.5rem); line-height: 1; font-weight: 400; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .ds-num      { font-size: clamp(2.25rem, 1.5rem + 2vw, 4rem); line-height: 1; font-weight: 400; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   .ds-accent   { color: var(--c-brand); }
   .ds-theme-red .ds-accent { color: var(--c-brand-soft); }
   .ds-theme-light .ds-accent, .ds-theme-light .ds-index { color: var(--c-brand); }

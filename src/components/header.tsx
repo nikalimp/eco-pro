@@ -41,20 +41,23 @@ export function Header() {
   return (
     <>
       {/* Верхняя строка прокручивается вместе со страницей, закреплён только второй ряд (решение Ника 11.11) */}
-      <div className="ds hidden h-9 items-center justify-between border-b border-[var(--c-border)] px-[var(--sp-gutter)] md:flex">
+      <div className="ds hidden border-b border-[var(--c-border)] md:block">
+        <div className="ds-wrap flex h-9 items-center justify-between">
         <span className="site-live text-[13px] text-[var(--c-text-2)]">Ситуационный центр работает 24/7</span>
         <span className="flex gap-6 text-[13px]">
           <a href={`tel:${c.phone}`} className="text-[var(--c-text-2)] hover:text-[var(--c-brand)]">{c.phoneDisplay}</a>
           <a href={`mailto:${c.email}`} className="text-[var(--c-text-2)] hover:text-[var(--c-brand)]">{c.email}</a>
         </span>
+        </div>
       </div>
       <header className="ds site-head">
-        <div className="flex h-16 items-center gap-4 px-[var(--sp-gutter)]">
-          <Link href="/" className="flex shrink-0 items-center pr-4"><Logo /></Link>
-          <nav aria-label="Основное меню" className="hidden flex-1 items-center justify-center lg:flex">
+        {/* Три колонки: логотип слева, меню строго по центру шапки, действия справа (правки Ника 17.11) */}
+        <div className="ds-wrap grid h-16 grid-cols-[1fr_auto] items-center gap-4 lg:grid-cols-[1fr_auto_1fr]">
+          <Link href="/" className="flex shrink-0 items-center justify-self-start"><Logo /></Link>
+          <nav aria-label="Основное меню" className="hidden items-center justify-center lg:flex">
             {nav.map((n) => <NavItem key={n.href} {...n} />)}
           </nav>
-          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+          <div className="flex items-center justify-self-end gap-2">
             <Link href="/account/" className="site-nav-link hidden h-16 items-center px-3 xl:flex">Кабинет</Link>
             <Button asChild size="sm" icon="→" className="hidden sm:inline-flex"><a href={site.cta.href}>{site.cta.label}</a></Button>
             <details className="group/m lg:hidden">

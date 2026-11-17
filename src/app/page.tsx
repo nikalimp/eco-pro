@@ -15,6 +15,7 @@ import { FaqList } from "@/components/faq";
 import { Quiz } from "@/components/quiz";
 import { IndexTest } from "@/components/index-test";
 import { JsonLd } from "@/components/json-ld";
+import { CountUp } from "@/components/count-up";
 import { Accent, Button, DsRoot, Heading, IconBox, Index, List, Section, SectionHeader, Tag, Text, Tile, Wrap } from "@/components/ds";
 import { EcoScene, HeroPlan, StepArt } from "@/components/home/iso";
 import { GeoTip } from "@/components/home/geo-tip";
@@ -31,7 +32,6 @@ const entryIcons = [Crown, ShieldCheck, Database];
 
 export default function Home() {
   const h = home.hero;
-  const p = home.power;
   const posts = getPosts().slice(0, 4);
   const covered = coverMap.regions.filter((r) => r.name).length;
   const core = directions[0];
@@ -41,10 +41,10 @@ export default function Home() {
     <DsRoot className="v3">
       <JsonLd data={graph(faqSchema(homeFaq))} />
 
-      {/* 1. Первый экран: H1 как есть (решение 16.11), три цифры презентации, лёгкий чертёж на белом */}
-      <section className="grid lg:min-h-[calc(100svh-6.25rem)] lg:grid-cols-[1.05fr_1fr]">
-        <div className="flex flex-col justify-center px-[var(--sp-gutter)] py-14 lg:py-16 lg:pr-14">
-          <Tag tone="gray" className="w-fit bg-white lg:mt-auto"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
+      {/* 1. Первый экран: H1 как есть (решение 16.11); цифры перенесены в «Экспертную экосистему», серого фона справа нет (правки Ника 17.11) */}
+      <section className="ds-wrap grid items-center gap-10 py-14 lg:min-h-[calc(100svh-6.25rem)] lg:grid-cols-[1.05fr_1fr] lg:py-16">
+        <div className="flex flex-col justify-center">
+          <Tag tone="gray" className="w-fit bg-white"><Radar className="size-4 text-[var(--c-brand)]" aria-hidden="true" />{h.eyebrow}</Tag>
           <Heading size="display" className="kt mt-8">
             <span className="kt-line"><span className="kt-w">{h.h1Line1}</span></span>
             <br />
@@ -52,24 +52,16 @@ export default function Home() {
           </Heading>
           <Text size="lead" className="mt-7 max-w-[36ch]">{h.subtitle}</Text>
           <div className="mt-9"><Button asChild size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button></div>
-          <dl className="mt-12 grid max-w-[44rem] grid-cols-3 border-t border-[var(--c-border)] pt-6 lg:mt-auto">
-            {home.path.facts.map((s) => (
-              <div key={s.label} className="flex flex-col-reverse justify-end pr-4">
-                <dt className="ds-small mt-1">{s.label}</dt>
-                <dd className="v3-hero-num">{s.value}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
-        <div className="relative grid place-items-center bg-[var(--c-layer)] px-4 py-10 lg:px-10">
-          <div className="iso-light w-full max-w-[46rem]"><HeroPlan className="h-auto w-full" /></div>
-          <Text size="label" className="mt-4">Схема: камеры на объекте → ситуационный центр → руководитель</Text>
-        </div>
+        <figure className="grid justify-items-center">
+          <div className="iso-light w-full max-w-[40rem] !border-0"><HeroPlan className="h-auto w-full" /></div>
+          <figcaption className="ds-label mt-4">Схема: камеры на объекте → ситуационный центр → руководитель</figcaption>
+        </figure>
       </section>
 
       {/* 2. Что получает руководитель — три точки входа */}
       <Section tone="layer">
-        <Wrap fluid>
+        <Wrap>
           <SectionHeader eyebrow={home.entryPoints.title} title={home.entryPoints.heading} text={home.entryPoints.text} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {home.entryPoints.items.map((e, i) => {
@@ -89,47 +81,9 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      {/* 3. Воровство власти — слайды 3–9 презентации */}
-      <Section id="vorovstvo-vlasti">
-        <Wrap fluid className="grid gap-14 xl:grid-cols-[1fr_1.1fr]">
-          <div>
-            <SectionHeader eyebrow={p.eyebrow} title={<>{p.definition.split(/\s—\s/)[0]} — <Accent>{p.definition.split(/\s—\s/)[1]}</Accent></>} text={p.hierarchy} />
-            <p className="ds-h4 mt-10 max-w-[30ch]">«{p.question}»</p>
-            <div className="mt-10 grid gap-px border border-[var(--c-border)] bg-[var(--c-border)] sm:grid-cols-2">
-              {p.compare.map((c, i) => (
-                <div key={c.title} className="bg-white p-6">
-                  <p className={i === 1 ? "ds-h5 ds-accent" : "ds-h5"}>{c.title} →</p>
-                  <p className="ds-body mt-2">{c.text}</p>
-                </div>
-              ))}
-            </div>
-            <p className="ds-h4 mt-8 max-w-[34ch]">{p.punch}</p>
-          </div>
-          <div>
-            <div className="flex items-end justify-between gap-6 border-b border-[var(--c-border)] pb-6">
-              <p className="ds-num ds-accent">{p.loss.value}</p>
-              <p className="ds-small max-w-[16rem] text-right">{p.loss.label}</p>
-            </div>
-            <Heading size="h4" as="h3" className="mt-10">{p.ladderTitle}</Heading>
-            <ol className="ladder mt-6">
-              {p.ladder.map((l) => (
-                <li key={l.level}>
-                  <span className="ds-h5">{l.title}</span>
-                  <span className="ds-small text-right">{l.level}</span>
-                </li>
-              ))}
-            </ol>
-            <figure className="mt-10 border-l-2 border-[var(--c-brand)] pl-6">
-              <blockquote className="ds-h4">«{p.illusion}»</blockquote>
-              <figcaption className="ds-small mt-3">Сергей Малютенков, основатель и CEO</figcaption>
-            </figure>
-          </div>
-        </Wrap>
-      </Section>
-
       {/* 4. Задачи → решения: закреплённая секция, задачи появляются вокруг круга и зеленеют */}
-      <section className="v3-orbit-track bg-[var(--c-layer)]">
-        <Wrap fluid className="v3-orbit-pin py-16 lg:py-0">
+      <section className="v3-orbit-track">
+        <Wrap className="v3-orbit-pin py-16 lg:py-0">
           <div className="v3-orbit">
             <div className="v3-orbit-core mb-10 lg:mb-0">
               <div className="v3-flip-wrap">
@@ -164,23 +118,9 @@ export default function Home() {
         </Wrap>
       </section>
 
-      {/* 5. Эффект наблюдателя — слайд 16; это и есть «лёгкость» по смыслу */}
-      <Section>
-        <Wrap fluid className="grid items-center gap-10 lg:grid-cols-[1.2fr_1fr]">
-          <div>
-            <SectionHeader eyebrow={home.observer.eyebrow} title={home.observer.title} text={home.observer.text} />
-            <p className="ds-small mt-8 max-w-[44ch]">{p.defect}.</p>
-          </div>
-          <div className="border-t border-[var(--c-border)] pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
-            <p className="ds-num ds-accent">{home.observer.value}</p>
-            <p className="ds-lead mt-4">{home.observer.label}</p>
-          </div>
-        </Wrap>
-      </Section>
-
       {/* 6. Экосистема: пять направлений и Центр Правды + новая архитектура власти CEO (слайды 10, 23, 26) */}
       <Section tone="layer" id="napravleniya" className="v3-eco">
-        <Wrap fluid>
+        <Wrap>
           <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} text={home.answer} />
           <div className="v3-eco-grid mt-14">
             {directions.slice(1, 5).map((d) => (
@@ -228,7 +168,7 @@ export default function Home() {
 
       {/* 7. Вы — ключевой элемент экосистемы (правки Сергея 30.10) + «Как работает PRO» */}
       <Section id="ekosistema">
-        <Wrap fluid>
+        <Wrap>
           <SectionHeader eyebrow={home.expertise.eyebrow} title={home.expertise.title} text={home.expertise.text} />
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {home.expertise.columns.map((c, i) => (
@@ -253,7 +193,7 @@ export default function Home() {
 
       {/* 8. Технологии: естественный интеллект + платформа + ИИ + аналитика (слайды 17–18) */}
       <Section tone="layer">
-        <Wrap fluid>
+        <Wrap>
           <SectionHeader eyebrow={home.tech.eyebrow} title={<>Естественный интеллект <Accent>+</Accent> искусственный интеллект</>} text={home.traditions.text} />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {home.tech.items.map((t, i) => (
@@ -270,23 +210,18 @@ export default function Home() {
 
       {/* 9. Дашборд как в личном кабинете (слайд 25) */}
       <Section>
-        <Wrap fluid>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeader eyebrow={home.audience.client.title} title={<>Онлайн-дашборды: <Accent>индекс управляемости</Accent> вашей сети</>} text={home.architecture.dashboards} />
-            <Button asChild variant="secondary" icon="↗"><Link href="/account/">Демо личного кабинета</Link></Button>
-          </div>
+        <Wrap>
+          <SectionHeader eyebrow={home.audience.client.title} title={<>Онлайн-дашборды: <Accent>индекс управляемости</Accent> вашей сети</>} text={home.architecture.dashboards} />
           <HeroDashboard className="mt-12 hidden md:block" />
           <HeroDashboard variant="compact" className="mt-10 md:hidden" />
+          <div className="mt-10 flex justify-center"><Button asChild variant="secondary" icon="↗"><Link href="/account/">Демо личного кабинета</Link></Button></div>
         </Wrap>
       </Section>
 
       {/* 10. Кейсы в формате «для CEO» (слайды 11–13, 19–21) */}
       <Section tone="layer" id="keisy">
-        <Wrap fluid>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeader eyebrow={home.ceoCases.eyebrow} title={home.ceoCases.title} />
-            <Button asChild variant="secondary"><Link href="/cases/">Все кейсы</Link></Button>
-          </div>
+        <Wrap>
+          <SectionHeader eyebrow={home.ceoCases.eyebrow} title={home.ceoCases.title} />
           <div className="mt-12 grid gap-4 lg:grid-cols-2">
             {ceoCases.map((c) => (
               <article key={c.id} className="ds-tile flex flex-col p-6 sm:p-9">
@@ -316,61 +251,42 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </Wrap>
-      </Section>
-
-      {/* 11. ROI — «от затрат на безопасность к инвестиции во власть CEO» (слайд 22) */}
-      <Section>
-        <Wrap fluid className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
-          <div>
-            <SectionHeader eyebrow={home.roi.eyebrow} title={home.roi.title} />
-            <p className="ds-h3 mt-10 flex flex-wrap items-center gap-3" aria-label="ROI равен выгоде минус затраты на ситуационный центр, делённым на затраты на ситуационный центр, умножить на 100 процентов">
-              <span>{home.roi.formula.left}</span>
-              <span className="roi-frac ds-h4"><span>{home.roi.formula.top}</span><span>{home.roi.formula.bottom}</span></span>
-              <span>{home.roi.formula.right}</span>
-            </p>
-          </div>
-          <dl className="grid gap-px self-end border border-[var(--c-border)] bg-[var(--c-border)] sm:grid-cols-3">
-            {home.roi.stats.map((s, i) => (
-              <div key={s.label} className="flex flex-col-reverse justify-end bg-white p-6 sm:p-8">
-                <dt className="ds-small mt-3">{s.label}</dt>
-                <dd className={`v3-geo-num ${i === 0 ? "ds-accent" : ""}`}>{s.value}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="mt-10 flex justify-center"><Button asChild variant="secondary"><Link href="/cases/">Все кейсы</Link></Button></div>
         </Wrap>
       </Section>
 
       {/* 11б. Тест «Индекс управляемости CEO» — лид-магнит (идея 1) */}
-      <Section tone="layer" id="indeks">
-        <Wrap fluid>
+      <Section id="indeks">
+        <Wrap>
           <SectionHeader eyebrow={home.indexTest.eyebrow} title={home.indexTest.title} text={home.indexTest.text} />
           <div className="mt-12"><IndexTest /></div>
         </Wrap>
       </Section>
 
-      {/* 12. Экспертная экосистема и география (слайды 27–28) */}
-      <Section className="v3-geo" id="geografiya">
-        <Wrap fluid>
+      {/* 12. Экспертная экосистема и география (слайды 27–28); цифры растут от нуля при прокрутке (правки Ника 17.11) */}
+      <Section tone="layer" className="v3-geo" id="geografiya">
+        <Wrap>
           <SectionHeader eyebrow={home.expertEco.eyebrow} title={home.expertEco.title} />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-            {home.expertEco.cards.map((c) => (
-              <Tile key={c.label} className="flex flex-col p-6">
-                <p className="ds-eyebrow">{c.label}</p>
-                <p className="ds-h3 mt-6">{c.value}</p>
-                <p className="ds-small mt-2">{c.text}</p>
+          <dl className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {home.expertEco.cards.map((c, i) => (
+              <Tile key={c.label} className="flex flex-col-reverse justify-end p-7 text-center">
+                <dt className="ds-small mt-3">{c.text}</dt>
+                <dd>
+                  <p className="ds-eyebrow">{c.label}</p>
+                  <p className={`v3-geo-num mt-5 ${i === 0 ? "ds-accent" : ""}`}><CountUp value={c.value} /></p>
+                </dd>
               </Tile>
             ))}
-          </div>
+          </dl>
 
-          <div className="mt-20 grid items-center gap-10 xl:grid-cols-[1fr_1.7fr]">
+          <div className="mt-20 grid items-center gap-10 lg:grid-cols-[1fr_1.6fr]">
             <div>
-              <SectionHeader eyebrow={home.geo.eyebrow} title={home.geo.title} text={home.geo.text} />
-              <dl className="mt-10 grid grid-cols-2 gap-px border border-[var(--c-border)] bg-[var(--c-border)]">
-                {home.geo.stats.map((s, i) => (
-                  <div key={s.label} className="flex flex-col-reverse bg-white p-5">
-                    <dt className="ds-small mt-2">{s.label}</dt>
-                    <dd className={`v3-geo-num ${i === 0 ? "ds-accent" : ""}`}>{s.value}</dd>
+              <SectionHeader align="left" eyebrow={home.geo.eyebrow} title={home.geo.title} text={home.geo.text} />
+              <dl className="mt-10 grid grid-cols-3 gap-px border border-[var(--c-border)] bg-[var(--c-border)]">
+                {home.geo.stats.map((st) => (
+                  <div key={st.label} className="flex flex-col-reverse justify-end bg-white p-5">
+                    <dt className="ds-small mt-2">{st.label}</dt>
+                    <dd className="v3-geo-num"><CountUp value={st.value} /></dd>
                   </div>
                 ))}
               </dl>
@@ -393,10 +309,10 @@ export default function Home() {
       </Section>
 
       {/* 13. План внедрения (слайд 29) и заявка на пилот (слайд 30) */}
-      <Section tone="layer" id="pilot">
-        <Wrap fluid className="grid gap-12 lg:grid-cols-2">
+      <Section id="pilot">
+        <Wrap className="grid gap-12 lg:grid-cols-2">
           <div>
-            <SectionHeader eyebrow={home.pilot.eyebrow} title={<>Пилот ситуационного центра за 60 дней <Accent>покажет, кто влияет на процессы</Accent> в вашей компании</>} />
+            <SectionHeader align="left" eyebrow={home.pilot.eyebrow} title={<>Пилот ситуационного центра за 60 дней <Accent>покажет, кто влияет на процессы</Accent> в вашей компании</>} />
             <ol className="v3-stack mt-10 grid gap-4">
               {home.path.steps.map((s, i) => {
                 // Чертежи этапов: встреча, пилот, масштабирование, KPI; у шага «Автоматизация с помощью ИИ» своего чертежа нет
@@ -425,8 +341,8 @@ export default function Home() {
       </Section>
 
       {/* 14. Кому подходит + вход для действующих клиентов */}
-      <Section>
-        <Wrap fluid>
+      <Section tone="layer">
+        <Wrap>
           <SectionHeader eyebrow={home.audience.eyebrow} title={home.audience.title} text={home.audience.text} />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {home.audience.roles.map((r) => (
@@ -447,16 +363,16 @@ export default function Home() {
       </Section>
 
       {/* 14б. Брифинг-квиз «Стратегия интеграции» (оставляем вместе с тестом индекса — решение 16.11) */}
-      <Section tone="layer" id="brifing">
-        <Wrap fluid>
+      <Section id="brifing">
+        <Wrap>
           <SectionHeader eyebrow={home.quiz.eyebrow} title={home.quiz.title} text={home.quiz.text} />
           <div className="mt-12"><Quiz /></div>
         </Wrap>
       </Section>
 
       {/* 15. Отрасли */}
-      <Section id="otrasli">
-        <Wrap fluid>
+      <Section tone="layer" id="otrasli">
+        <Wrap>
           <SectionHeader eyebrow={home.industries.eyebrow} title={home.industries.title} text={home.industries.text} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {industries.map((ind, i) => {
@@ -477,25 +393,31 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      {/* 16. Основатель: цитата о власти CEO и регалии (слайд 2) + команда */}
-      <Section tone="layer">
-        <Wrap fluid>
-          <figure className="grid items-center gap-10 lg:grid-cols-[auto_1fr]">
-            <Image src="/images/team/sergey-malyutenkov-studio.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={260} height={325} className="aspect-[4/5] w-48 object-cover object-top sm:w-64" />
-            <div>
-              <p className="ds-eyebrow">{home.ceo.eyebrow}</p>
-              <blockquote className="ds-h3 mt-5 max-w-[46ch]">«{home.ceo.quote}»</blockquote>
-              <figcaption className="mt-6">
-                <p className="ds-h5">{home.ceo.name} — {home.ceo.role}</p>
-                <ul className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
-                  {home.ceo.regalia.map((r) => <li key={r.org} className="ds-small"><span className="text-[var(--c-text)]">{r.org}</span>, {r.years} — {r.role}</li>)}
-                </ul>
-                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="ds-link ds-small mt-4 inline-block">{home.ceo.channelLabel} ↗</a>
-              </figcaption>
-            </div>
+      {/* 16. Слово основателя — как на pro-nas.pro: цитата по центру, под ней аватар, имя, регалии и канал (правки Ника 17.11) */}
+      <Section>
+        <Wrap>
+          <figure className="mx-auto max-w-3xl text-center">
+            <blockquote className="ds-h4 space-y-6 !leading-relaxed">
+              {/* Два абзаца, как на pro-nas.pro: второй начинается с «От муравейника» */}
+              {home.ceo.quote.split(/\s(?=От\s)/).map((t, i, a) => <p key={i}>{i === 0 ? "«" : ""}{t}{i === a.length - 1 ? "»" : ""}</p>)}
+            </blockquote>
+            <figcaption className="mt-12 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:text-left">
+              <Image src="/images/team/sergey-malyutenkov-studio.webp" alt="Сергей Малютенков, основатель и CEO ECO-PRO" width={96} height={96} className="size-24 shrink-0 rounded-full object-cover object-top" />
+              <div>
+                <p className="ds-h5 !text-lg">{home.ceo.name}, {home.ceo.role.charAt(0).toLowerCase() + home.ceo.role.slice(1)}</p>
+                <a href={site.contacts.ceoChannel} target="_blank" rel="noopener" className="mt-1 inline-block text-[15px] text-[var(--c-brand)] hover:underline">{home.ceo.channelLabel} ›</a>
+              </div>
+            </figcaption>
+            <ul className="ds-small mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-x-6 gap-y-1">
+              {home.ceo.regalia.map((r) => <li key={r.org}>{r.org}, {r.years} — {r.role}</li>)}
+            </ul>
           </figure>
+        </Wrap>
+      </Section>
 
-          <SectionHeader className="mt-24" eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} text={home.team.text} />
+      <Section tone="layer">
+        <Wrap>
+          <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} text={home.team.text} />
           <ul className={`mt-12 grid grid-cols-2 gap-4 ${home.team.people.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
             {home.team.people.map((pp) => (
               <li key={pp.name} className="ds-tile">
@@ -514,11 +436,8 @@ export default function Home() {
 
       {/* 17. Рекомендательные письма и логотипы клиентов */}
       <Section>
-        <Wrap fluid>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeader eyebrow="рекомендации" title={<>Нас рекомендуют <Accent>клиенты</Accent></>} text="Письма крупных сетей и отраслевых ассоциаций. Лицензии, СРО и партнёрские сертификаты — на странице документов." />
-            <Button asChild variant="secondary"><Link href="/documents/">Все документы</Link></Button>
-          </div>
+        <Wrap>
+          <SectionHeader eyebrow="рекомендации" title={<>Нас рекомендуют <Accent>клиенты</Accent></>} text="Письма крупных сетей и отраслевых ассоциаций. Лицензии, СРО и партнёрские сертификаты — на странице документов." />
           <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
             {letters.map((dd) => (
               <li key={dd.id}>
@@ -532,10 +451,11 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          <div className="mt-10 flex justify-center"><Button asChild variant="secondary"><Link href="/documents/">Все документы</Link></Button></div>
         </Wrap>
       </Section>
       <section aria-labelledby="v3-trust" className="border-y border-[var(--c-border)]">
-        <div className="flex items-center gap-8 py-6 pl-[var(--sp-gutter)]">
+        <div className="ds-wrap flex items-center gap-8 py-6">
           <p id="v3-trust" className="ds-eyebrow hidden shrink-0 md:block">{home.clientsTitle}</p>
           <div className="marquee min-w-0 flex-1 overflow-hidden">
             <div className="marquee-track flex w-max items-center gap-16">
@@ -549,8 +469,8 @@ export default function Home() {
 
       {/* 18. Блог, FAQ, финальный призыв */}
       {posts.length > 0 && (
-        <Section>
-          <Wrap fluid>
+        <Section tone="layer">
+          <Wrap>
             <SectionHeader eyebrow="блог" title={<><Accent>Делимся экспертизой</Accent> в управляемости и контроле</>} />
             <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {posts.map((pp) => (
@@ -563,7 +483,7 @@ export default function Home() {
                 </Tile>
               ))}
             </div>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
               <Button asChild><Link href="/blog/">Все статьи</Link></Button>
               <Button asChild variant="secondary" icon="↗"><Link href="/glossary/">Глоссарий</Link></Button>
               <Button asChild variant="secondary" icon="↗"><a href={site.contacts.telegram} target="_blank" rel="noopener">Telegram-канал</a></Button>
@@ -573,17 +493,17 @@ export default function Home() {
         </Section>
       )}
 
-      <Section tone="layer" id="faq">
-        <Wrap fluid className="grid gap-10 lg:grid-cols-[1fr_2fr]">
+      <Section id="faq">
+        <Wrap>
           <SectionHeader eyebrow="вопросы и ответы" title="Часто задаваемые вопросы" />
-          <FaqList items={homeFaq} />
+          <div className="mx-auto mt-12 max-w-4xl"><FaqList items={homeFaq} /></div>
         </Wrap>
       </Section>
 
       <Section tone="red" className="!py-16 sm:!py-24">
-        <Wrap fluid className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
+        <Wrap className="text-center">
           <SectionHeader eyebrow={home.cta.eyebrow} title={home.cta.title} text={home.cta.text} />
-          <Button asChild variant="inverse" size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button>
+          <Button asChild variant="inverse" size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
         </Wrap>
       </Section>
     </DsRoot>

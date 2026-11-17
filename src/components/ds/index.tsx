@@ -167,14 +167,15 @@ export function BarList({ items, className }: { items: { name: string; value: nu
   );
 }
 
-/** Заголовок секции: надзаголовок, заголовок с акцентом, подводка; align=center — только для коротких */
-export function SectionHeader({ eyebrow, title, text, align = "left", className }: { eyebrow?: React.ReactNode; title: React.ReactNode; text?: React.ReactNode; align?: "left" | "center"; className?: string }) {
+/** Заголовок секции: надзаголовок, заголовок с акцентом, подводка. По умолчанию — по центру, как на pro-nas.pro (правки Ника 17.11);
+    align="left" — для заголовков в колонке рядом с другим содержимым */
+export function SectionHeader({ eyebrow, title, text, align = "center", className }: { eyebrow?: React.ReactNode; title: React.ReactNode; text?: React.ReactNode; align?: "left" | "center"; className?: string }) {
   const c = align === "center";
   return (
-    <div className={cn(c && "mx-auto max-w-3xl text-center", className)}>
+    <div className={cn(c && "mx-auto max-w-4xl text-center", className)}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <Heading size="h2" className={cn(eyebrow && "mt-5")}>{title}</Heading>
-      {text && <Text className={cn("mt-5 max-w-2xl", c && "mx-auto text-left sm:text-center")}>{text}</Text>}
+      {text && <Text className={cn("mt-5 max-w-2xl", c && "mx-auto")}>{text}</Text>}
     </div>
   );
 }

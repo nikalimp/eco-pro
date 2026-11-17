@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 // Обёртки внутренних страниц на дизайн-системе ECO-PRO v3 (итерация v3, 16.11): поля и ритм — токены ds,
-// заголовки — облегчённая типошкала (вес 500), выравнивание по левому краю, как на главной.
+// заголовки — облегчённая типошкала (вес 500), заголовки секций по центру, как на pro-nas.pro (правки Ника 17.11).
 
 export function Container({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("ds-wrap w-full", className)} {...props} />;
@@ -19,10 +19,10 @@ export function Eyebrow({ className, children, ...props }: React.ComponentProps<
 // Заголовок блока: надзаголовок, h2, подводка
 export function SectionHead({ eyebrow, title, text, className, as: H = "h2" }: { eyebrow?: string; title: React.ReactNode; text?: React.ReactNode; className?: string; as?: "h1" | "h2" }) {
   return (
-    <div data-reveal className={cn("mb-12 max-w-4xl", className)}>
+    <div data-reveal className={cn("mx-auto mb-12 max-w-4xl text-center", className)}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <H className={H === "h1" ? "ds-h1" : "ds-h2"}>{title}</H>
-      {text && <p className="ds-body mt-5 max-w-2xl">{text}</p>}
+      {text && <p className="ds-body mx-auto mt-5 max-w-2xl">{text}</p>}
     </div>
   );
 }
