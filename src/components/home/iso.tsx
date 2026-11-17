@@ -38,7 +38,15 @@ const cams: { at: [number, number]; cone: [number, number][]; label: string; dx:
   { at: [11.7, 0.3], cone: [[11.7, 0.3], [8.2, 1.2], [11.2, 4.1]], label: "CAM 03 · СКЛАД", dx: 14, dy: -6 },
 ];
 
-export function HeroPlan({ className = "" }: { className?: string }) {
+// Зоны чертежа для интерактива первого экрана (hero-plan.tsx): камеры → событие → ситуационный центр → руководитель
+export type PlanZone = "cams" | "event" | "sc" | "ceo";
+export function HeroPlan({ className = "", bare = false, active, onZone }: { className?: string; bare?: boolean; active?: PlanZone; onZone?: (z: PlanZone) => void }) {
+  // Зона: при наведении подсвечивается, остальные приглушаются
+  const zone = (z: PlanZone) => ({
+    "data-zone": z,
+    className: active && active !== z ? "hp-zone is-dim" : active === z ? "hp-zone is-on" : "hp-zone",
+    ...(onZone ? { onMouseEnter: () => onZone(z), onClick: () => onZone(z) } : {}),
+  });
   const lift = 2.6;
   const f = proj({ x: 318, y: 214, s: 24 });
   const pt = (x: number, y: number, z: number) => f([x, y, z]);
@@ -54,9 +62,9 @@ export function HeroPlan({ className = "" }: { className?: string }) {
         <marker id="bp-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" fill="#ff8a80" /></marker>
         <radialGradient id="bp-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stopColor="#ff3b30" stopOpacity=".55" /><stop offset="1" stopColor="#ff3b30" stopOpacity="0" /></radialGradient>
       </defs>
-      <rect width="720" height="560" fill="url(#bp-major)" />
+      {!bare && <rect width="720" height="560" fill="url(#bp-major)" />}
       {/* рамка листа */}
-      <rect x="12" y="12" width="696" height="536" fill="none" stroke="#ff6b62" strokeOpacity=".35" />
+      {!bare && <rect x="12" y="12" width="696" height="536" fill="none" stroke="#ff6b62" strokeOpacity=".35" />}
 
       {/* основание: сетка метров, контур, размеры */}
       <g stroke="#ff6b62" strokeOpacity=".14" strokeWidth=".7">
@@ -87,22 +95,23 @@ export function HeroPlan({ className = "" }: { className?: string }) {
         <line {...line([3.6, 9, lift], [5.6, 9, lift])} stroke="#1a0505" strokeWidth="3" />
         {(() => { const p = pt(4.6, 9.6, lift); return <text x={p[0]} y={p[1]} transform={`rotate(30 ${p[0]} ${p[1]})`} textAnchor="middle" className="iso-label">ВХОД</text>; })()}
         {/* конусы обзора — под мебелью */}
-        {cams.map((c, i) => <polygon key={c.label} points={pts(f, c.cone.map(([x, y]) => [x, y, lift]))} fill="#ff3b30" fillOpacity=".14" stroke="#ff6b62" strokeOpacity=".55" strokeWidth=".8" className="iso-cone" style={{ animationDelay: `${i * 0.8}s` }} />)}
+        <g {...zone("cams")}>{cams.map((c, i) => <polygon key={c.label} points={pts(f, c.cone.map(([x, y]) => [x, y, lift]))} fill="#ff3b30" fillOpacity=".14" stroke="#ff6b62" strokeOpacity=".55" strokeWidth=".8" className="iso-cone" style={{ animationDelay: `${i * 0.8}s` }} />)}</g>
         {[...shelves, ...racks, ...tills].map((b, i) => <Box key={i} f={f} {...b} z={lift} fill="#ff6b62" cls="iso-edge" />)}
         {/* покупатели */}
         {people.map(([x, y], i) => { const p = pt(x, y, lift); return <g key={i}><ellipse cx={p[0]} cy={p[1]} rx="5" ry="2.6" fill="#ff6b62" opacity=".35" /><circle cx={p[0]} cy={p[1] - 7} r="3.2" fill="#ffb3ad" /></g>; })}
         {/* камеры */}
-        {cams.map((c, i) => { const p = pt(c.at[0], c.at[1], lift + 0.5); return (
+        <g {...zone("cams")}>{cams.map((c, i) => { const p = pt(c.at[0], c.at[1], lift + 0.5); return (
           <g key={c.label}>
             <circle cx={p[0]} cy={p[1]} r="4.5" fill="#ff3b30" className="iso-pulse" style={{ animationDelay: `${i * 0.8}s` }} />
             <circle cx={p[0]} cy={p[1]} r="2" fill="#fff" />
             <line x1={p[0]} y1={p[1]} x2={p[0] + c.dx * 0.55} y2={p[1] + c.dy} stroke="#ff8a80" strokeWidth=".7" />
             <text x={p[0] + c.dx * 0.55 + (c.dx < 0 ? -4 : 4)} y={p[1] + c.dy + 3} textAnchor={c.dx < 0 ? "end" : "start"} className="iso-label">{c.label}</text>
           </g>
-        ); })}
+        ); })}</g>
         {(() => { const p = pt(3.4, 7.6, lift); return <text x={p[0]} y={p[1]} className="iso-label">ТОРГОВЫЙ ЗАЛ</text>; })()}
         {(() => { const p = pt(8.9, 1.95, lift); return <text x={p[0]} y={p[1]} className="iso-label">СКЛАД</text>; })()}
         {/* событие у касс */}
+        <g {...zone("event")}>
         <circle cx={ev[0]} cy={ev[1]} r="16" fill="url(#bp-glow)" />
         <circle cx={ev[0]} cy={ev[1]} r="7" fill="none" stroke="#fff" strokeWidth="1.4" className="iso-pulse" />
         <circle cx={ev[0]} cy={ev[1]} r="2.5" fill="#fff" />
@@ -112,9 +121,11 @@ export function HeroPlan({ className = "" }: { className?: string }) {
           <text x="8" y="27" className="iso-label iso-label-strong !text-[11px]">ВОЗВРАТ БЕЗ ЧЕКА</text>
         </g>
         <line x1={ev[0] - 12} y1={ev[1] + 22} x2={ev[0] - 3} y2={ev[1] + 6} stroke="#ff3b30" strokeWidth=".8" />
+        </g>
       </g>
 
       {/* сигнал: событие → ситуационный центр → руководитель */}
+      <g {...zone("sc")}>
       <path d={`M${ev[0]},${ev[1] - 8} C${ev[0] + 10},${ev[1] - 120} ${sc.x + 80},${sc.y + 140} ${sc.x + 70},${sc.y + 34}`} fill="none" stroke="#ff8a80" strokeWidth="1.4" strokeDasharray="5 6" className="iso-flow" markerEnd="url(#bp-arrow)" />
       <g transform={`translate(${sc.x - 70} ${sc.y - 30})`}>
         <rect width="236" height="64" fill="#1a0505" stroke="#ff8a80" strokeWidth="1.4" />
@@ -123,11 +134,14 @@ export function HeroPlan({ className = "" }: { className?: string }) {
         <text x="8" y="36" className="iso-label iso-label-strong">ЦЕНТР ПРАВДЫ · 24/7</text>
         <text x="8" y="53" className="iso-label">ОПЕРАТОР ПРОВЕРИЛ → РЕАКЦИЯ</text>
       </g>
+      </g>
+      <g {...zone("ceo")}>
       <line x1={sc.x - 70} y1={sc.y} x2={ceo.x + 62} y2={ceo.y} stroke="#ff8a80" strokeWidth="1.2" strokeDasharray="5 6" className="iso-flow" markerEnd="url(#bp-arrow)" />
       <g transform={`translate(${ceo.x - 102} ${ceo.y - 22})`}>
         <rect width="164" height="44" fill="none" stroke="#ff8a80" strokeOpacity=".7" />
         <text x="8" y="17" className="iso-label">РУКОВОДИТЕЛЬ</text>
         <text x="8" y="33" className="iso-label iso-label-strong">ОТЧЁТ И KPI</text>
+      </g>
       </g>
 
       {/* штамп листа */}
@@ -338,6 +352,26 @@ export function StepArt({ n, className = "" }: { n: number; className?: string }
         {grid.map((g, i) => { const t = f([g.x + 0.6, g.y + 0.6, 1]); return <g key={i}><path d={`M${src[0]},${src[1]} L${t[0]},${t[1]}`} stroke={RED} strokeOpacity=".3" strokeDasharray="3 4" /><Box f={f} x={g.x} y={g.y} w={1.2} d={1.2} h={1} fill={RED} cls="iso-edge" /></g>; })}
         <Chip x={18} y={22} title="ПИЛОТ" hot />
         <Chip x={236} y={170} title="ВСЯ СЕТЬ" />
+      </>
+    );
+  } else if (n === 4) {
+    // Автоматизация с ИИ (правки Ника 17.11): камера → ИИ берёт рутину, сложные случаи уходят оператору ситуационного центра
+    const f = proj({ x: 96, y: 96, s: 14 });
+    const chip = f([4.6, 2.6, 0]);
+    body = (
+      <>
+        <polygon points={pts(f, [[0, 0, 0], [7, 0, 0], [7, 5, 0], [0, 5, 0]])} fill="none" stroke={RED} strokeOpacity=".45" strokeDasharray="3 4" />
+        <Box f={f} x={0.6} y={0.6} w={0.3} d={0.3} h={3} fill={RED} cls="iso-edge" />
+        <Box f={f} x={0.4} y={0.4} w={1.4} d={0.6} h={0.6} z={3} fill={RED} cls="iso-edge" />
+        <polygon points={pts(f, [[1.8, 0.8, 3.2], [6.4, 0.4, 0], [6.4, 4.6, 0], [3, 4.6, 0]])} fill="#ff3b30" fillOpacity=".12" stroke={RED} strokeOpacity=".5" className="iso-cone" />
+        <Box f={f} x={4} y={2} w={1.2} d={1.2} h={0.5} fill="#ff3b30" cls="iso-edge" />
+        {[0.25, 0.55, 0.85].map((k) => <line key={k} {...(() => { const a = f([4 + k * 1.2, 2, 0.5]), b = f([4 + k * 1.2, 1.6, 0.5]); return { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }; })()} stroke={RED} />)}
+        <Lbl x={chip[0]} y={chip[1] + 30} anchor="middle">ИИ-АГЕНТ</Lbl>
+        <Chip x={232} y={26} title="РУТИНА · 24/7" />
+        <Chip x={222} y={168} title="СЛОЖНОЕ → СЦ" hot />
+        <Flow d={`M${chip[0] + 14},${chip[1] - 16} C${chip[0] + 50},${chip[1] - 60} 210,40 228,38`} />
+        <Flow d={`M${chip[0] + 16},${chip[1] + 6} C${chip[0] + 60},${chip[1] + 30} 200,180 218,180`} />
+        <Lbl x={20} y={30}>CAM · ВИДЕОПОТОК</Lbl>
       </>
     );
   } else {
