@@ -15,7 +15,7 @@ export function IndexTest() {
   const result = [...t.results].reverse().find((r) => score >= r.min)!;
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+    <div className="grid gap-8 lg:grid-cols-2">
       <ol className="grid gap-3">
         {t.questions.map((q, i) => (
           <li key={q} className="ds-tile p-5">
