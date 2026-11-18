@@ -70,11 +70,26 @@ export function Header() {
                 <ul className="divide-y divide-[var(--c-border)]">
                   {nav.map((n) => (
                     <li key={n.href} className="py-1">
-                      <a href={n.href} className="ds-h4 block py-3">{n.label}</a>
-                      {submenus[n.href] && (
-                        <ul className="mb-2 ml-3 border-l border-[var(--c-border)] pl-3">
-                          {submenus[n.href].map((x) => <li key={x.href}><a href={x.href} className="ds-small block py-1.5">{x.code ? `${x.code} — ` : ""}{x.label}</a></li>)}
-                        </ul>
+                      {/* Направления и отрасли — раскрывающиеся списки, по умолчанию свёрнуты (правки Ника 18.11) */}
+                      {submenus[n.href] ? (
+                        <details className="group/s">
+                          <summary className="ds-h4 flex cursor-pointer list-none items-center justify-between py-3 [&::-webkit-details-marker]:hidden">
+                            {n.label}<ChevronDown className="size-5 transition-transform group-open/s:rotate-180" aria-hidden="true" />
+                          </summary>
+                          <ul className="mb-2 ml-3 border-l border-[var(--c-border)] pl-3">
+                            <li><a href={n.href} className="ds-small block py-1.5 font-medium text-[var(--c-text)]">Все {n.label.toLowerCase()}</a></li>
+                            {submenus[n.href].map((x) => (
+                              <li key={x.href}>
+                                <a href={x.href} className="ds-small flex items-baseline justify-between gap-4 py-1.5">
+                                  {x.label}
+                                  {x.code && <span className="shrink-0 text-[12px]"><span className="text-[var(--c-brand)]">[</span>{x.code}<span className="text-[var(--c-brand)]">]</span></span>}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </details>
+                      ) : (
+                        <a href={n.href} className="ds-h4 block py-3">{n.label}</a>
                       )}
                     </li>
                   ))}
