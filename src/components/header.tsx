@@ -50,7 +50,7 @@ export function Header() {
         </span>
         </div>
       </div>
-      <header className="ds site-head">
+      <header className="ds site-head backdrop-blur-xl backdrop-saturate-150">
         {/* Три колонки: логотип слева, меню строго по центру шапки, действия справа (правки Ника 17.11) */}
         <div className="ds-wrap grid h-16 grid-cols-[1fr_auto] items-center gap-4 lg:grid-cols-[1fr_auto_1fr]">
           <Link href="/" className="flex shrink-0 items-center justify-self-start"><Logo /></Link>

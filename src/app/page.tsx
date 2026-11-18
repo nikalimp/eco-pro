@@ -69,7 +69,7 @@ export default function Home() {
       </section>
 
       {/* 4. Задачи → решения: закреплённая секция, задачи появляются вокруг круга и зеленеют */}
-      <section className="v3-orbit-track">
+      <section className="v3-orbit-track bg-[var(--c-layer)]">
         <Wrap className="v3-orbit-pin py-16 lg:py-0">
           <div className="v3-orbit">
             <div className="v3-orbit-core mb-10 lg:mb-0">
@@ -105,13 +105,13 @@ export default function Home() {
       </section>
 
       {/* 6. Экосистема (правки Ника 18.11): одна большая карточка Центра Правды во всю ширину, внутри — 4 направления */}
-      <Section tone="layer" id="napravleniya">
+      <Section id="napravleniya">
         <Wrap>
-          <div className="ds-tile p-6 sm:p-10 lg:p-14">
+          <div className="ds-tile !bg-[var(--c-layer)] p-6 sm:p-10 lg:p-14">
             <SectionHeader eyebrow={home.ecosystem.eyebrow} title={home.ecosystem.title} text={home.ecosystem.text} />
             <div className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {directions.slice(1, 5).map((d) => (
-                <Tile key={d.slug} asChild className="group flex flex-col !bg-[var(--c-layer)] hover:!border-[var(--c-brand)]">
+                <Tile key={d.slug} asChild className="group flex flex-col !border-[var(--c-brand)] bg-white">
                   <Link href={`/services/${d.slug}/`}>
                     <div className="flex flex-1 flex-col p-5 sm:p-6">
                       {/* Стрелка ↗ на квадратной плашке размером с метку (правки Ника 18.11) */}
@@ -129,13 +129,13 @@ export default function Home() {
       </Section>
 
       {/* 9. Дашборд как в личном кабинете (слайд 25) */}
-      <Section>
+      <Section tone="layer">
         <Wrap>
           <SectionHeader eyebrow={home.audience.client.title} title={<>Онлайн-дашборды: <Accent>индекс управляемости</Accent> вашей сети</>} text={home.architecture.dashboards} />
           <HeroDashboard className="mt-12 hidden md:block" />
           <HeroDashboard variant="compact" className="mt-10 md:hidden" />
           {/* ТОП-6 преимуществ (бывшее «Как работает PRO»): под дашбордом, 3 колонки по центру, иконки (правки Ника 18.11). Секция «Вы — ключевой элемент экосистемы» убрана */}
-          <div className="mt-24"><SectionHeader title={home.about.principlesTitle} /></div>
+          <div className="mt-24"><SectionHeader title={<>{home.about.principlesTitle.replace(/\s*ECO-PRO$/, "")} <span className="whitespace-nowrap"><span className="text-[var(--c-brand)]">[</span>ECO-PRO<span className="text-[var(--c-brand)]">]</span></span></>} /></div>
           <ul className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {home.about.principles.map((pr, i) => {
               const Icon = principleIcons[i];
@@ -152,14 +152,14 @@ export default function Home() {
       </Section>
 
       {/* 10. Кейсы для CEO — слайды-карточки (правки Ника 17.11; слайды 11–13, 19–21) */}
-      <Section tone="layer" id="keisy">
+      <Section id="keisy">
         <Wrap><SectionHeader eyebrow={home.ceoCases.eyebrow} title={home.ceoCases.title} /></Wrap>
         <div className="mt-12"><CaseSlider items={ceoCases} /></div>
         <Wrap><div className="mt-10 flex justify-center"><Button asChild variant="secondary"><Link href="/cases/">Все кейсы</Link></Button></div></Wrap>
       </Section>
 
       {/* 11б. Тест «Индекс управляемости CEO» — лид-магнит (идея 1) */}
-      <Section id="indeks">
+      <Section tone="layer" id="indeks">
         <Wrap>
           <SectionHeader eyebrow={home.indexTest.eyebrow} title={home.indexTest.title} text={home.indexTest.text} />
           <div className="mt-12"><IndexTest /></div>
@@ -167,7 +167,7 @@ export default function Home() {
       </Section>
 
       {/* 13. План внедрения (слайд 29): 4 этапа в 4 колонки, без чертежей; этап «Пилот за 60 дней» не дублируем — о нём заголовок (правки Ника 17.11) */}
-      <Section tone="layer">
+      <Section>
         <Wrap>
           <SectionHeader eyebrow={home.pilot.eyebrow} title={<>Пилот ситуационного центра за 60 дней <Accent>покажет, кто влияет на процессы</Accent> в вашей компании</>} />
           <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -267,10 +267,24 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      {/* 16. Слово основателя — как на pro-nas.pro: цитата по центру, под ней аватар, имя, регалии и канал (правки Ника 17.11) */}
       <Section>
         <Wrap>
-          <figure className="mx-auto max-w-3xl text-center">
+          <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} text={home.team.text} />
+          <ul className={`mt-12 grid grid-cols-2 gap-4 ${home.team.people.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
+            {home.team.people.map((pp) => (
+              <li key={pp.name} className="ds-tile">
+                <div className="v3-duo v3-duo-soft relative aspect-[4/5]">
+                  <Image src={pp.photo} alt={`${pp.name}, ${pp.role.toLowerCase()}`} fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover object-top" />
+                </div>
+                <div className="p-5 sm:p-6">
+                  <p className="ds-h5">{pp.name}</p>
+                  <p className="ds-small mt-1">{pp.role}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          {/* Слово основателя — под карточками команды, без отдельной секции (правки Ника 18.11) */}
+          <figure className="mx-auto mt-20 max-w-3xl text-center">
             <blockquote className="ds-h4 space-y-6 !leading-relaxed">
               {/* Два абзаца, как на pro-nas.pro: второй начинается с «От муравейника» */}
               {home.ceo.quote.split(/\s(?=От\s)/).map((t, i, a) => <p key={i}>{i === 0 ? "«" : ""}{t}{i === a.length - 1 ? "»" : ""}</p>)}
@@ -289,27 +303,8 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      <Section tone="layer">
-        <Wrap>
-          <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} text={home.team.text} />
-          <ul className={`mt-12 grid grid-cols-2 gap-4 ${home.team.people.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
-            {home.team.people.map((pp) => (
-              <li key={pp.name} className="ds-tile">
-                <div className="v3-duo v3-duo-soft relative aspect-[4/5]">
-                  <Image src={pp.photo} alt={`${pp.name}, ${pp.role.toLowerCase()}`} fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover object-top" />
-                </div>
-                <div className="p-5 sm:p-6">
-                  <p className="ds-h5">{pp.name}</p>
-                  <p className="ds-small mt-1">{pp.role}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Wrap>
-      </Section>
-
       {/* 17. Рекомендательные письма */}
-      <Section>
+      <Section tone="layer">
         <Wrap>
           <SectionHeader eyebrow="рекомендации" title={<>Нас рекомендуют <Accent>клиенты</Accent></>} text="Письма крупных сетей и отраслевых ассоциаций. Лицензии, СРО и партнёрские сертификаты — на странице документов." />
           <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
@@ -331,7 +326,7 @@ export default function Home() {
 
       {/* 18. Блог, FAQ, финальный призыв */}
       {posts.length > 0 && (
-        <Section tone="layer">
+        <Section>
           <Wrap>
             <SectionHeader eyebrow="блог" title={<><Accent>Делимся экспертизой</Accent> в управляемости и контроле</>} />
             {/* 3 колонки с обложками (правки Ника 18.11) */}
@@ -347,7 +342,7 @@ export default function Home() {
         </Section>
       )}
 
-      <Section id="faq">
+      <Section tone="layer" id="faq">
         <Wrap>
           <SectionHeader eyebrow="вопросы и ответы" title="Часто задаваемые вопросы" />
           <div className="mx-auto mt-12 max-w-4xl"><FaqList items={homeFaq} /></div>

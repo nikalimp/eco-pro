@@ -39,34 +39,18 @@ export function CaseSlider({ items }: { items: Case[] }) {
       <div ref={track} className="cs-track" tabIndex={0}>
         {items.map((c, n) => (
           <article key={c.id} className="cs-slide ds-tile" aria-roledescription="слайд" aria-label={`${n + 1} из ${items.length}: ${c.title}`}>
-            <div className="flex h-full flex-col gap-10 p-6 sm:p-10">
-              <div className="flex flex-col">
-                <p className="ds-label">{c.tag}</p>
-                <h3 className="ds-h3 mt-4">{c.title}</h3>
-                <p className="ds-small mt-2">{c.scale}</p>
-                <dl className="mt-auto grid grid-cols-1 gap-6 pt-10 sm:grid-cols-2">
-                  {c.metrics.slice(0, 4).map((m, k) => (
-                    <div key={m.label} className="flex flex-col-reverse justify-end">
-                      <dt className="ds-small mt-1">{m.label}</dt>
-                      <dd className={`text-3xl font-normal tracking-tight sm:text-4xl ${k === 0 ? "ds-accent" : ""}`}>{m.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-              <div className="flex flex-col">
-                <table className="w-full text-left">
-                  <thead><tr className="ds-label border-b border-[var(--c-border)]"><th scope="col" className="pb-2 font-normal">Критерии оценки для CEO</th><th scope="col" className="pb-2 text-right font-normal">Что изменилось</th></tr></thead>
-                  <tbody>
-                    {c.ceo?.map((m) => (
-                      <tr key={m.k} className="border-b border-[var(--c-border)] align-top">
-                        <th scope="row" className="ds-h5 w-[40%] py-3 pr-4 font-medium">{m.k}</th>
-                        <td className="ds-body py-3 text-right text-[var(--c-text)]">{m.v}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <Link href={`/cases/${c.id}/`} className="mt-8 inline-flex w-fit items-center gap-2 text-[15px] font-medium hover:text-[var(--c-brand)]">Читать кейс<ArrowRight className="size-4" aria-hidden="true" /></Link>
-              </div>
+            {/* Компактная карточка: одна главная цифра, без таблицы — подробности на странице кейса (правки Ника 18.11) */}
+            <div className="flex h-full flex-col p-6 sm:p-8">
+              <p className="ds-label">{c.tag}</p>
+              <h3 className="ds-h4 mt-3">{c.title}</h3>
+              <p className="ds-small mt-2">{c.scale}</p>
+              {c.metrics[0] && (
+                <p className="mt-auto flex flex-col pt-8">
+                  <span className="ds-accent text-4xl font-normal tracking-tight sm:text-5xl">{c.metrics[0].value}</span>
+                  <span className="ds-small mt-1">{c.metrics[0].label}</span>
+                </p>
+              )}
+              <Link href={`/cases/${c.id}/`} className="mt-6 inline-flex w-fit items-center gap-2 text-[15px] font-medium hover:text-[var(--c-brand)]">Читать кейс<ArrowRight className="size-4" aria-hidden="true" /></Link>
             </div>
           </article>
         ))}
