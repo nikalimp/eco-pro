@@ -58,7 +58,7 @@
   .lk-svg-trend { font-size: 15px; fill: var(--c-text-2); font-family: var(--f-sans); }
 
   /* Варианты ответа теста индекса (index-test.tsx) */
-  .idx-opt span { display: inline-flex; padding: 8px 16px; border: 1px solid var(--c-border-strong); border-radius: 999px; font-size: 14px; cursor: pointer;
+  .idx-opt span { display: inline-flex; padding: 8px 16px; border: 1px solid var(--c-border-strong); border-radius: 0; font-size: 14px; cursor: pointer;
     transition: background var(--dur-fast) var(--ease-productive), color var(--dur-fast) var(--ease-productive), border-color var(--dur-fast) var(--ease-productive); }
   .idx-opt:hover span { border-color: var(--c-brand); color: var(--c-brand); }
   .idx-opt input:checked + span { background: var(--c-brand); border-color: var(--c-brand); color: #fff; }
