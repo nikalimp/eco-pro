@@ -21,6 +21,7 @@ import { Accent, Button, DsRoot, Heading, IconBox, List, Section, SectionHeader,
 import { QuizModal, quizHref } from "@/components/quiz-modal";
 import { CaseSlider } from "@/components/home/case-slider";
 import { CornerArrow } from "@/components/corner-arrow";
+import { PilotSteps } from "@/components/home/pilot-steps";
 import { GeoTip } from "@/components/home/geo-tip";
 import { faqSchema, graph } from "@/lib/schema";
 import "@/components/home/home.css";
@@ -143,7 +144,7 @@ export default function Home() {
               const Icon = principleIcons[i];
               return (
                 <li key={pr.title} className="flex flex-col items-center text-center">
-                  <IconBox tone="red" className="rounded-full"><Icon /></IconBox>
+                  <Icon className="size-9 text-[var(--c-text)]" strokeWidth={1.5} aria-hidden="true" />
                   <p className="ds-h5 mt-4">{pr.title}</p>
                   <p className="ds-small mt-1 max-w-[34ch]">{pr.text}</p>
                 </li>
@@ -169,32 +170,24 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      {/* 13. План внедрения (слайд 29): 4 этапа в 4 колонки, без чертежей; этап «Пилот за 60 дней» не дублируем — о нём заголовок (правки Ника 17.11) */}
-      <Section tone="layer">
+      {/* 13. Пилот за 60 дней — целиком лид-магнит (правки Ника 18.11): белый фон, заголовок внутри красной карточки,
+          4 этапа в ряд со стрелками и подсказкой «i» с подробным описанием, ниже — форма. Этап «Пилот за 60 дней» не дублируем — о нём заголовок */}
+      <Section>
         <Wrap>
-          <SectionHeader eyebrow={home.pilot.eyebrow} title={<>Пилот ситуационного центра за 60 дней <Accent>покажет, кто влияет на процессы</Accent> в вашей компании</>} />
-          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {home.path.steps.filter((_, i) => i !== 1).map((st, i) => (
-              <li key={st.title} className="ds-tile flex flex-col p-6 sm:p-7">
-                <Heading size="h4" as="h3"><span className="text-[var(--c-brand)]">{i + 1}.</span> {st.title}</Heading>
-                <Text size="small" className="mt-3">{st.text}</Text>
-              </li>
-            ))}
-          </ol>
-          {/* Заявка на пилот — не отдельной секцией, а под этапами (правки Ника, раунд 4) */}
-          <div id="pilot" className="mt-4 scroll-mt-20 bg-[var(--c-brand)] p-6 text-white sm:p-10 lg:p-14">
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="ds-eyebrow !text-white/80">заявка на пилот</p>
-              <Heading size="h2" as="h2" className="mt-4 !text-white">{home.pilot.title}</Heading>
-              <p className="ds-body mx-auto mt-4 max-w-2xl !text-white/85">{home.pilot.text}</p>
+          <div id="pilot" className="scroll-mt-20 bg-[var(--c-brand)] p-6 text-white sm:p-10 lg:p-14">
+            <div className="mx-auto max-w-4xl text-center">
+              <p className="ds-eyebrow !text-white/80">{home.pilot.eyebrow}</p>
+              <Heading size="h2" as="h2" className="mt-4 !text-white">Пилот ситуационного центра за 60 дней покажет, кто влияет на процессы в вашей компании</Heading>
+              <p className="ds-body mx-auto mt-4 max-w-2xl !text-white/85">{home.pilot.title}. {home.pilot.text}</p>
             </div>
+            <PilotSteps steps={home.path.steps.filter((_, i) => i !== 1)} />
             <div className="mt-10"><LeadForm dark layout="row" source="Пилот за 60 дней (главная)" submitLabel={home.pilot.submit} buttonClassName="!bg-white !text-[var(--c-brand)] hover:!bg-white/90" /></div>
           </div>
         </Wrap>
       </Section>
 
       {/* 12. География (слайд 28) */}
-      <Section className="v3-geo" id="geografiya">
+      <Section tone="layer" className="v3-geo" id="geografiya">
         <Wrap>
           {/* Одна колонка по центру, цифры без подложки; сюда перенесены цифры экспертной экосистемы — 5 цифр в порядке Ника (правки 17.11) */}
           <SectionHeader eyebrow={home.geo.eyebrow} title={home.geo.title} text={home.geo.text} />
@@ -224,7 +217,7 @@ export default function Home() {
       </Section>
 
       {/* 14. Кому подходит + вход для действующих клиентов */}
-      <Section tone="layer">
+      <Section>
         <Wrap>
           <SectionHeader eyebrow={home.audience.eyebrow} title={home.audience.title} text={home.audience.text} />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -246,7 +239,7 @@ export default function Home() {
       </Section>
 
       {/* 15. Отрасли */}
-      <Section id="otrasli">
+      <Section tone="layer" id="otrasli">
         <Wrap>
           <SectionHeader eyebrow={home.industries.eyebrow} title={home.industries.title} text={home.industries.text} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
@@ -269,7 +262,7 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      <Section tone="layer">
+      <Section>
         <Wrap>
           <SectionHeader eyebrow={home.team.eyebrow} title={<>Люди <Accent>экосистемы</Accent></>} text={home.team.text} />
           <ul className={`mt-12 grid grid-cols-2 gap-4 ${home.team.people.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
@@ -306,7 +299,7 @@ export default function Home() {
       </Section>
 
       {/* 17. Рекомендательные письма */}
-      <Section>
+      <Section tone="layer">
         <Wrap>
           <SectionHeader eyebrow="рекомендации" title={<>Нас рекомендуют <Accent>клиенты</Accent></>} text="Письма крупных сетей и отраслевых ассоциаций. Лицензии, СРО и партнёрские сертификаты — на странице документов." />
           <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
@@ -328,7 +321,7 @@ export default function Home() {
 
       {/* 18. Блог, FAQ, финальный призыв */}
       {posts.length > 0 && (
-        <Section tone="layer">
+        <Section>
           <Wrap>
             <SectionHeader eyebrow="блог" title={<><Accent>Делимся экспертизой</Accent> в управляемости и контроле</>} />
             {/* 3 колонки с обложками (правки Ника 18.11) */}
@@ -344,7 +337,7 @@ export default function Home() {
         </Section>
       )}
 
-      <Section id="faq">
+      <Section tone="layer" id="faq">
         <Wrap>
           <SectionHeader eyebrow="вопросы и ответы" title="Часто задаваемые вопросы" />
           <div className="mx-auto mt-12 max-w-4xl"><FaqList items={homeFaq} /></div>

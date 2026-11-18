@@ -84,7 +84,6 @@ export function LeadForm({ source = "Записаться на встречу",
           Не получилось отправить. Позвоните <a href={`tel:${site.contacts.phone}`} className="underline">{site.contacts.phoneDisplay}</a> или напишите на <a href={`mailto:${site.contacts.email}`} className="underline">{site.contacts.email}</a>.
         </p>
       )}
-      <p className={cn("text-xs", dark ? "text-white/70" : "text-muted-foreground")}>*обязательные поля</p>
     </form>
   );
 }
