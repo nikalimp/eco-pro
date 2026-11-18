@@ -9,10 +9,12 @@ import { Button } from "./ui/button";
 
 // Квиз «Брифинг для подготовки к интеграции». В HTML — все шаги одной формой (работает без JS),
 // с JavaScript — по одному шагу с прогрессом. Ответы уходят в тот же обработчик, что и заявка.
+// Нулевой шаг — обложка по центру: надзаголовок, заголовок, текст и кнопка «Начать» (правки Ника 18.11).
 export function Quiz() {
   const q = home.quiz;
   const total = q.steps.length + 1;
   const [step, setStep] = useState(0);
+  const [started, setStarted] = useState(false);
   const [js, setJs] = useState(false);
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const formRef = useRef<HTMLFormElement>(null);
@@ -52,13 +54,20 @@ export function Quiz() {
       }}
     >
       <input type="hidden" name="source" value="Квиз «Брифинг для подготовки к интеграции»" />
-      {js && (
+      {/* Шаг 0 — обложка. Без JavaScript она стоит над вопросами; после «Начать» остаётся только заголовок для читалок */}
+      <div className={cn("flex flex-col items-center px-2 py-10 text-center sm:py-16", js && started && "sr-only", !js && "pb-8 sm:pb-10")}>
+        <p className="ds-eyebrow">{q.eyebrow}</p>
+        <p id="brifing-title" className="ds-h2 mt-4 max-w-3xl">{q.title}</p>
+        <p className="ds-body mt-4 max-w-2xl">{q.text}</p>
+        {js && !started && <Button type="button" size="lg" className="mt-9 rounded-none" onClick={() => setStarted(true)}>Начать брифинг</Button>}
+      </div>
+      {js && started && (
         <div className="mb-6 flex items-center justify-between text-sm text-muted-foreground">
           <span>Шаг: {step + 1}/{total}</span>
           <div className="ml-4 h-1 flex-1 rounded-full bg-border"><div className="h-full rounded-full bg-brand transition-all" style={{ width: `${((step + 1) / total) * 100}%` }} /></div>
         </div>
       )}
-      <div className="ds-tile grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_260px]">
+      <div className={cn("ds-tile grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_260px]", js && !started && "hidden")}>
         <div className="space-y-10">
           {q.steps.map((s, i) => (
             <fieldset key={s.name} className="quiz-step" data-active={!js || i === step ? "" : undefined}>
