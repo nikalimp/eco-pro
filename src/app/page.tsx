@@ -21,7 +21,6 @@ import { Accent, Button, DsRoot, Heading, IconBox, List, Section, SectionHeader,
 import { QuizModal, quizHref } from "@/components/quiz-modal";
 import { CaseSlider } from "@/components/home/case-slider";
 import { CornerArrow } from "@/components/corner-arrow";
-import { PilotSteps } from "@/components/home/pilot-steps";
 import { GeoTip } from "@/components/home/geo-tip";
 import { faqSchema, graph } from "@/lib/schema";
 import "@/components/home/home.css";
@@ -170,9 +169,9 @@ export default function Home() {
         </Wrap>
       </Section>
 
-      {/* 13. Пилот за 60 дней — целиком лид-магнит (правки Ника 18.11): белый фон, заголовок внутри красной карточки,
-          4 этапа в ряд со стрелками и подсказкой «i» с подробным описанием, ниже — форма. Этап «Пилот за 60 дней» не дублируем — о нём заголовок */}
-      <Section>
+      {/* 13. Пилот за 60 дней — целиком лид-магнит (правки Ника 18.11): заголовок и форма в красной карточке, без этапов.
+          Верхний отступ убран: секция над ней тоже белая, два отступа подряд давали большой разрыв */}
+      <Section className="!pt-0">
         <Wrap>
           <div id="pilot" className="scroll-mt-20 bg-[var(--c-brand)] p-6 text-white sm:p-10 lg:p-14">
             <div className="mx-auto max-w-4xl text-center">
@@ -180,7 +179,6 @@ export default function Home() {
               <Heading size="h2" as="h2" className="mt-4 !text-white">Пилот ситуационного центра за 60 дней покажет, кто влияет на процессы в вашей компании</Heading>
               <p className="ds-body mx-auto mt-4 max-w-2xl !text-white/85">{home.pilot.title}. {home.pilot.text}</p>
             </div>
-            <PilotSteps steps={home.path.steps.filter((_, i) => i !== 1)} />
             <div className="mt-10"><LeadForm dark layout="row" source="Пилот за 60 дней (главная)" submitLabel={home.pilot.submit} buttonClassName="!bg-white !text-[var(--c-brand)] hover:!bg-white/90" /></div>
           </div>
         </Wrap>
