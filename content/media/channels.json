@@ -43,6 +43,10 @@
   "signs-of-quiet-sabotage": {
    "tg": "off",
    "max": "off"
+  },
+  "fake-returns-at-checkout": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
