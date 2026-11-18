@@ -2,7 +2,6 @@ import Link from "next/link";
 import { nav, site } from "@/content/site";
 import { directions } from "@/content/directions";
 import { industries } from "@/content/industries";
-import { Logo } from "./logo";
 
 // Общий подвал (итерация v3, 16.11): светло-серый вместо чёрного — «лёгкость и прозрачность» (раздел 4 документа итерации).
 // Ширина — по контейнеру страницы (.ds-wrap), как шапка (правки Ника 17.11).
@@ -11,15 +10,8 @@ export function Footer() {
   const link = "hover:text-[var(--c-brand)]";
   return (
     <footer className="ds border-t border-[var(--c-border)] !bg-[var(--c-layer)] pb-10 pt-16 text-[15px] text-[var(--c-text-2)]">
-      <div className="ds-wrap grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1.3fr_1fr_1fr_1.2fr]">
-        <div>
-          <Link href="/"><Logo /></Link>
-          <p className="mt-4 max-w-xs">{site.tagline}</p>
-          <div className="mt-5 flex gap-3">
-            <a href={c.telegram} target="_blank" rel="noopener" aria-label="Telegram-канал ECO-PRO" className="rounded-full border border-[var(--c-border-strong)] px-4 py-2 text-[var(--c-text)] hover:border-[var(--c-brand)] hover:text-[var(--c-brand)]">Telegram</a>
-            <a href={c.max} target="_blank" rel="noopener" aria-label="Канал ECO-PRO в MAX" className="rounded-full border border-[var(--c-border-strong)] px-4 py-2 text-[var(--c-text)] hover:border-[var(--c-brand)] hover:text-[var(--c-brand)]">MAX</a>
-          </div>
-        </div>
+      {/* 4 колонки без логотипа и подписи; соцсети — в «Контактах» (правки Ника 18.11) */}
+      <div className="ds-wrap grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
           <p className="mb-3 font-medium text-[var(--c-text)]"><Link href="/services/" className={link}>Направления</Link></p>
           <ul className="space-y-2">
@@ -54,6 +46,10 @@ export function Footer() {
             <li><a href={`mailto:${c.email}`} className={`text-[var(--c-text)] ${link}`}>{c.email}</a></li>
             <li>{c.address.city}, {c.address.street}</li>
           </ul>
+          <div className="mt-5 flex gap-3">
+            <a href={c.telegram} target="_blank" rel="noopener" aria-label="Telegram-канал ECO-PRO" className="rounded-full border border-[var(--c-border-strong)] px-4 py-2 text-[var(--c-text)] hover:border-[var(--c-brand)] hover:text-[var(--c-brand)]">Telegram</a>
+            <a href={c.max} target="_blank" rel="noopener" aria-label="Канал ECO-PRO в MAX" className="rounded-full border border-[var(--c-border-strong)] px-4 py-2 text-[var(--c-text)] hover:border-[var(--c-brand)] hover:text-[var(--c-brand)]">MAX</a>
+          </div>
         </address>
       </div>
       <div className="mt-12 flex flex-col gap-2 ds-wrap border-t border-[var(--c-border)] pt-6 text-[13px] text-[var(--c-text-3)] lg:flex-row lg:flex-wrap lg:items-center lg:justify-between">

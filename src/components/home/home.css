@@ -164,9 +164,15 @@
 @media (min-width: 1024px) { .cs-slide { flex-basis: calc((100% - 2rem) / 3); } }
 .cs-btn { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 999px; border: 1px solid var(--c-border-strong); background: #fff;
   transition: border-color var(--dur-fast), color var(--dur-fast); }
-.cs-btn:hover { border-color: var(--c-brand); color: var(--c-brand); }
-.cs-dots i { flex: 1; height: 2px; background: var(--c-border); transition: background var(--dur-fast); }
-.cs-dots i.is-on { background: var(--c-brand); }
+.cs-btn:hover:not(:disabled) { border-color: var(--c-brand); color: var(--c-brand); }
+.cs-btn:disabled { opacity: .4; cursor: default; }
+/* Ползунок прокрутки, как на nikalimp.ru (правки Ника 18.11): тонкая полоса и красный бегунок */
+.cs-range { -webkit-appearance: none; appearance: none; height: 1.5rem; background: transparent; cursor: pointer; accent-color: var(--c-brand); }
+.cs-range::-webkit-slider-runnable-track { height: 2px; background: var(--c-border-strong); }
+.cs-range::-moz-range-track { height: 2px; background: var(--c-border-strong); }
+.cs-range::-webkit-slider-thumb { -webkit-appearance: none; width: 1rem; height: 1rem; margin-top: -7px; border-radius: 999px; background: var(--c-brand); border: 0; }
+.cs-range::-moz-range-thumb { width: 1rem; height: 1rem; border-radius: 999px; background: var(--c-brand); border: 0; }
+.cs-range:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 4px; }
 
 /* Пилот за 60 дней: пять этапов во всю ширину экрана, у каждого чертёж */
 .v3-steps { display: grid; gap: 1rem; padding-inline: clamp(1rem, 2vw, 2rem); }

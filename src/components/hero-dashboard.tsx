@@ -77,7 +77,8 @@ const Card = ({ title, className, children }: { title?: string; className?: stri
   </div>
 );
 
-export function HeroDashboard({ variant = "full", className }: { variant?: "full" | "compact"; className?: string }) {
+// brief — без «Топ-5 нарушений» и «Списка магазинов» (главная, правки Ника 18.11)
+export function HeroDashboard({ variant = "full", brief, className }: { variant?: "full" | "compact"; brief?: boolean; className?: string }) {
   const h = d.heatmap;
   const maxHeat = Math.max(...h.rows.flatMap((r) => r.values));
   return (
@@ -126,6 +127,7 @@ export function HeroDashboard({ variant = "full", className }: { variant?: "full
             </Card>
             <Card title={d.trend.title} className="lk-trend"><Trend /></Card>
 
+            {!brief && (<>
             <Card title={d.top.title} className="lk-top">
               <table className="lk-table lk-table-left">
                 <thead><tr><th scope="col">Нарушение</th><th scope="col">Кол-во случаев</th><th scope="col">Динамика</th></tr></thead>
@@ -157,6 +159,7 @@ export function HeroDashboard({ variant = "full", className }: { variant?: "full
                 </table>
               </div>
             </Card>
+            </>)}
           </>
         )}
       </div>
