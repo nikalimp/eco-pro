@@ -34,11 +34,12 @@ export function Code({ children, className }: { children: React.ReactNode; class
 
 // Первый экран внутренней страницы: крошки, надзаголовок, H1, прямой ответ (поле answer), действия.
 // aside — схема справа (страницы направлений, правки Ника 17.11)
-export function PageHero({ crumbs, eyebrow, title, lead, answer, children, aside, className }: {
-  crumbs?: React.ReactNode; eyebrow?: React.ReactNode; title: React.ReactNode; lead?: React.ReactNode; answer?: React.ReactNode; children?: React.ReactNode; aside?: React.ReactNode; className?: string;
+export function PageHero({ crumbs, eyebrow, title, lead, answer, children, aside, className, center }: {
+  crumbs?: React.ReactNode; eyebrow?: React.ReactNode; title: React.ReactNode; lead?: React.ReactNode; answer?: React.ReactNode; children?: React.ReactNode; aside?: React.ReactNode; className?: string; center?: boolean;
 }) {
+  // center — шапка по центру (страница кейса, правки Ника 18.11)
   const body = (
-    <div>
+    <div className={center ? "mx-auto flex max-w-5xl flex-col items-center text-center" : undefined}>
       {crumbs}
       {eyebrow && <p className={cn("ds-eyebrow", crumbs ? "mt-8" : "mt-2")}>{eyebrow}</p>}
       <h1 className="ds-h1 mt-5 max-w-5xl">{title}</h1>

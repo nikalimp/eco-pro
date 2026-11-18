@@ -54,6 +54,9 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
   const crumbs = [{ name: "Главная", path: "/" }, { name: "Кейсы", path: "/cases/" }, { name: c.title, path }];
   const ind = c.industry ? industryBySlug(c.industry) : undefined;
   const dirs = c.directions.map(directionBySlug).filter((x) => x !== undefined);
+  // Фоны секций чередуются: белый — серый — белый, без двух одинаковых подряд (правки Ника 18.11)
+  let k = 0;
+  const tone = () => (k++ % 2 === 0 ? "bg-card" : "");
   const more = cases.filter((x) => x.id !== c.id && (x.industry === c.industry || x.group === c.group)).slice(0, 3);
 
   return (
@@ -61,10 +64,10 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       <JsonLd data={graph(caseSchema(c), breadcrumbs(crumbs))} />
 
       {/* Шапка кейса; сразу под ней — формат «Критерии оценки для CEO → Что изменилось» (презентация, слайды 13 и 21) */}
-      <PageHero crumbs={<Crumbs items={[crumbs[0], crumbs[1], { name: c.title }]} />} eyebrow={c.tag} title={c.title} answer={c.scale}>
-        <dl className={`mt-10 grid gap-px border border-[var(--c-border)] bg-[var(--c-border)] ${c.metrics.length > 3 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3"}`}>
+      <PageHero center crumbs={<Crumbs items={[crumbs[0], crumbs[1], { name: c.title }]} />} eyebrow={c.tag} title={c.title} answer={c.scale}>
+        <dl className={`mt-10 grid w-full gap-px border border-[var(--c-border)] bg-[var(--c-border)] ${c.metrics.length > 3 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3"}`}>
           {c.metrics.map((m) => (
-            <div key={m.label} className="flex flex-col-reverse justify-end bg-white p-5">
+            <div key={m.label} className="flex flex-col-reverse justify-end bg-white p-5 text-center">
               <dt className="ds-small mt-1">{m.label}</dt>
               <dd className="text-3xl font-normal tracking-tight"><span className="text-[var(--c-brand)]">[</span>{m.value}<span className="text-[var(--c-brand)]">]</span></dd>
             </div>
@@ -74,7 +77,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
 
       {/* Критерии для CEO и СБ */}
       {(c.ceo || c.sb) && (
-        <Section>
+        <Section className={tone()}>
           <Container>
             <SectionHead eyebrow="критерии оценки для CEO" title="Что изменилось для CEO и службы безопасности" />
             <div data-reveal className="grid gap-4 lg:grid-cols-2">
@@ -86,7 +89,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* Ситуация */}
-      <Section className="bg-card">
+      <Section className={tone()}>
         <Container className="max-w-3xl">
           <SectionHead eyebrow="ситуация" title="Что происходило" />
           <div data-reveal className="ds-lead space-y-4 !text-[var(--c-text)]">
@@ -96,7 +99,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       </Section>
 
       {/* Ошибки → изменения */}
-      <Section>
+      <Section className={tone()}>
         <Container>
           <SectionHead eyebrow="разбор" title="Что было не так и что изменили" />
           <div data-reveal className="grid gap-4 lg:grid-cols-2">
@@ -117,27 +120,27 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       </Section>
 
       {/* Результат и экономика */}
-      <Section className="bg-card">
+      <Section className={tone()}>
         <Container>
           <SectionHead eyebrow="результат" title="Что получил бизнес" />
-          <ul data-reveal className="max-w-3xl space-y-4">
+          <ul data-reveal className="mx-auto max-w-3xl space-y-4">
             {c.results.map((t) => <li key={t} className="ds-lead flex gap-3 !text-[var(--c-text)]"><Check className="mt-1.5 size-5 shrink-0 text-[var(--c-brand)]" aria-hidden="true" />{t}</li>)}
           </ul>
           {c.economics && (
-            <div data-reveal className="ds-tile mt-10 max-w-3xl p-6 sm:p-8">
+            <div data-reveal className="ds-tile mx-auto mt-10 max-w-3xl p-6 text-center sm:p-8">
               <h3 className="ds-eyebrow">Экономика</h3>
               <p className="ds-body mt-3">{c.economics}</p>
             </div>
           )}
-          {c.comment && <blockquote data-reveal className="ds-h4 mt-10 max-w-3xl border-l-2 border-[var(--c-brand)] pl-5">{c.comment}</blockquote>}
+          {c.comment && <blockquote data-reveal className="ds-h4 mx-auto mt-10 max-w-3xl border-t-2 border-[var(--c-brand)] pt-6 text-center">{c.comment}</blockquote>}
         </Container>
       </Section>
 
       {/* Что использовали — ссылки на отрасль и направления (списком, без смешивания карточек) */}
-      <Section>
-        <Container>
+      <Section className={tone()}>
+        <Container className="text-center">
           <SectionHead eyebrow="решение" title="Какие направления работали" />
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap justify-center gap-2">
             {dirs.map((d) => (
               <Link key={d.slug} href={`/services/${d.slug}/`} className="rounded-full border border-[var(--c-border-strong)] px-4 py-2 text-sm font-medium hover:border-[var(--c-brand)]">
                 <span className="text-[var(--c-brand)]">{d.code}</span> · {d.title}
@@ -153,11 +156,11 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       </Section>
 
       {more.length > 0 && (
-        <Section className="bg-card">
+        <Section className={tone()}>
           <Container>
             <SectionHead eyebrow="ещё кейсы" title="Похожие проекты" />
             <CaseGrid items={more} />
-            <div className="mt-8"><Button asChild variant="secondary"><Link href="/cases/">Все кейсы</Link></Button></div>
+            <div className="mt-8 flex justify-center"><Button asChild variant="secondary"><Link href="/cases/">Все кейсы</Link></Button></div>
           </Container>
         </Section>
       )}
