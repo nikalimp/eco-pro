@@ -25,8 +25,10 @@ function NavItem({ href, label }: { href: string; label: string }) {
         <ul className="border border-[var(--c-border)] bg-white p-2 shadow-[0_24px_48px_-24px_rgb(0_0_0/.25)]">
           {sub.map((x) => (
             <li key={x.href}>
-              <Link href={x.href} className="flex items-baseline gap-5 whitespace-nowrap px-4 py-2.5 text-[15px] hover:bg-[var(--c-layer)] hover:text-[var(--c-brand)]">
-                {x.code && <span className="w-28 shrink-0 text-[13px] font-medium text-[var(--c-brand)]">{x.code}</span>}{x.label}
+              {/* Слева полное название, справа код в квадратных скобках, как в логотипе (правки Ника 18.11) */}
+              <Link href={x.href} className="flex items-baseline justify-between gap-10 whitespace-nowrap px-4 py-2.5 text-[15px] hover:bg-[var(--c-layer)] hover:text-[var(--c-brand)]">
+                {x.label}
+                {x.code && <span className="shrink-0 text-[13px] font-medium text-[var(--c-text-2)]"><span className="text-[var(--c-brand)]">[</span>{x.code}<span className="text-[var(--c-brand)]">]</span></span>}
               </Link>
             </li>
           ))}

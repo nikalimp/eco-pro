@@ -38,7 +38,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
     <>
       <JsonLd data={graph(industrySchema(i), faqSchema(i.faq))} />
 
-      <PageHero eyebrow={i.label} title={i.h1} answer={i.answer}>
+      <PageHero center eyebrow={i.label} title={i.h1} answer={i.answer}>
         <Button asChild size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
       </PageHero>
 

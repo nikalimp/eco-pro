@@ -7,6 +7,7 @@ import type { Direction } from "@/content/directions";
 import type { Industry } from "@/content/industries";
 import { cn } from "@/lib/utils";
 import { Button } from "./ds";
+import { CornerArrow } from "./corner-arrow";
 
 // Карточки внутренних страниц на дизайн-системе v3 (итерация 16.11): белая плитка, тонкая рамка, без скруглений (правки 14.10),
 // при наведении — красная рамка и лёгкая тень. Появление при прокрутке задаётся на сетке целиком (data-reveal у родителя).
@@ -15,13 +16,15 @@ const more = "mt-6 flex items-center gap-1.5 text-[15px] font-medium group-hover
 
 export function CaseCard({ c }: { c: Case }) {
   return (
-    <Link href={`/cases/${c.id}/`} className={card}>
-      <p className="ds-label">{c.tag}</p>
-      <h3 className="ds-h4 mt-3 group-hover:text-[var(--c-brand)]">{c.title}</h3>
+    // Без надзаголовка и кнопки снизу: стрелка ↗ у заголовка, красная обводка (правки Ника 18.11)
+    <Link href={`/cases/${c.id}/`} className={cn(card, "!border-[var(--c-brand)]")}>
+      <span className="flex items-start justify-between gap-4">
+        <h3 className="ds-h4 group-hover:text-[var(--c-brand)]">{c.title}</h3>
+        <CornerArrow className="mt-0.5" />
+      </span>
       <p className="mt-6 whitespace-nowrap text-4xl font-normal tracking-tight"><span className="text-[var(--c-brand)]">[</span>{c.value}<span className="text-[var(--c-brand)]">]</span></p>
       <p className="ds-small mt-2">{c.valueLabel}</p>
       <p className="ds-small mt-5 flex-1">{c.text}</p>
-      <p className={more}>Читать кейс <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></p>
     </Link>
   );
 }
@@ -60,13 +63,12 @@ export function CtaBlock({ eyebrow = home.cta.eyebrow, title = home.cta.title, t
   return (
     // Единственный крупный красный акцент на странице (правки Сергея 30.10: «Первый шаг — это встреча» на красном — «нравится»)
     <section className="ds-theme-red py-16 sm:py-24">
-      <div data-reveal className="ds-wrap grid items-end gap-8 lg:grid-cols-[1fr_auto]">
-        <div>
-          <p className="ds-eyebrow">{eyebrow}</p>
-          <h2 className="ds-h2 mt-5">{title}</h2>
-          <p className="ds-body mt-5 max-w-2xl">{text}</p>
-        </div>
-        <Button asChild variant="inverse" size="lg"><a href={site.cta.href}>{site.cta.label}</a></Button>
+      {/* По центру, как на главной (правки Ника 18.11) */}
+      <div data-reveal className="ds-wrap flex flex-col items-center text-center">
+        <p className="ds-eyebrow">{eyebrow}</p>
+        <h2 className="ds-h2 mt-5">{title}</h2>
+        <p className="ds-body mx-auto mt-5 max-w-2xl">{text}</p>
+        <Button asChild variant="inverse" size="lg" className="mt-9"><a href={site.cta.href}>{site.cta.label}</a></Button>
       </div>
     </section>
   );
