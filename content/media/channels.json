@@ -47,6 +47,10 @@
   "fake-returns-at-checkout": {
    "tg": "off",
    "max": "off"
+  },
+  "more-cameras-not-more-control": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
