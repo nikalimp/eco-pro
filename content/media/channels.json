@@ -51,6 +51,10 @@
   "more-cameras-not-more-control": {
    "tg": "off",
    "max": "off"
+  },
+  "store-control-zones": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
