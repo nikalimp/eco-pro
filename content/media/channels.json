@@ -55,6 +55,10 @@
   "store-control-zones": {
    "tg": "off",
    "max": "off"
+  },
+  "power-theft": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
