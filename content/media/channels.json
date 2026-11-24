@@ -59,6 +59,10 @@
   "power-theft": {
    "tg": "off",
    "max": "off"
+  },
+  "regional-directors-revolt-breakdown": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
