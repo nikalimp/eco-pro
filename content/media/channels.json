@@ -63,6 +63,10 @@
   "regional-directors-revolt-breakdown": {
    "tg": "off",
    "max": "off"
+  },
+  "new-security-service": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
