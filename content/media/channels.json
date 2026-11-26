@@ -67,6 +67,10 @@
   "new-security-service": {
    "tg": "off",
    "max": "off"
+  },
+  "small-violation-management-defect": {
+   "tg": "off",
+   "max": "off"
   }
  }
 }
