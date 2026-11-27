@@ -3,8 +3,8 @@
 export type OrgType = "Organization" | "ProfessionalService";
 
 export const site = {
-  // Тестовая выкладка: SITE_URL=https://eco-pro.nikalimp.ru NOINDEX=1 npm run build — закрыта от индексации
-  url: process.env.SITE_URL || "https://pro-nas.pro",
+  // Боевой домен: deploy-kit задаёт NEXT_PUBLIC_SITE_URL и SITE_URL перед сборкой
+  url: process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || "https://eco-system.pro",
   noindex: process.env.NOINDEX === "1",
   name: "ECO-PRO",
   legalName: "ООО «Про-Тест»",

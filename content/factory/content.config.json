@@ -1,8 +1,8 @@
 {
   "factory_version": 2,
   "project": "ECO-PRO",
-  "site": "https://eco-pro.nikalimp.ru",
-  "site_note": "Тестовый адрес (noindex). После переноса домена заменить site, article.url, publish.verify, brand.json и publish.json на https://pro-nas.pro",
+  "site": "https://eco-system.pro",
+  "site_note": "Боевой домен eco-system.pro (тест: eco-pro.nikalimp.ru, noindex).",
   "root": "../..",
   "stack": "nextjs-github",
   "language": "ru",
@@ -30,7 +30,7 @@
     "channels_registry": "content/media/channels.json"
   },
   "article": {
-    "url": "https://eco-pro.nikalimp.ru/blog/{slug}/",
+    "url": "https://eco-system.pro/blog/{slug}/",
     "image_url": "/blog/{slug}/",
     "cover_url": "/blog/{slug}/cover.jpg",
     "frontmatter_required": [
@@ -99,7 +99,7 @@
   "publish": {
     "how": "Push из облака (stacks/nextjs-github.md): add_repo nikalimp/eco-pro (push) → clone → content/blog/<slug>.md + content/media/<slug>.json → коммит «статья: <заголовок>» в main → deploy-kit (media.mjs → npm run check → выкладка на REG.RU по FTP → channels.mjs → коммит картинок обратно). Сайт пока на тестовом адресе (noindex) до переноса домена pro-nas.pro.",
     "repo": "nikalimp/eco-pro",
-    "verify": "https://eco-pro.nikalimp.ru/blog/{slug}/",
+    "verify": "https://eco-system.pro/blog/{slug}/",
     "wait_minutes": 20
   },
   "channels": {

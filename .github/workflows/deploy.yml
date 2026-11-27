@@ -1,9 +1,9 @@
-# Выкладка сайта — вызов общего сценария nikalimp/deploy-kit (стандарт «Публикация — стандарт»).
-# Порядок: SSH (rsync) → если не прошёл, FTP → если упали оба, сборка в артефакте site-build и scripts/deploy-site.sh с Mac.
-# Значения with: повторяют publish.json. Секреты (Settings → Secrets and variables → Actions):
-#   FTP_HOST, FTP_USER, FTP_PASS, FTP_DIR (REG.RU — www/eco-pro.nikalimp.ru/) — основной путь: SSH из Actions на REG.RU закрыт
-#   SSH_KEY, SSH_HOST, SSH_USER, SITE_DIR — необязательно
-# api/config.php (токен бота, почта) в репозитории нет и выкладкой не трогается: rsync — исключение, FTP — заливает только своё.
+# Выкладка после push в main (статьи контент-завода, ручные коммиты): тест → проверка теста → прод тем же коммитом.
+# Стандарт — «Публикация — стандарт», «Тест и прод параллельно». deploy-kit 2.0.0.
+# Адреса и папки — publish.json → targets: test (eco-pro.nikalimp.ru, noindex) и prod (eco-system.pro).
+# Секреты (Settings → Secrets and variables → Actions): FTP_HOST, FTP_USER, FTP_PASS — общие;
+#   FTP_DIR — папка теста (www/eco-pro.nikalimp.ru/), FTP_DIR_PROD — папка прода (www/eco-system.pro/).
+# api/config.php (токен бота, почта) в репозитории нет и выкладкой не трогается.
 name: Deploy
 on:
   push:
@@ -14,24 +14,37 @@ on:
   workflow_dispatch: {}
 concurrency: { group: deploy, cancel-in-progress: false }
 jobs:
-  # Очередь: статья дня из плана (ready, дата ≤ сегодня) → блог. Пишет её субботняя задача «Неделя — все проекты».
+  # Очередь: статья дня из плана (ready, дата ≤ сегодня) → блог.
   queue:
     permissions: { contents: write }
     uses: nikalimp/deploy-kit/.github/workflows/queue.yml@main
     with:
       config: content/factory/content.config.json
-  site:
+  test:
     needs: queue
     if: github.event_name != 'schedule' || needs.queue.outputs.published == 'true'
     permissions: { contents: write }   # deploy-kit коммитит обратно картинки статей
     uses: nikalimp/deploy-kit/.github/workflows/site.yml@main
     with:
+      target: test
       ref: main  # выкладывать main вместе с коммитом очереди
       adapter: ssh-ftp
       site_dir: "."
       out_dir: out
       app_path: ""
       rsync_exclude: "api/config.php api/logs/"
-      url: https://eco-pro.nikalimp.ru
-      build_command: "SITE_URL=https://eco-pro.nikalimp.ru npm run check"   # адрес сайта в canonical, sitemap, IndexNow; при переезде — вместе с url
+    secrets: inherit
+  prod:
+    needs: test
+    if: needs.test.outputs.skipped != 'true'
+    permissions: { contents: write }
+    uses: nikalimp/deploy-kit/.github/workflows/site.yml@main
+    with:
+      target: prod
+      ref: ${{ needs.test.outputs.sha }}   # ровно та сборка, что прошла проверку на тесте
+      adapter: ssh-ftp
+      site_dir: "."
+      out_dir: out
+      app_path: ""
+      rsync_exclude: "api/config.php api/logs/"
     secrets: inherit
