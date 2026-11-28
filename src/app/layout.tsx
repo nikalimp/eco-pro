@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: { type: "website", locale: site.locale, siteName: site.name, title: site.title, description: site.description, url: site.url, images: [{ url: "/og.png", width: 1200, height: 630, alt: site.name }] },
   robots: site.noindex ? { index: false, follow: false } : { index: true, follow: true },
+  verification: { yandex: "fb316161640860aa" },
 };
 
 const metrikaScript = (id: number) =>
